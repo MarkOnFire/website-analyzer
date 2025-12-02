@@ -24,7 +24,7 @@
       "id": 3,
       "category": "foundation",
       "description": "Create metadata.json schema and writer for project metadata (URL, timestamps)",
-      "passes": false,
+      "passes": true,
       "dependencies": [2],
       "estimated_complexity": "low"
     },
