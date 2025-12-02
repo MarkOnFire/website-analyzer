@@ -1,8 +1,8 @@
 # Website Analyzer: Design Document
 
-**Version**: 0.1.0
+**Version**: 0.2.0
 **Date**: 2025-12-02
-**Status**: Initial Design
+**Status**: Initial Design - Revised
 
 ## Executive Summary
 
@@ -24,6 +24,7 @@ Website Analyzer is an MCP-enabled service that performs comprehensive website a
 ┌─────────────────┐
 │  Claude Desktop │
 │  or Claude Code │
+│   (Orchestrator)│
 └────────┬────────┘
          │ MCP Protocol
          ▼
@@ -36,9 +37,17 @@ Website Analyzer is an MCP-enabled service that performs comprehensive website a
 ┌─────────────────┐
 │ Test Runner CLI │
 │   (Python 3.11) │
-└────────┬────────┘
-         │
-         ▼
+└────┬────────┬───┘
+     │        │
+     │        └─────────────┐
+     ▼                      ▼
+┌─────────────┐    ┌────────────────┐
+│   Crawl4AI  │    │  LLM Services  │
+│   (Local)   │    │ (Haiku/GPT-4o  │
+│             │    │  mini/Gemini)  │
+└─────────────┘    └────────────────┘
+     │
+     ▼
 ┌─────────────────────────────────┐
 │      Project Workspace          │
 │  projects/<site-slug>/          │
@@ -433,9 +442,10 @@ Website Analyzer is an MCP-enabled service that performs comprehensive website a
     }
   },
   "crawl_options": {
-    "max_depth": 3,
-    "max_pages": 500,
-    "respect_robots": true
+    "max_depth": null,
+    "max_pages": 1000,
+    "respect_robots": true,
+    "timeout_per_page": 60
   }
 }
 ```
@@ -539,6 +549,45 @@ Website Analyzer is an MCP-enabled service that performs comprehensive website a
 }
 ```
 
+## LLM Cost Optimization Strategy
+
+**Design Principle**: Claude Desktop/Code acts as orchestrator; analysis uses cost-efficient models.
+
+### Model Selection by Task
+
+| Task | Model | Rationale |
+|------|-------|-----------|
+| **Orchestration** | Sonnet (Claude Desktop/Code) | User interaction, complex reasoning, tool use |
+| **Pattern matching** | Haiku 3.5 or GPT-4o-mini | Simple text analysis, high speed |
+| **Content analysis** | Haiku 3.5 or Gemini 1.5 Flash | Meta tag quality, heading structure |
+| **Recommendation generation** | GPT-4o-mini or Gemini 1.5 Flash | Structured outputs, cost-effective |
+| **Security analysis** | Haiku 3.5 | Pattern detection, vulnerability classification |
+
+### Cost Control Measures
+
+1. **Local-first processing**: Use regex, BeautifulSoup, and lxml for structured data extraction before considering LLM calls
+2. **Batch processing**: Group similar analysis tasks to minimize API calls
+3. **Caching**: Store LLM responses for repeated patterns (e.g., common meta tag issues)
+4. **Progressive analysis**: Start with rule-based checks, escalate to LLM only when ambiguous
+5. **Configurable depth**: Allow users to choose "quick scan" (minimal LLM) vs "deep analysis" (more LLM)
+6. **Timeouts and retries**: Fail gracefully on API errors without wasting tokens
+
+### Expected Cost Profile (Example: 500-page site)
+
+- **Migration scan**: $0.00 (pure pattern matching, no LLM)
+- **SEO optimization**: $0.05-0.10 (mostly rule-based, LLM for content quality scoring)
+- **LLM optimization**: $0.10-0.25 (meta description quality, recommendation phrasing)
+- **Security audit**: $0.02-0.05 (pattern detection, vulnerability descriptions)
+
+**Total per full analysis**: ~$0.20-$0.40 for 500 pages
+
+### Implementation Notes
+
+- Use `litellm` library for unified interface across providers
+- Environment variables for API keys (`ANTHROPIC_API_KEY`, `OPENAI_API_KEY`, `GOOGLE_API_KEY`)
+- Graceful degradation: if API unavailable, fall back to rule-based analysis with notes
+- Progress indicators should show which model is being used for transparency
+
 ## Technology Stack
 
 ### MCP Server
@@ -570,6 +619,77 @@ Website Analyzer is an MCP-enabled service that performs comprehensive website a
 - **Format**: JSON files (simple, readable, git-friendly)
 - **Structure**: Filesystem-based project workspaces
 - **Future**: Could add SQLite for query performance if needed
+
+## Crawl Scope and Limits
+
+### Default Crawl Behavior
+
+**Philosophy**: Comprehensive by default, with safety limits to prevent runaway crawls.
+
+**Default Settings**:
+- `max_pages`: 1000 pages (configurable up to 10,000)
+- `max_depth`: None (follow all internal links until max_pages reached)
+- `timeout_per_page`: 60 seconds
+- `respect_robots`: true
+- `follow_external_links`: false (stay within same domain)
+- `include_subdomains`: true (e.g., blog.example.com if starting from example.com)
+
+### Rationale
+
+**For Migration Error Scanner**: We want comprehensive coverage to avoid missing problematic pages. A depth limit could skip deep pages that contain the target pattern. Using `max_pages` as the primary constraint ensures we scan as much of the site as feasible while preventing infinite crawls.
+
+**Performance Considerations**:
+- 1000 pages @ 60s timeout = max ~17 hours (worst case)
+- Typical crawl: 1000 pages @ 2-5s average = 35-85 minutes
+- Progress updates every 10 pages keep user informed
+- Can interrupt and resume if needed (checkpoint support in Phase 2)
+
+### Crawl Strategy
+
+1. **Discovery Phase**:
+   - Start at provided URL (typically homepage)
+   - Extract all internal links from each page
+   - Build crawl queue prioritizing:
+     - Shallow pages first (breadth-first)
+     - High-value paths (e.g., /products/, /blog/) over utility pages (/privacy/, /terms/)
+     - Pages already in sitemap.xml if available
+
+2. **Crawl Execution**:
+   - Async crawling with concurrency limit (5 concurrent requests)
+   - Respect robots.txt delays and crawl-delay directives
+   - Deduplicate URLs (normalize, handle trailing slashes, query params)
+   - Store each page: raw HTML, cleaned HTML, markdown, metadata
+
+3. **Completion Conditions**:
+   - Reached `max_pages` limit
+   - No more internal links to discover
+   - User interruption (Ctrl+C)
+   - Timeout exceeded (configurable overall timeout, e.g., 4 hours)
+
+### User Configuration
+
+Users can override defaults via MCP tool:
+
+```json
+{
+  "crawl_options": {
+    "max_pages": 2500,
+    "max_depth": 5,
+    "timeout_per_page": 90,
+    "include_patterns": ["/blog/*", "/docs/*"],
+    "exclude_patterns": ["/archive/*", "/old/*"],
+    "priority_urls": ["https://example.com/important-page"]
+  }
+}
+```
+
+### Edge Cases
+
+- **Large sites (10,000+ pages)**: Warn user, offer sampling strategy or focused crawl
+- **Dynamic content**: Crawl4AI with Playwright handles JavaScript-rendered pages
+- **Login walls**: Skip for v1, document limitation
+- **Rate limiting**: Back off exponentially if encountering 429 responses
+- **Paywalls**: Detect and skip, note in report
 
 ## Development Roadmap
 
@@ -684,16 +804,23 @@ Website Analyzer is an MCP-enabled service that performs comprehensive website a
 - [ ] Test configurations have sensible defaults
 - [ ] Documentation enables users to add custom tests
 
-## Open Questions
+## Design Decisions
 
-1. **Crawl scope limits**: What's the max pages per site? How to handle huge sites?
-2. **Rate limiting**: Should we throttle crawls to avoid overwhelming servers?
-3. **Authentication**: How to handle sites requiring login for full access?
-4. **Test extensibility**: Should users be able to add custom tests without modifying code?
-5. **LLM costs**: Who pays for LLM API calls during analysis? Rate limiting needed?
-6. **Reporting**: Do we need a web UI, or is Claude + CLI sufficient?
-7. **Diff detection**: Should we auto-compare snapshots between crawls to highlight changes?
-8. **Scheduling**: Should the tool support scheduled re-scans (cron-like)?
+### Resolved in v0.2.0
+
+1. **✅ Crawl scope limits**: Default 1000 pages (configurable to 10,000), no depth limit to ensure comprehensive coverage for migration scans
+2. **✅ LLM costs**: Use cost-efficient models (Haiku, GPT-4o-mini, Gemini Flash) for analysis; Claude Desktop/Code orchestrates. Expected ~$0.20-0.40 per 500-page site
+3. **✅ Test extensibility**: Backend-managed tests only (no user plugin system in v1)
+4. **✅ Authentication**: Not supported in v1, document limitation and defer to future
+
+### Open Questions for Future Phases
+
+1. **Rate limiting**: Should we throttle crawls to avoid overwhelming servers? (Current: respect robots.txt, 5 concurrent requests)
+2. **Reporting**: Do we need a web UI, or is Claude + CLI sufficient? (Current: CLI + MCP sufficient)
+3. **Diff detection**: Should we auto-compare snapshots between crawls to highlight changes? (Defer to Phase 2)
+4. **Scheduling**: Should the tool support scheduled re-scans (cron-like)? (Defer, user can cron the CLI)
+5. **Checkpoint/resume**: For very large sites, support interruption and resumption? (Defer to Phase 2)
+6. **Export formats**: Beyond JSON, support CSV, HTML reports, PDF? (Defer to Phase 5)
 
 ## Next Steps
 
@@ -707,3 +834,4 @@ Website Analyzer is an MCP-enabled service that performs comprehensive website a
 
 **Document Revision History**:
 - 2025-12-02: Initial design (v0.1.0)
+- 2025-12-02: Revised with LLM cost strategy, crawl limits, resolved design decisions (v0.2.0)
