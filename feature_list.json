@@ -1,0 +1,1024 @@
+{
+  "project": "website-analyzer",
+  "version": "0.1.0",
+  "generated": "2025-12-02T00:00:00Z",
+  "total_features": 127,
+  "features": [
+    {
+      "id": 1,
+      "category": "foundation",
+      "description": "Create basic project directory structure (projects/, tests/, mcp-server/)",
+      "passes": false,
+      "dependencies": [],
+      "estimated_complexity": "low"
+    },
+    {
+      "id": 2,
+      "category": "foundation",
+      "description": "Implement workspace manager to create/load project directories by slug",
+      "passes": false,
+      "dependencies": [1],
+      "estimated_complexity": "medium"
+    },
+    {
+      "id": 3,
+      "category": "foundation",
+      "description": "Create metadata.json schema and writer for project metadata (URL, timestamps)",
+      "passes": false,
+      "dependencies": [2],
+      "estimated_complexity": "low"
+    },
+    {
+      "id": 4,
+      "category": "foundation",
+      "description": "Implement project slug generation from URL (normalize domains, handle subdomains)",
+      "passes": false,
+      "dependencies": [2],
+      "estimated_complexity": "low"
+    },
+    {
+      "id": 5,
+      "category": "foundation",
+      "description": "Create snapshot directory structure with timestamp-based naming",
+      "passes": false,
+      "dependencies": [2],
+      "estimated_complexity": "low"
+    },
+    {
+      "id": 6,
+      "category": "foundation",
+      "description": "Implement basic crawler using Crawl4AI AsyncWebCrawler",
+      "passes": false,
+      "dependencies": [5],
+      "estimated_complexity": "high"
+    },
+    {
+      "id": 7,
+      "category": "foundation",
+      "description": "Add URL normalization and deduplication logic to crawler",
+      "passes": false,
+      "dependencies": [6],
+      "estimated_complexity": "medium"
+    },
+    {
+      "id": 8,
+      "category": "foundation",
+      "description": "Implement link extraction and internal link filtering",
+      "passes": false,
+      "dependencies": [6],
+      "estimated_complexity": "medium"
+    },
+    {
+      "id": 9,
+      "category": "foundation",
+      "description": "Add robots.txt parsing and respect for crawl rules",
+      "passes": false,
+      "dependencies": [6],
+      "estimated_complexity": "medium"
+    },
+    {
+      "id": 10,
+      "category": "foundation",
+      "description": "Implement max_pages limit with configurable default (1000)",
+      "passes": false,
+      "dependencies": [6],
+      "estimated_complexity": "low"
+    },
+    {
+      "id": 11,
+      "category": "foundation",
+      "description": "Implement optional max_depth limit for crawling",
+      "passes": false,
+      "dependencies": [6],
+      "estimated_complexity": "low"
+    },
+    {
+      "id": 12,
+      "category": "foundation",
+      "description": "Add per-page timeout handling (default 60s, configurable)",
+      "passes": false,
+      "dependencies": [6],
+      "estimated_complexity": "low"
+    },
+    {
+      "id": 13,
+      "category": "foundation",
+      "description": "Implement concurrent crawling with rate limiting (5 concurrent requests)",
+      "passes": false,
+      "dependencies": [6],
+      "estimated_complexity": "medium"
+    },
+    {
+      "id": 14,
+      "category": "foundation",
+      "description": "Store page snapshots (HTML, markdown, metadata) to disk",
+      "passes": false,
+      "dependencies": [6],
+      "estimated_complexity": "medium"
+    },
+    {
+      "id": 15,
+      "category": "foundation",
+      "description": "Generate sitemap.json with discovered URLs and structure",
+      "passes": false,
+      "dependencies": [6, 14],
+      "estimated_complexity": "low"
+    },
+    {
+      "id": 16,
+      "category": "foundation",
+      "description": "Create crawl summary with statistics (pages, errors, duration)",
+      "passes": false,
+      "dependencies": [6, 14],
+      "estimated_complexity": "low"
+    },
+    {
+      "id": 17,
+      "category": "foundation",
+      "description": "Handle network errors gracefully during crawl (retries, backoff)",
+      "passes": false,
+      "dependencies": [6],
+      "estimated_complexity": "medium"
+    },
+    {
+      "id": 18,
+      "category": "foundation",
+      "description": "Add progress reporting during crawl (every 10 pages)",
+      "passes": false,
+      "dependencies": [6],
+      "estimated_complexity": "low"
+    },
+    {
+      "id": 19,
+      "category": "foundation",
+      "description": "Implement crawl interruption handling (Ctrl+C, save state)",
+      "passes": false,
+      "dependencies": [6],
+      "estimated_complexity": "medium"
+    },
+    {
+      "id": 20,
+      "category": "foundation",
+      "description": "Add subdomain inclusion/exclusion logic",
+      "passes": false,
+      "dependencies": [6],
+      "estimated_complexity": "low"
+    },
+    {
+      "id": 21,
+      "category": "foundation",
+      "description": "Implement URL pattern filtering (include/exclude patterns)",
+      "passes": false,
+      "dependencies": [6],
+      "estimated_complexity": "medium"
+    },
+    {
+      "id": 22,
+      "category": "foundation",
+      "description": "Add priority URL queue for important pages",
+      "passes": false,
+      "dependencies": [6],
+      "estimated_complexity": "low"
+    },
+    {
+      "id": 23,
+      "category": "test-framework",
+      "description": "Define TestPlugin protocol interface with name, description, analyze method",
+      "passes": false,
+      "dependencies": [],
+      "estimated_complexity": "low"
+    },
+    {
+      "id": 24,
+      "category": "test-framework",
+      "description": "Create SiteSnapshot data class with page data and metadata",
+      "passes": false,
+      "dependencies": [23],
+      "estimated_complexity": "low"
+    },
+    {
+      "id": 25,
+      "category": "test-framework",
+      "description": "Create TestResult data class with structured output schema",
+      "passes": false,
+      "dependencies": [23],
+      "estimated_complexity": "low"
+    },
+    {
+      "id": 26,
+      "category": "test-framework",
+      "description": "Implement plugin discovery and loading system",
+      "passes": false,
+      "dependencies": [23],
+      "estimated_complexity": "medium"
+    },
+    {
+      "id": 27,
+      "category": "test-framework",
+      "description": "Create test runner that orchestrates plugin execution",
+      "passes": false,
+      "dependencies": [23, 26],
+      "estimated_complexity": "medium"
+    },
+    {
+      "id": 28,
+      "category": "test-framework",
+      "description": "Implement test result storage to test-results/ directories",
+      "passes": false,
+      "dependencies": [27],
+      "estimated_complexity": "low"
+    },
+    {
+      "id": 29,
+      "category": "test-framework",
+      "description": "Add timestamp-based result file naming",
+      "passes": false,
+      "dependencies": [28],
+      "estimated_complexity": "low"
+    },
+    {
+      "id": 30,
+      "category": "test-framework",
+      "description": "Create test configuration passing system (per-test config)",
+      "passes": false,
+      "dependencies": [27],
+      "estimated_complexity": "low"
+    },
+    {
+      "id": 31,
+      "category": "test-framework",
+      "description": "Implement test timeout handling and cancellation",
+      "passes": false,
+      "dependencies": [27],
+      "estimated_complexity": "medium"
+    },
+    {
+      "id": 32,
+      "category": "test-framework",
+      "description": "Add test execution error handling and reporting",
+      "passes": false,
+      "dependencies": [27],
+      "estimated_complexity": "medium"
+    },
+    {
+      "id": 33,
+      "category": "test-framework",
+      "description": "Create reporter module for aggregating test results",
+      "passes": false,
+      "dependencies": [28],
+      "estimated_complexity": "medium"
+    },
+    {
+      "id": 34,
+      "category": "test-framework",
+      "description": "Implement CLI framework using Typer with subcommands",
+      "passes": false,
+      "dependencies": [],
+      "estimated_complexity": "medium"
+    },
+    {
+      "id": 35,
+      "category": "test-framework",
+      "description": "Add Rich progress bars and terminal UI for CLI",
+      "passes": false,
+      "dependencies": [34],
+      "estimated_complexity": "low"
+    },
+    {
+      "id": 36,
+      "category": "migration-scanner",
+      "description": "Create migration scanner plugin skeleton",
+      "passes": false,
+      "dependencies": [23],
+      "estimated_complexity": "low"
+    },
+    {
+      "id": 37,
+      "category": "migration-scanner",
+      "description": "Implement simple regex pattern matching across page content",
+      "passes": false,
+      "dependencies": [36],
+      "estimated_complexity": "medium"
+    },
+    {
+      "id": 38,
+      "category": "migration-scanner",
+      "description": "Add context extraction around pattern matches (10 lines before/after)",
+      "passes": false,
+      "dependencies": [37],
+      "estimated_complexity": "low"
+    },
+    {
+      "id": 39,
+      "category": "migration-scanner",
+      "description": "Implement line number tracking for matches in HTML/markdown",
+      "passes": false,
+      "dependencies": [37],
+      "estimated_complexity": "low"
+    },
+    {
+      "id": 40,
+      "category": "migration-scanner",
+      "description": "Create structured output format (affected pages, matches, context)",
+      "passes": false,
+      "dependencies": [37, 38],
+      "estimated_complexity": "low"
+    },
+    {
+      "id": 41,
+      "category": "migration-scanner",
+      "description": "Add support for multiple patterns in single scan",
+      "passes": false,
+      "dependencies": [37],
+      "estimated_complexity": "low"
+    },
+    {
+      "id": 42,
+      "category": "migration-scanner",
+      "description": "Implement case-sensitive/insensitive pattern matching option",
+      "passes": false,
+      "dependencies": [37],
+      "estimated_complexity": "low"
+    },
+    {
+      "id": 43,
+      "category": "migration-scanner",
+      "description": "Add suggestion generation for common patterns (e.g., jQuery replacements)",
+      "passes": false,
+      "dependencies": [37],
+      "estimated_complexity": "medium"
+    },
+    {
+      "id": 44,
+      "category": "migration-scanner",
+      "description": "Test migration scanner with jQuery .live() pattern on sample site",
+      "passes": false,
+      "dependencies": [37, 40],
+      "estimated_complexity": "low"
+    },
+    {
+      "id": 45,
+      "category": "migration-scanner",
+      "description": "Test migration scanner with deprecated API patterns",
+      "passes": false,
+      "dependencies": [37, 40],
+      "estimated_complexity": "low"
+    },
+    {
+      "id": 46,
+      "category": "migration-scanner",
+      "description": "Handle edge case: pattern not found (return empty results)",
+      "passes": false,
+      "dependencies": [37],
+      "estimated_complexity": "low"
+    },
+    {
+      "id": 47,
+      "category": "migration-scanner",
+      "description": "Handle edge case: malformed regex patterns (validation, error messages)",
+      "passes": false,
+      "dependencies": [37],
+      "estimated_complexity": "low"
+    },
+    {
+      "id": 48,
+      "category": "issue-tracking",
+      "description": "Define Issue schema (id, test, priority, status, title, URLs, timestamps)",
+      "passes": false,
+      "dependencies": [],
+      "estimated_complexity": "low"
+    },
+    {
+      "id": 49,
+      "category": "issue-tracking",
+      "description": "Create issues.json structure and writer",
+      "passes": false,
+      "dependencies": [48],
+      "estimated_complexity": "low"
+    },
+    {
+      "id": 50,
+      "category": "issue-tracking",
+      "description": "Implement issue ID generation (unique, sequential)",
+      "passes": false,
+      "dependencies": [48],
+      "estimated_complexity": "low"
+    },
+    {
+      "id": 51,
+      "category": "issue-tracking",
+      "description": "Create issue aggregator to extract issues from test results",
+      "passes": false,
+      "dependencies": [33, 48],
+      "estimated_complexity": "medium"
+    },
+    {
+      "id": 52,
+      "category": "issue-tracking",
+      "description": "Implement issue deduplication logic (same issue across runs)",
+      "passes": false,
+      "dependencies": [51],
+      "estimated_complexity": "medium"
+    },
+    {
+      "id": 53,
+      "category": "issue-tracking",
+      "description": "Add issue status transitions (open -> investigating -> fixed -> verified)",
+      "passes": false,
+      "dependencies": [51],
+      "estimated_complexity": "low"
+    },
+    {
+      "id": 54,
+      "category": "issue-tracking",
+      "description": "Implement automatic resolution detection (issue no longer in new results)",
+      "passes": false,
+      "dependencies": [51, 52],
+      "estimated_complexity": "medium"
+    },
+    {
+      "id": 55,
+      "category": "issue-tracking",
+      "description": "Add issue filtering by test type, priority, status",
+      "passes": false,
+      "dependencies": [51],
+      "estimated_complexity": "low"
+    },
+    {
+      "id": 56,
+      "category": "issue-tracking",
+      "description": "Create issue history tracking (when detected, when resolved)",
+      "passes": false,
+      "dependencies": [51],
+      "estimated_complexity": "medium"
+    },
+    {
+      "id": 57,
+      "category": "issue-tracking",
+      "description": "Implement issue priority assignment based on severity",
+      "passes": false,
+      "dependencies": [51],
+      "estimated_complexity": "low"
+    },
+    {
+      "id": 58,
+      "category": "mcp-server",
+      "description": "Initialize Node.js project with TypeScript configuration",
+      "passes": false,
+      "dependencies": [],
+      "estimated_complexity": "low"
+    },
+    {
+      "id": 59,
+      "category": "mcp-server",
+      "description": "Install @modelcontextprotocol/sdk and dependencies",
+      "passes": false,
+      "dependencies": [58],
+      "estimated_complexity": "low"
+    },
+    {
+      "id": 60,
+      "category": "mcp-server",
+      "description": "Create MCP server skeleton with stdio transport",
+      "passes": false,
+      "dependencies": [59],
+      "estimated_complexity": "medium"
+    },
+    {
+      "id": 61,
+      "category": "mcp-server",
+      "description": "Implement list_tests tool with schema validation",
+      "passes": false,
+      "dependencies": [60],
+      "estimated_complexity": "low"
+    },
+    {
+      "id": 62,
+      "category": "mcp-server",
+      "description": "Implement list_projects tool with workspace scanning",
+      "passes": false,
+      "dependencies": [60],
+      "estimated_complexity": "medium"
+    },
+    {
+      "id": 63,
+      "category": "mcp-server",
+      "description": "Create job ID generation system for async operations",
+      "passes": false,
+      "dependencies": [60],
+      "estimated_complexity": "low"
+    },
+    {
+      "id": 64,
+      "category": "mcp-server",
+      "description": "Implement start_analysis tool with input validation",
+      "passes": false,
+      "dependencies": [60, 63],
+      "estimated_complexity": "medium"
+    },
+    {
+      "id": 65,
+      "category": "mcp-server",
+      "description": "Add process spawning for Python CLI from start_analysis",
+      "passes": false,
+      "dependencies": [64],
+      "estimated_complexity": "medium"
+    },
+    {
+      "id": 66,
+      "category": "mcp-server",
+      "description": "Implement job tracking (in-memory store of running jobs)",
+      "passes": false,
+      "dependencies": [63, 65],
+      "estimated_complexity": "medium"
+    },
+    {
+      "id": 67,
+      "category": "mcp-server",
+      "description": "Implement check_status tool with job lookup",
+      "passes": false,
+      "dependencies": [60, 66],
+      "estimated_complexity": "low"
+    },
+    {
+      "id": 68,
+      "category": "mcp-server",
+      "description": "Add progress parsing from Python CLI stdout",
+      "passes": false,
+      "dependencies": [65, 67],
+      "estimated_complexity": "medium"
+    },
+    {
+      "id": 69,
+      "category": "mcp-server",
+      "description": "Implement view_issues tool with filtering support",
+      "passes": false,
+      "dependencies": [60],
+      "estimated_complexity": "medium"
+    },
+    {
+      "id": 70,
+      "category": "mcp-server",
+      "description": "Implement rerun_tests tool with recrawl option",
+      "passes": false,
+      "dependencies": [60, 64],
+      "estimated_complexity": "low"
+    },
+    {
+      "id": 71,
+      "category": "mcp-server",
+      "description": "Add error handling for Python CLI spawn failures",
+      "passes": false,
+      "dependencies": [65],
+      "estimated_complexity": "medium"
+    },
+    {
+      "id": 72,
+      "category": "mcp-server",
+      "description": "Implement timeout handling for long-running jobs",
+      "passes": false,
+      "dependencies": [66],
+      "estimated_complexity": "medium"
+    },
+    {
+      "id": 73,
+      "category": "mcp-server",
+      "description": "Add logging with winston/pino for debugging",
+      "passes": false,
+      "dependencies": [60],
+      "estimated_complexity": "low"
+    },
+    {
+      "id": 74,
+      "category": "mcp-server",
+      "description": "Create TypeScript types for all tool inputs/outputs",
+      "passes": false,
+      "dependencies": [60],
+      "estimated_complexity": "low"
+    },
+    {
+      "id": 75,
+      "category": "llm-optimization",
+      "description": "Create LLM optimization plugin skeleton",
+      "passes": false,
+      "dependencies": [23],
+      "estimated_complexity": "low"
+    },
+    {
+      "id": 76,
+      "category": "llm-optimization",
+      "description": "Implement meta tag extraction (description, keywords, OG, Twitter)",
+      "passes": false,
+      "dependencies": [75],
+      "estimated_complexity": "medium"
+    },
+    {
+      "id": 77,
+      "category": "llm-optimization",
+      "description": "Add meta tag quality scoring (presence, length, uniqueness)",
+      "passes": false,
+      "dependencies": [76],
+      "estimated_complexity": "medium"
+    },
+    {
+      "id": 78,
+      "category": "llm-optimization",
+      "description": "Implement schema.org markup detection and validation",
+      "passes": false,
+      "dependencies": [75],
+      "estimated_complexity": "medium"
+    },
+    {
+      "id": 79,
+      "category": "llm-optimization",
+      "description": "Add heading structure analysis (H1-H6 hierarchy)",
+      "passes": false,
+      "dependencies": [75],
+      "estimated_complexity": "low"
+    },
+    {
+      "id": 80,
+      "category": "llm-optimization",
+      "description": "Implement semantic HTML usage detection",
+      "passes": false,
+      "dependencies": [75],
+      "estimated_complexity": "medium"
+    },
+    {
+      "id": 81,
+      "category": "llm-optimization",
+      "description": "Add internal link structure analysis",
+      "passes": false,
+      "dependencies": [75],
+      "estimated_complexity": "medium"
+    },
+    {
+      "id": 82,
+      "category": "llm-optimization",
+      "description": "Implement content clarity scoring (per page)",
+      "passes": false,
+      "dependencies": [75],
+      "estimated_complexity": "high"
+    },
+    {
+      "id": 83,
+      "category": "llm-optimization",
+      "description": "Add LLM-based meta description quality check (Haiku 3.5)",
+      "passes": false,
+      "dependencies": [76],
+      "estimated_complexity": "medium"
+    },
+    {
+      "id": 84,
+      "category": "llm-optimization",
+      "description": "Generate quick wins (missing meta tags, schema opportunities)",
+      "passes": false,
+      "dependencies": [76, 78],
+      "estimated_complexity": "low"
+    },
+    {
+      "id": 85,
+      "category": "llm-optimization",
+      "description": "Generate strategic recommendations (content structure, navigation)",
+      "passes": false,
+      "dependencies": [79, 80, 81],
+      "estimated_complexity": "medium"
+    },
+    {
+      "id": 86,
+      "category": "llm-optimization",
+      "description": "Calculate overall LLM optimization score (0-10)",
+      "passes": false,
+      "dependencies": [76, 78, 79, 80],
+      "estimated_complexity": "low"
+    },
+    {
+      "id": 87,
+      "category": "llm-optimization",
+      "description": "Test LLM optimization on documentation site (schema-rich)",
+      "passes": false,
+      "dependencies": [75, 84, 85],
+      "estimated_complexity": "low"
+    },
+    {
+      "id": 88,
+      "category": "llm-optimization",
+      "description": "Test LLM optimization on blog site (meta tag focus)",
+      "passes": false,
+      "dependencies": [75, 84, 85],
+      "estimated_complexity": "low"
+    },
+    {
+      "id": 89,
+      "category": "seo-optimization",
+      "description": "Create SEO optimization plugin skeleton",
+      "passes": false,
+      "dependencies": [23],
+      "estimated_complexity": "low"
+    },
+    {
+      "id": 90,
+      "category": "seo-optimization",
+      "description": "Implement title tag extraction and analysis (length, uniqueness)",
+      "passes": false,
+      "dependencies": [89],
+      "estimated_complexity": "low"
+    },
+    {
+      "id": 91,
+      "category": "seo-optimization",
+      "description": "Add meta description analysis (presence, length, quality)",
+      "passes": false,
+      "dependencies": [89],
+      "estimated_complexity": "low"
+    },
+    {
+      "id": 92,
+      "category": "seo-optimization",
+      "description": "Implement H1 tag analysis (presence, count, hierarchy)",
+      "passes": false,
+      "dependencies": [89],
+      "estimated_complexity": "low"
+    },
+    {
+      "id": 93,
+      "category": "seo-optimization",
+      "description": "Add image alt text coverage check",
+      "passes": false,
+      "dependencies": [89],
+      "estimated_complexity": "low"
+    },
+    {
+      "id": 94,
+      "category": "seo-optimization",
+      "description": "Implement broken link detection (internal links only)",
+      "passes": false,
+      "dependencies": [89],
+      "estimated_complexity": "medium"
+    },
+    {
+      "id": 95,
+      "category": "seo-optimization",
+      "description": "Add redirect chain detection",
+      "passes": false,
+      "dependencies": [89],
+      "estimated_complexity": "medium"
+    },
+    {
+      "id": 96,
+      "category": "seo-optimization",
+      "description": "Implement mobile responsiveness indicators (viewport meta tag)",
+      "passes": false,
+      "dependencies": [89],
+      "estimated_complexity": "low"
+    },
+    {
+      "id": 97,
+      "category": "seo-optimization",
+      "description": "Add page load performance metrics from crawler",
+      "passes": false,
+      "dependencies": [89],
+      "estimated_complexity": "low"
+    },
+    {
+      "id": 98,
+      "category": "seo-optimization",
+      "description": "Implement robots.txt validation",
+      "passes": false,
+      "dependencies": [89],
+      "estimated_complexity": "low"
+    },
+    {
+      "id": 99,
+      "category": "seo-optimization",
+      "description": "Add sitemap.xml validation",
+      "passes": false,
+      "dependencies": [89],
+      "estimated_complexity": "low"
+    },
+    {
+      "id": 100,
+      "category": "seo-optimization",
+      "description": "Implement keyword density analysis (if keywords provided)",
+      "passes": false,
+      "dependencies": [89],
+      "estimated_complexity": "medium"
+    },
+    {
+      "id": 101,
+      "category": "seo-optimization",
+      "description": "Add content length analysis (thin content detection)",
+      "passes": false,
+      "dependencies": [89],
+      "estimated_complexity": "low"
+    },
+    {
+      "id": 102,
+      "category": "seo-optimization",
+      "description": "Implement duplicate content detection (same title/description)",
+      "passes": false,
+      "dependencies": [90, 91],
+      "estimated_complexity": "medium"
+    },
+    {
+      "id": 103,
+      "category": "seo-optimization",
+      "description": "Add internal linking structure analysis",
+      "passes": false,
+      "dependencies": [89],
+      "estimated_complexity": "medium"
+    },
+    {
+      "id": 104,
+      "category": "seo-optimization",
+      "description": "Calculate overall SEO score (0-10)",
+      "passes": false,
+      "dependencies": [90, 91, 92, 93],
+      "estimated_complexity": "low"
+    },
+    {
+      "id": 105,
+      "category": "seo-optimization",
+      "description": "Categorize issues as critical/warnings/opportunities",
+      "passes": false,
+      "dependencies": [89, 104],
+      "estimated_complexity": "low"
+    },
+    {
+      "id": 106,
+      "category": "seo-optimization",
+      "description": "Test SEO optimization on e-commerce site",
+      "passes": false,
+      "dependencies": [89, 105],
+      "estimated_complexity": "low"
+    },
+    {
+      "id": 107,
+      "category": "seo-optimization",
+      "description": "Test SEO optimization on blog/content site",
+      "passes": false,
+      "dependencies": [89, 105],
+      "estimated_complexity": "low"
+    },
+    {
+      "id": 108,
+      "category": "security-audit",
+      "description": "Create security audit plugin skeleton",
+      "passes": false,
+      "dependencies": [23],
+      "estimated_complexity": "low"
+    },
+    {
+      "id": 109,
+      "category": "security-audit",
+      "description": "Implement HTTPS usage check (mixed content detection)",
+      "passes": false,
+      "dependencies": [108],
+      "estimated_complexity": "low"
+    },
+    {
+      "id": 110,
+      "category": "security-audit",
+      "description": "Add security header analysis (CSP, X-Frame-Options, HSTS, etc.)",
+      "passes": false,
+      "dependencies": [108],
+      "estimated_complexity": "medium"
+    },
+    {
+      "id": 111,
+      "category": "security-audit",
+      "description": "Implement cookie security flags check (Secure, HttpOnly, SameSite)",
+      "passes": false,
+      "dependencies": [108],
+      "estimated_complexity": "low"
+    },
+    {
+      "id": 112,
+      "category": "security-audit",
+      "description": "Add exposed sensitive files detection (/.git, /.env, /admin)",
+      "passes": false,
+      "dependencies": [108],
+      "estimated_complexity": "medium"
+    },
+    {
+      "id": 113,
+      "category": "security-audit",
+      "description": "Implement information disclosure check (HTML comments, error messages)",
+      "passes": false,
+      "dependencies": [108],
+      "estimated_complexity": "low"
+    },
+    {
+      "id": 114,
+      "category": "security-audit",
+      "description": "Add third-party script source audit",
+      "passes": false,
+      "dependencies": [108],
+      "estimated_complexity": "medium"
+    },
+    {
+      "id": 115,
+      "category": "security-audit",
+      "description": "Implement SRI (Subresource Integrity) hash checking",
+      "passes": false,
+      "dependencies": [108],
+      "estimated_complexity": "medium"
+    },
+    {
+      "id": 116,
+      "category": "security-audit",
+      "description": "Add OWASP Top 10 mapping for findings",
+      "passes": false,
+      "dependencies": [108],
+      "estimated_complexity": "low"
+    },
+    {
+      "id": 117,
+      "category": "security-audit",
+      "description": "Implement severity classification (high/medium/low)",
+      "passes": false,
+      "dependencies": [108],
+      "estimated_complexity": "low"
+    },
+    {
+      "id": 118,
+      "category": "security-audit",
+      "description": "Generate hardening recommendations",
+      "passes": false,
+      "dependencies": [108, 110],
+      "estimated_complexity": "low"
+    },
+    {
+      "id": 119,
+      "category": "security-audit",
+      "description": "Test security audit on HTTPS site with good headers",
+      "passes": false,
+      "dependencies": [108, 117],
+      "estimated_complexity": "low"
+    },
+    {
+      "id": 120,
+      "category": "security-audit",
+      "description": "Test security audit on site with known vulnerabilities",
+      "passes": false,
+      "dependencies": [108, 117],
+      "estimated_complexity": "low"
+    },
+    {
+      "id": 121,
+      "category": "integration",
+      "description": "End-to-end test: Claude asks to scan site for migration errors",
+      "passes": false,
+      "dependencies": [36, 60, 65],
+      "estimated_complexity": "medium"
+    },
+    {
+      "id": 122,
+      "category": "integration",
+      "description": "End-to-end test: Run all four tests on single site",
+      "passes": false,
+      "dependencies": [75, 89, 108, 121],
+      "estimated_complexity": "medium"
+    },
+    {
+      "id": 123,
+      "category": "integration",
+      "description": "End-to-end test: Rerun tests and verify issue resolution detection",
+      "passes": false,
+      "dependencies": [54, 70, 122],
+      "estimated_complexity": "medium"
+    },
+    {
+      "id": 124,
+      "category": "integration",
+      "description": "End-to-end test: Large site (1000+ pages) performance validation",
+      "passes": false,
+      "dependencies": [6, 122],
+      "estimated_complexity": "high"
+    },
+    {
+      "id": 125,
+      "category": "polish",
+      "description": "Add comprehensive error messages for all failure modes",
+      "passes": false,
+      "dependencies": [27, 60],
+      "estimated_complexity": "medium"
+    },
+    {
+      "id": 126,
+      "category": "polish",
+      "description": "Create user documentation for Claude interactions",
+      "passes": false,
+      "dependencies": [121, 122],
+      "estimated_complexity": "medium"
+    },
+    {
+      "id": 127,
+      "category": "polish",
+      "description": "Create developer documentation for adding custom tests",
+      "passes": false,
+      "dependencies": [23, 26],
+      "estimated_complexity": "medium"
+    }
+  ]
+}
