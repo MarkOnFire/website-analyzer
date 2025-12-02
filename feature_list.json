@@ -8,7 +8,7 @@
       "id": 1,
       "category": "foundation",
       "description": "Create basic project directory structure (projects/, tests/, mcp-server/)",
-      "passes": false,
+      "passes": true,
       "dependencies": [],
       "estimated_complexity": "low"
     },
