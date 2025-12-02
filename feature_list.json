@@ -16,7 +16,7 @@
       "id": 2,
       "category": "foundation",
       "description": "Implement workspace manager to create/load project directories by slug",
-      "passes": false,
+      "passes": true,
       "dependencies": [1],
       "estimated_complexity": "medium"
     },
