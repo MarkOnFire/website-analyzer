@@ -334,6 +334,7 @@ class SnapshotManager:
 
         # Create the snapshot directory
         snapshot_dir.mkdir(parents=True, exist_ok=False)
+        (snapshot_dir / "pages").mkdir(parents=True, exist_ok=False)
 
         return snapshot_dir
 

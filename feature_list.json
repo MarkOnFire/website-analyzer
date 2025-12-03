@@ -112,7 +112,7 @@
       "id": 14,
       "category": "foundation",
       "description": "Store page snapshots (HTML, markdown, metadata) to disk",
-      "passes": false,
+      "passes": true,
       "dependencies": [6],
       "estimated_complexity": "medium"
     },

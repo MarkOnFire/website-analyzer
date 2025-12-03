@@ -859,3 +859,47 @@ BLOCKERS: None
 =================================================
 END SESSION 13
 =================================================
+
+=================================================
+SESSION 14: Feature #14 Implementation - 2025-12-02
+=================================================
+
+SESSION PROTOCOL COMPLETION:
+1. Read session memory (claude-progress.txt) - Complete
+2. Reviewed feature_list.json - Feature #14 next
+3. Environment ready from prior sessions
+4. Implemented snapshot storage flow and reran tests
+
+FEATURE IMPLEMENTED:
+Feature #14 (foundation): "Store page snapshots (HTML, markdown, metadata) to disk"
+- Complexity: medium
+- Status: PASSED
+
+IMPLEMENTATION DETAILS:
+- SnapshotManager now creates a pages/ subdirectory inside each timestamped snapshot directory.
+- BasicCrawler gains save_snapshot, which:
+  * Slugifies the page URL
+  * Writes artifacts (raw/cleaned HTML, markdown, metadata) into snapshot_dir/pages/<slug>/
+  * Reuses existing artifact saver with robots/link filtering and timeout metadata
+- Artifact saver unchanged except integration via save_snapshot; metadata still includes links, titles, timeout.
+
+TESTING:
+- Added snapshot creation test to ensure per-page directories and artifacts are written.
+- Command: .venv/bin/pytest tests/test_crawler.py
+- Results: 44 tests PASSED (2 upstream crawl4ai deprecation warnings)
+
+CHANGES:
+- src/analyzer/workspace.py: snapshot directories now include pages/ folder when created.
+- src/analyzer/crawler.py: save_snapshot helper and slug import.
+- tests/test_crawler.py: snapshot save test added.
+- feature_list.json: Feature #14 marked passes: true
+
+RECOMMENDED NEXT FEATURE:
+- Feature #15 (foundation): "Store crawl metadata (status codes, headers) with snapshot"
+  * Builds directly on new snapshot storage flow.
+
+BLOCKERS: None
+
+=================================================
+END SESSION 14
+=================================================

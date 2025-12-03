@@ -622,6 +622,18 @@ class TestBasicCrawlerEdgeCases:
         assert crawler.config.check_robots_txt is True
         assert crawler.max_pages == BasicCrawler.DEFAULT_MAX_PAGES
 
+    def test_save_snapshot_creates_page_dir(self):
+        """Saving a snapshot creates pages/<slug> directory with artifacts."""
+        crawler = BasicCrawler()
+        result = MockCrawlResult(url="https://example.com/page1")
+        with tempfile.TemporaryDirectory() as tmpdir:
+            snapshot_dir = Path(tmpdir)
+            page_dir = crawler.save_snapshot(result, snapshot_dir)
+
+            assert page_dir.exists()
+            assert (page_dir / "raw.html").exists()
+            assert (page_dir / "metadata.json").exists()
+
     def test_save_artifacts_with_special_chars_in_path(self):
         """Test saving artifacts to path with special characters."""
         with tempfile.TemporaryDirectory() as tmpdir:

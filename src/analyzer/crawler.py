@@ -16,6 +16,7 @@ from urllib.robotparser import RobotFileParser
 
 from crawl4ai import AsyncWebCrawler
 from crawl4ai.async_configs import CacheMode, CrawlerRunConfig
+from .workspace import slugify_url
 
 
 class BasicCrawler:
@@ -359,3 +360,37 @@ class BasicCrawler:
         (output_dir / "metadata.json").write_text(
             json.dumps(metadata, indent=2), encoding="utf-8"
         )
+
+    def save_snapshot(
+        self,
+        result: "CrawlResult",
+        snapshot_dir: Path,
+        *,
+        user_agent: str = "*",
+        robots_txt: str | None = None,
+        current_depth: int = 0,
+    ) -> Path:
+        """Save a single page snapshot within a snapshot directory.
+
+        Creates a per-page directory under snapshot_dir/pages using the URL slug.
+        """
+        pages_dir = snapshot_dir / "pages"
+        pages_dir.mkdir(parents=True, exist_ok=True)
+
+        if not result.url:
+            raise ValueError("CrawlResult.url is required for snapshot saving")
+
+        slug = slugify_url(result.url)
+        page_dir = pages_dir / slug
+        page_dir.mkdir(parents=True, exist_ok=True)
+
+        self.save_page_artifacts(
+            result,
+            page_dir,
+            user_agent=user_agent,
+            robots_txt=robots_txt,
+            current_depth=current_depth,
+            page_timeout_ms=self.page_timeout_ms,
+        )
+
+        return page_dir
