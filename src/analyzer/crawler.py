@@ -29,6 +29,8 @@ class BasicCrawler:
     DEFAULT_MAX_PAGES = 1000
     DEFAULT_MAX_DEPTH: int | None = None
     DEFAULT_MAX_CONCURRENCY = 5
+    DEFAULT_MAX_RETRIES = 3
+    DEFAULT_BACKOFF_FACTOR = 0.5
 
     def __init__(
         self,
@@ -37,6 +39,8 @@ class BasicCrawler:
         max_depth: int | None = DEFAULT_MAX_DEPTH,
         page_timeout_ms: int = 60_000,
         max_concurrency: int = DEFAULT_MAX_CONCURRENCY,
+        max_retries: int = DEFAULT_MAX_RETRIES,
+        backoff_factor: float = DEFAULT_BACKOFF_FACTOR,
     ) -> None:
         """Initialize crawler with optional custom configuration.
 
@@ -46,12 +50,16 @@ class BasicCrawler:
             max_depth: Optional maximum crawl depth (None for unlimited).
             page_timeout_ms: Per-page timeout in milliseconds (default 60_000).
             max_concurrency: Maximum concurrent crawl requests (default 5).
+            max_retries: Maximum retry attempts on network errors (default 3).
+            backoff_factor: Base backoff delay in seconds (default 0.5).
         """
         self.config = config or self._default_config(page_timeout_ms=page_timeout_ms)
         self.max_pages = max_pages
         self.max_depth = max_depth
         self.page_timeout_ms = page_timeout_ms
         self.max_concurrency = max_concurrency
+        self.max_retries = max_retries
+        self.backoff_factor = backoff_factor
 
     @staticmethod
     def normalize_url(url: str) -> str:
@@ -168,8 +176,24 @@ class BasicCrawler:
             Exception: If crawl fails (network error, timeout, etc.)
         """
         async with AsyncWebCrawler() as crawler:
-            result = await crawler.arun(url, config=self.config)
+            result = await self._crawl_with_retry(crawler, url)
             return result
+
+    async def _crawl_with_retry(
+        self, crawler: AsyncWebCrawler, url: str
+    ) -> "CrawlResult":
+        """Run crawler.arun with retry/backoff."""
+        attempt = 0
+        delay = self.backoff_factor
+        while True:
+            try:
+                return await crawler.arun(url, config=self.config)
+            except Exception:
+                attempt += 1
+                if attempt > self.max_retries:
+                    raise
+                await asyncio.sleep(delay)
+                delay *= 2
 
     async def crawl_urls(
         self,
@@ -207,7 +231,7 @@ class BasicCrawler:
                         if wait_for > 0:
                             await asyncio.sleep(wait_for)
                         last_start = loop.time()
-                return await crawler.arun(url, config=self.config)
+                return await self._crawl_with_retry(crawler, url)
 
         async with AsyncWebCrawler() as crawler:
             tasks = [asyncio.create_task(fetch(u)) for u in urls]
@@ -371,6 +395,7 @@ class BasicCrawler:
         robots_txt: str | None = None,
         current_depth: int = 0,
         include_sitemap: bool = True,
+        summary: dict | None = None,
     ) -> Path:
         """Save a single page snapshot within a snapshot directory.
 
@@ -412,5 +437,14 @@ class BasicCrawler:
                 "generated_at": datetime.utcnow().isoformat() + "Z",
             }
             sitemap_path.write_text(json.dumps(sitemap, indent=2), encoding="utf-8")
+
+        # Write/augment summary
+        summary_path = snapshot_dir / "summary.json"
+        summary_data = summary or {}
+        summary_data.setdefault("generated_at", datetime.utcnow().isoformat() + "Z")
+        summary_data.setdefault("total_pages", len(summary_data.get("pages", [])))
+        summary_data.setdefault("errors", summary_data.get("errors", []))
+        summary_data.setdefault("duration_seconds", summary_data.get("duration_seconds", 0))
+        summary_path.write_text(json.dumps(summary_data, indent=2), encoding="utf-8")
 
         return page_dir

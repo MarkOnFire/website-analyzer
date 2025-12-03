@@ -59,6 +59,8 @@ class TestBasicCrawlerConfig:
         assert crawler.max_depth == BasicCrawler.DEFAULT_MAX_DEPTH
         assert crawler.page_timeout_ms == 60_000
         assert crawler.max_concurrency == BasicCrawler.DEFAULT_MAX_CONCURRENCY
+        assert crawler.max_retries == BasicCrawler.DEFAULT_MAX_RETRIES
+        assert crawler.backoff_factor == BasicCrawler.DEFAULT_BACKOFF_FACTOR
 
     def test_custom_config(self):
         """Test that custom config is accepted and used."""
@@ -74,6 +76,8 @@ class TestBasicCrawlerConfig:
             max_depth=3,
             page_timeout_ms=45_000,
             max_concurrency=2,
+            max_retries=5,
+            backoff_factor=0.1,
         )
         assert crawler.config is custom_config
         assert crawler.config.page_timeout == 30_000
@@ -81,6 +85,8 @@ class TestBasicCrawlerConfig:
         assert crawler.max_depth == 3
         assert crawler.page_timeout_ms == 45_000
         assert crawler.max_concurrency == 2
+        assert crawler.max_retries == 5
+        assert crawler.backoff_factor == 0.1
 
     def test_config_attributes(self):
         """Test all important config attributes are set correctly."""
@@ -559,6 +565,57 @@ class TestBasicCrawlerAsyncIntegration:
                 assert call_args[1].get("config") == custom_config
 
     @pytest.mark.asyncio
+    async def test_crawl_url_retries_on_failure(self):
+        """crawl_url should retry on failures with backoff."""
+        crawler = BasicCrawler(max_retries=2, backoff_factor=0.01)
+
+        mock_result = MockCrawlResult()
+        failures = [Exception("fail"), Exception("fail")]
+
+        async def side_effect(url, config=None):
+            if failures:
+                raise failures.pop(0)
+            return mock_result
+
+        with patch("src.analyzer.crawler.AsyncWebCrawler") as mock_crawler_class, patch(
+            "asyncio.sleep", new=AsyncMock()
+        ) as mock_sleep:
+            mock_crawler = AsyncMock()
+            mock_crawler.arun = AsyncMock(side_effect=side_effect)
+            mock_crawler.__aenter__.return_value = mock_crawler
+            mock_crawler.__aexit__.return_value = None
+            mock_crawler_class.return_value = mock_crawler
+
+            result = await crawler.crawl_url("https://example.com")
+
+            assert result == mock_result
+            assert mock_crawler.arun.call_count == 3  # initial + 2 retries
+            assert mock_sleep.await_count == 2
+
+    @pytest.mark.asyncio
+    async def test_crawl_url_respects_max_retries_failure(self):
+        """crawl_url should raise after exceeding retries."""
+        crawler = BasicCrawler(max_retries=1, backoff_factor=0.01)
+
+        async def side_effect(url, config=None):
+            raise Exception("fail")
+
+        with patch("src.analyzer.crawler.AsyncWebCrawler") as mock_crawler_class, patch(
+            "asyncio.sleep", new=AsyncMock()
+        ) as mock_sleep:
+            mock_crawler = AsyncMock()
+            mock_crawler.arun = AsyncMock(side_effect=side_effect)
+            mock_crawler.__aenter__.return_value = mock_crawler
+            mock_crawler.__aexit__.return_value = None
+            mock_crawler_class.return_value = mock_crawler
+
+            with pytest.raises(Exception):
+                await crawler.crawl_url("https://example.com")
+
+            assert mock_crawler.arun.call_count == 2  # initial + 1 retry
+            assert mock_sleep.await_count == 1
+
+    @pytest.mark.asyncio
     async def test_crawl_urls_respects_concurrency_limit(self):
         """Ensure crawl_urls enforces the max_concurrency limit."""
         crawler = BasicCrawler(max_concurrency=2)
@@ -641,6 +698,12 @@ class TestBasicCrawlerEdgeCases:
             )
             assert sitemap["root"] == "https://example.com/page1"
             assert sitemap["pages"] == []
+            summary = json.loads(
+                (snapshot_dir / "summary.json").read_text(encoding="utf-8")
+            )
+            assert "generated_at" in summary
+            assert "total_pages" in summary
+            assert "errors" in summary
 
     def test_save_artifacts_with_special_chars_in_path(self):
         """Test saving artifacts to path with special characters."""

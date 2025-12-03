@@ -128,7 +128,7 @@
       "id": 16,
       "category": "foundation",
       "description": "Create crawl summary with statistics (pages, errors, duration)",
-      "passes": false,
+      "passes": true,
       "dependencies": [6, 14],
       "estimated_complexity": "low"
     },
@@ -136,7 +136,7 @@
       "id": 17,
       "category": "foundation",
       "description": "Handle network errors gracefully during crawl (retries, backoff)",
-      "passes": false,
+      "passes": true,
       "dependencies": [6],
       "estimated_complexity": "medium"
     },
