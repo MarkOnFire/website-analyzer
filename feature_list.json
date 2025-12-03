@@ -144,7 +144,7 @@
       "id": 18,
       "category": "foundation",
       "description": "Add progress reporting during crawl (every 10 pages)",
-      "passes": false,
+      "passes": true,
       "dependencies": [6],
       "estimated_complexity": "low"
     },

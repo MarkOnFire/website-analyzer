@@ -41,6 +41,7 @@ class BasicCrawler:
         max_concurrency: int = DEFAULT_MAX_CONCURRENCY,
         max_retries: int = DEFAULT_MAX_RETRIES,
         backoff_factor: float = DEFAULT_BACKOFF_FACTOR,
+        progress_interval: int = 10,
     ) -> None:
         """Initialize crawler with optional custom configuration.
 
@@ -52,6 +53,7 @@ class BasicCrawler:
             max_concurrency: Maximum concurrent crawl requests (default 5).
             max_retries: Maximum retry attempts on network errors (default 3).
             backoff_factor: Base backoff delay in seconds (default 0.5).
+            progress_interval: Emit progress callback every N pages (default 10).
         """
         self.config = config or self._default_config(page_timeout_ms=page_timeout_ms)
         self.max_pages = max_pages
@@ -60,6 +62,7 @@ class BasicCrawler:
         self.max_concurrency = max_concurrency
         self.max_retries = max_retries
         self.backoff_factor = backoff_factor
+        self.progress_interval = progress_interval
 
     @staticmethod
     def normalize_url(url: str) -> str:
@@ -200,6 +203,7 @@ class BasicCrawler:
         urls: list[str],
         max_concurrency: int | None = None,
         rate_limit_per_sec: float | None = None,
+        progress_callback: Optional[callable] = None,
     ) -> list["CrawlResult"]:
         """Crawl multiple URLs concurrently with optional rate limiting.
 
@@ -207,6 +211,7 @@ class BasicCrawler:
             urls: URLs to crawl.
             max_concurrency: Max concurrent requests (default uses crawler setting).
             rate_limit_per_sec: Optional rate limit for request starts (requests/second).
+            progress_callback: Optional callable(page_index:int, total:int) for progress.
 
         Returns:
             List of CrawlResult objects in the same order as input URLs.
@@ -220,6 +225,9 @@ class BasicCrawler:
         rate_lock = asyncio.Lock()
         last_start = 0.0
         loop = asyncio.get_event_loop()
+        total = len(urls)
+        completed = 0
+        interval = self.progress_interval
 
         async def fetch(url: str) -> "CrawlResult":
             nonlocal last_start
@@ -231,11 +239,32 @@ class BasicCrawler:
                         if wait_for > 0:
                             await asyncio.sleep(wait_for)
                         last_start = loop.time()
-                return await self._crawl_with_retry(crawler, url)
+                result = await self._crawl_with_retry(crawler, url)
+                return result
 
         async with AsyncWebCrawler() as crawler:
-            tasks = [asyncio.create_task(fetch(u)) for u in urls]
-            return await asyncio.gather(*tasks)
+            async def fetch_with_index(idx: int, url: str):
+                res = await fetch(url)
+                return idx, res
+
+            tasks = [
+                asyncio.create_task(fetch_with_index(idx, url))
+                for idx, url in enumerate(urls)
+            ]
+
+            results: list["CrawlResult"] = [None] * total  # type: ignore
+
+            for task in asyncio.as_completed(tasks):
+                idx, res = await task
+                results[idx] = res
+                completed += 1
+                if progress_callback and interval > 0 and completed % interval == 0:
+                    try:
+                        progress_callback(completed, total)
+                    except Exception:
+                        pass
+
+            return results
 
     @staticmethod
     def _build_robot_parser(robots_txt: str | None) -> RobotFileParser | None:

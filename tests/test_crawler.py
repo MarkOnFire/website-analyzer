@@ -61,6 +61,7 @@ class TestBasicCrawlerConfig:
         assert crawler.max_concurrency == BasicCrawler.DEFAULT_MAX_CONCURRENCY
         assert crawler.max_retries == BasicCrawler.DEFAULT_MAX_RETRIES
         assert crawler.backoff_factor == BasicCrawler.DEFAULT_BACKOFF_FACTOR
+        assert crawler.progress_interval == 10
 
     def test_custom_config(self):
         """Test that custom config is accepted and used."""
@@ -78,6 +79,7 @@ class TestBasicCrawlerConfig:
             max_concurrency=2,
             max_retries=5,
             backoff_factor=0.1,
+            progress_interval=5,
         )
         assert crawler.config is custom_config
         assert crawler.config.page_timeout == 30_000
@@ -87,6 +89,7 @@ class TestBasicCrawlerConfig:
         assert crawler.max_concurrency == 2
         assert crawler.max_retries == 5
         assert crawler.backoff_factor == 0.1
+        assert crawler.progress_interval == 5
 
     def test_config_attributes(self):
         """Test all important config attributes are set correctly."""
@@ -644,6 +647,31 @@ class TestBasicCrawlerAsyncIntegration:
             assert [r.url for r in results] == urls
             assert max_seen <= 2
             assert mock_crawler.arun.call_count == 4
+
+    @pytest.mark.asyncio
+    async def test_crawl_urls_progress_callback(self):
+        """Progress callback fires every interval."""
+        crawler = BasicCrawler(progress_interval=2)
+        calls: list[tuple[int, int]] = []
+
+        async def fake_arun(url, config=None):
+            await self._asyncio.sleep(0.001)
+            return MockCrawlResult(url=url)
+
+        with patch("src.analyzer.crawler.AsyncWebCrawler") as mock_crawler_class:
+            mock_crawler = MagicMock()
+            mock_crawler.__aenter__ = AsyncMock(return_value=mock_crawler)
+            mock_crawler.__aexit__ = AsyncMock(return_value=None)
+            mock_crawler.arun = AsyncMock(side_effect=fake_arun)
+            mock_crawler_class.return_value = mock_crawler
+
+            urls = [f"https://example.com/page{i}" for i in range(5)]
+            await crawler.crawl_urls(
+                urls,
+                progress_callback=lambda done, total: calls.append((done, total)),
+            )
+
+            assert calls == [(2, 5), (4, 5)]
 
     @pytest.mark.asyncio
     async def test_crawl_urls_rate_limit_spacing(self):

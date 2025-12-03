@@ -1028,3 +1028,43 @@ BLOCKERS: None
 =================================================
 END SESSION 17
 =================================================
+
+=================================================
+SESSION 18: Feature #18 Implementation - 2025-12-02
+=================================================
+
+SESSION PROTOCOL COMPLETION:
+1. Read session memory (claude-progress.txt) - Complete
+2. Reviewed feature_list.json - Feature #18 next
+3. Environment ready from prior sessions
+4. Implemented crawl progress reporting and reran tests
+
+FEATURE IMPLEMENTED:
+Feature #18 (foundation): "Add progress reporting during crawl (every 10 pages)"
+- Complexity: low
+- Status: PASSED
+
+IMPLEMENTATION DETAILS:
+- BasicCrawler now supports progress_interval (default 10) and progress_callback in crawl_urls.
+- crawl_urls emits progress_callback(completed, total) every interval pages while preserving input order.
+- Added progress_interval to constructor defaults and tracking.
+
+TESTING:
+- Added progress callback test and adjusted config expectations.
+- Fixed concurrency ordering with indexed tasks.
+- Command: .venv/bin/pytest tests/test_crawler.py
+- Results: 47 tests PASSED (2 upstream crawl4ai deprecation warnings)
+
+CHANGES:
+- src/analyzer/crawler.py: progress callback support; stable ordering in concurrent crawls.
+- tests/test_crawler.py: progress callback test and config checks.
+- feature_list.json: Feature #18 marked passes: true
+
+RECOMMENDED NEXT FEATURE:
+- Feature #19 (foundation): "Implement crawl interruption handling (Ctrl+C, save state)"
+
+BLOCKERS: None
+
+=================================================
+END SESSION 18
+=================================================
