@@ -55,6 +55,7 @@ class TestBasicCrawlerConfig:
         assert crawler.config.screenshot is False
         assert crawler.config.capture_network_requests is False
         assert crawler.max_pages == BasicCrawler.DEFAULT_MAX_PAGES
+        assert crawler.max_depth == BasicCrawler.DEFAULT_MAX_DEPTH
 
     def test_custom_config(self):
         """Test that custom config is accepted and used."""
@@ -64,10 +65,13 @@ class TestBasicCrawlerConfig:
             cache_mode=CacheMode.BYPASS,
             page_timeout=30_000,
         )
-        crawler = BasicCrawler(config=custom_config, max_pages=50)
+        crawler = BasicCrawler(
+            config=custom_config, max_pages=50, max_depth=3
+        )
         assert crawler.config is custom_config
         assert crawler.config.page_timeout == 30_000
         assert crawler.max_pages == 50
+        assert crawler.max_depth == 3
 
     def test_config_attributes(self):
         """Test all important config attributes are set correctly."""
@@ -217,6 +221,16 @@ class TestBasicCrawlerLinkFiltering:
             "https://example.com/page-0",
             "https://example.com/page-1",
         ]
+
+    def test_filter_internal_links_respects_max_depth(self):
+        links = ["/child1", "/child2"]
+        filtered = BasicCrawler.filter_internal_links(
+            "https://example.com",
+            links,
+            current_depth=2,
+            max_depth=2,
+        )
+        assert filtered == []
 
 
 class TestRobotsParsing:

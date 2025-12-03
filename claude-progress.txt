@@ -734,3 +734,43 @@ BLOCKERS: None
 =================================================
 END SESSION 10
 =================================================
+
+=================================================
+SESSION 11: Feature #11 Implementation - 2025-12-02
+=================================================
+
+SESSION PROTOCOL COMPLETION:
+1. Read session memory (claude-progress.txt) - Complete
+2. Reviewed feature_list.json - Feature #11 next
+3. Environment ready from prior sessions
+4. Implemented max_depth controls and reran crawler tests
+
+FEATURE IMPLEMENTED:
+Feature #11 (foundation): "Implement optional max_depth limit for crawling"
+- Complexity: low
+- Status: PASSED
+
+IMPLEMENTATION DETAILS:
+- BasicCrawler now accepts max_depth (default None for unlimited) alongside max_pages.
+- filter_internal_links enforces max_depth: returns no children when current_depth >= max_depth.
+- save_page_artifacts passes depth/limit settings through to link filtering.
+- Metadata link normalization still honors robots, max_pages, and now depth.
+
+TESTING:
+- Added tests for default/custom max_depth and depth cutoff during link filtering.
+- Command: .venv/bin/pytest tests/test_crawler.py
+- Results: 41 tests PASSED (2 upstream crawl4ai deprecation warnings)
+
+CHANGES:
+- src/analyzer/crawler.py: max_depth attribute; depth-aware link filtering and save helper.
+- tests/test_crawler.py: depth configuration and cutoff tests.
+- feature_list.json: Feature #11 marked passes: true
+
+RECOMMENDED NEXT FEATURE:
+- Feature #12 (foundation): "Add per-page timeout handling (default 60s, configurable)" — config already exists; may require validation/logging hooks.
+
+BLOCKERS: None
+
+=================================================
+END SESSION 11
+=================================================

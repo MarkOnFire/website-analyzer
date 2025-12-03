@@ -25,20 +25,24 @@ class BasicCrawler:
     """
 
     DEFAULT_MAX_PAGES = 1000
+    DEFAULT_MAX_DEPTH: int | None = None
 
     def __init__(
         self,
         config: Optional[CrawlerRunConfig] = None,
         max_pages: int = DEFAULT_MAX_PAGES,
+        max_depth: int | None = DEFAULT_MAX_DEPTH,
     ) -> None:
         """Initialize crawler with optional custom configuration.
 
         Args:
             config: Optional CrawlerRunConfig. If None, uses default configuration.
             max_pages: Maximum pages to process per crawl session (default 1000).
+            max_depth: Optional maximum crawl depth (None for unlimited).
         """
         self.config = config or self._default_config()
         self.max_pages = max_pages
+        self.max_depth = max_depth
 
     @staticmethod
     def normalize_url(url: str) -> str:
@@ -191,8 +195,13 @@ class BasicCrawler:
         robots_txt: str | None = None,
         user_agent: str = "*",
         max_pages: int | None = None,
+        current_depth: int = 0,
+        max_depth: int | None = None,
     ) -> list[str]:
         """Return normalized, deduplicated internal links for a base URL."""
+        if max_depth is not None and current_depth >= max_depth:
+            return []
+
         normalized_base = BasicCrawler.normalize_url(base_url)
         base_parsed = urlparse(normalized_base)
         base_port = base_parsed.port
@@ -241,6 +250,8 @@ class BasicCrawler:
         max_pages: int | None = None,
         user_agent: str = "*",
         robots_txt: str | None = None,
+        current_depth: int = 0,
+        max_depth: int | None = None,
     ) -> None:
         """Save crawl result artifacts to directory.
 
@@ -281,6 +292,8 @@ class BasicCrawler:
                 robots_txt=robots_txt,
                 user_agent=user_agent,
                 max_pages=max_pages,
+                current_depth=current_depth,
+                max_depth=max_depth,
             )
 
         # Save metadata
