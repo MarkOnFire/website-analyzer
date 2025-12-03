@@ -83,6 +83,10 @@ class TestBasicCrawlerConfig:
         assert config.page_timeout == 60_000
         # Verify no screenshots
         assert config.screenshot is False
+        # Verify no network capture
+        assert config.capture_network_requests is False
+        # Robots enforcement default
+        assert config.check_robots_txt is True
 
 
 class TestBasicCrawlerUrlNormalization:
@@ -183,6 +187,45 @@ class TestBasicCrawlerLinkFiltering:
             "https://example.com:8080", links
         )
         assert filtered == ["https://example.com:8080/page"]
+
+    def test_filter_internal_links_applies_robots(self):
+        robots_txt = """
+        User-agent: *
+        Disallow: /private
+        """
+        links = [
+            "https://example.com/public",
+            "https://example.com/private/secret",
+            "/public/page",
+        ]
+        filtered = BasicCrawler.filter_internal_links(
+            "https://example.com", links, robots_txt=robots_txt
+        )
+        assert filtered == [
+            "https://example.com/public",
+            "https://example.com/public/page",
+        ]
+
+
+class TestRobotsParsing:
+    """Test robots.txt parsing helpers."""
+
+    def test_is_allowed_by_robots_when_no_robots(self):
+        assert BasicCrawler.is_allowed_by_robots(
+            "https://example.com/page", robots_txt=None
+        )
+
+    def test_is_allowed_by_robots_disallow(self):
+        robots_txt = """
+        User-agent: *
+        Disallow: /admin
+        """
+        assert not BasicCrawler.is_allowed_by_robots(
+            "https://example.com/admin", robots_txt
+        )
+        assert BasicCrawler.is_allowed_by_robots(
+            "https://example.com/home", robots_txt
+        )
 
 
 class TestBasicCrawlerArtifactStorage:
@@ -478,6 +521,11 @@ class TestBasicCrawlerAsyncIntegration:
 
 class TestBasicCrawlerEdgeCases:
     """Test edge cases and error conditions."""
+
+    def test_robots_respect_flag_default_true(self):
+        """Config should default to respecting robots.txt."""
+        crawler = BasicCrawler()
+        assert crawler.config.check_robots_txt is True
 
     def test_save_artifacts_with_special_chars_in_path(self):
         """Test saving artifacts to path with special characters."""

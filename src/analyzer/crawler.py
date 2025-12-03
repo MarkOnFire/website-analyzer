@@ -11,6 +11,7 @@ from datetime import datetime
 from pathlib import Path
 from typing import Optional
 from urllib.parse import parse_qsl, urljoin, urlparse, urlunparse, urlencode
+from urllib.robotparser import RobotFileParser
 
 from crawl4ai import AsyncWebCrawler
 from crawl4ai.async_configs import CacheMode, CrawlerRunConfig
@@ -136,6 +137,8 @@ class BasicCrawler:
 
         Args:
             url: URL to crawl
+            Robots:
+                Respects robots.txt per config (check_robots_txt=True by default)
 
         Returns:
             CrawlResult containing HTML, markdown, status code, and metadata
@@ -148,7 +151,38 @@ class BasicCrawler:
             return result
 
     @staticmethod
-    def filter_internal_links(base_url: str, links: list[str]) -> list[str]:
+    @staticmethod
+    def _build_robot_parser(robots_txt: str | None) -> RobotFileParser | None:
+        """Create a RobotFileParser from robots.txt content."""
+        if not robots_txt:
+            return None
+        rp = RobotFileParser()
+        rp.parse(robots_txt.splitlines())
+        return rp
+
+    @staticmethod
+    def is_allowed_by_robots(
+        url: str, robots_txt: str | None, user_agent: str = "*"
+    ) -> bool:
+        """Check if a URL is allowed by robots.txt content.
+
+        If no robots_txt is provided, this returns True.
+        """
+        parser = BasicCrawler._build_robot_parser(robots_txt)
+        if parser is None:
+            return True
+        try:
+            return parser.can_fetch(user_agent, url)
+        except Exception:
+            return True
+
+    @staticmethod
+    def filter_internal_links(
+        base_url: str,
+        links: list[str],
+        robots_txt: str | None = None,
+        user_agent: str = "*",
+    ) -> list[str]:
         """Return normalized, deduplicated internal links for a base URL."""
         normalized_base = BasicCrawler.normalize_url(base_url)
         base_parsed = urlparse(normalized_base)
@@ -176,6 +210,12 @@ class BasicCrawler:
                 continue
             parsed_port = parsed.port
             if (parsed_port or None) != (base_port or None):
+                continue
+
+            # Robots.txt enforcement
+            if not BasicCrawler.is_allowed_by_robots(
+                normalized, robots_txt, user_agent=user_agent
+            ):
                 continue
 
             candidates.append(normalized)

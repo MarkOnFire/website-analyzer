@@ -72,7 +72,7 @@
       "id": 9,
       "category": "foundation",
       "description": "Add robots.txt parsing and respect for crawl rules",
-      "passes": false,
+      "passes": true,
       "dependencies": [6],
       "estimated_complexity": "medium"
     },
