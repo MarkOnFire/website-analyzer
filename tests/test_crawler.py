@@ -62,6 +62,7 @@ class TestBasicCrawlerConfig:
         assert crawler.max_retries == BasicCrawler.DEFAULT_MAX_RETRIES
         assert crawler.backoff_factor == BasicCrawler.DEFAULT_BACKOFF_FACTOR
         assert crawler.progress_interval == 10
+        assert crawler.max_depth == BasicCrawler.DEFAULT_MAX_DEPTH
 
     def test_custom_config(self):
         """Test that custom config is accepted and used."""
@@ -672,6 +673,37 @@ class TestBasicCrawlerAsyncIntegration:
             )
 
             assert calls == [(2, 5), (4, 5)]
+
+    @pytest.mark.asyncio
+    async def test_crawl_urls_interrupt_callback(self):
+        """Interrupt callback receives partial results."""
+        crawler = BasicCrawler(progress_interval=2)
+        collected = []
+
+        async def fake_arun(url, config=None):
+            if "page2" in url:
+                raise KeyboardInterrupt()
+            return MockCrawlResult(url=url)
+
+        with patch("src.analyzer.crawler.AsyncWebCrawler") as mock_crawler_class:
+            mock_crawler = MagicMock()
+            mock_crawler.__aenter__ = AsyncMock(return_value=mock_crawler)
+            mock_crawler.__aexit__ = AsyncMock(return_value=None)
+            mock_crawler.arun = AsyncMock(side_effect=fake_arun)
+            mock_crawler_class.return_value = mock_crawler
+
+            urls = [f"https://example.com/page{i}" for i in range(4)]
+            partial = await crawler.crawl_urls(
+                urls,
+                on_interrupt=lambda partial_results: collected.extend(
+                    [r.url for r in partial_results]
+                ),
+            )
+
+            assert "https://example.com/page2" not in collected
+            assert len(collected) >= 1
+            # Returned partial results match collected
+            assert set(collected) == {r.url for r in partial}
 
     @pytest.mark.asyncio
     async def test_crawl_urls_rate_limit_spacing(self):

@@ -26,6 +26,9 @@ class BasicCrawler:
     Respects robots.txt and implements configurable page timeout.
     """
 
+    class InterruptSignal(Exception):
+        """Internal sentinel for interrupt handling."""
+
     DEFAULT_MAX_PAGES = 1000
     DEFAULT_MAX_DEPTH: int | None = None
     DEFAULT_MAX_CONCURRENCY = 5
@@ -191,6 +194,8 @@ class BasicCrawler:
         while True:
             try:
                 return await crawler.arun(url, config=self.config)
+            except KeyboardInterrupt:
+                raise BasicCrawler.InterruptSignal()
             except Exception:
                 attempt += 1
                 if attempt > self.max_retries:
@@ -204,6 +209,7 @@ class BasicCrawler:
         max_concurrency: int | None = None,
         rate_limit_per_sec: float | None = None,
         progress_callback: Optional[callable] = None,
+        on_interrupt: Optional[callable] = None,
     ) -> list["CrawlResult"]:
         """Crawl multiple URLs concurrently with optional rate limiting.
 
@@ -212,6 +218,7 @@ class BasicCrawler:
             max_concurrency: Max concurrent requests (default uses crawler setting).
             rate_limit_per_sec: Optional rate limit for request starts (requests/second).
             progress_callback: Optional callable(page_index:int, total:int) for progress.
+            on_interrupt: Optional callable(partial_results:list[CrawlResult]) on KeyboardInterrupt.
 
         Returns:
             List of CrawlResult objects in the same order as input URLs.
@@ -254,15 +261,28 @@ class BasicCrawler:
 
             results: list["CrawlResult"] = [None] * total  # type: ignore
 
-            for task in asyncio.as_completed(tasks):
-                idx, res = await task
-                results[idx] = res
-                completed += 1
-                if progress_callback and interval > 0 and completed % interval == 0:
+            try:
+                for task in asyncio.as_completed(tasks):
+                    idx, res = await task
+                    results[idx] = res
+                    completed += 1
+                    if progress_callback and interval > 0 and completed % interval == 0:
+                        try:
+                            progress_callback(completed, total)
+                        except Exception:
+                            pass
+            except BasicCrawler.InterruptSignal:
+                partial = [r for r in results if r is not None]
+                for task in tasks:
+                    task.cancel()
+                await asyncio.gather(*tasks, return_exceptions=True)
+                if on_interrupt:
                     try:
-                        progress_callback(completed, total)
+                        on_interrupt(partial)
                     except Exception:
                         pass
+                    return partial
+                raise KeyboardInterrupt()
 
             return results
 
