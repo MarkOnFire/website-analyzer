@@ -96,7 +96,7 @@
       "id": 12,
       "category": "foundation",
       "description": "Add per-page timeout handling (default 60s, configurable)",
-      "passes": false,
+      "passes": true,
       "dependencies": [6],
       "estimated_complexity": "low"
     },

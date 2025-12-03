@@ -774,3 +774,44 @@ BLOCKERS: None
 =================================================
 END SESSION 11
 =================================================
+
+=================================================
+SESSION 12: Feature #12 Implementation - 2025-12-02
+=================================================
+
+SESSION PROTOCOL COMPLETION:
+1. Read session memory (claude-progress.txt) - Complete
+2. Reviewed feature_list.json - Feature #12 next
+3. Environment ready from prior sessions
+4. Implemented per-page timeout configurability and reran crawler tests
+
+FEATURE IMPLEMENTED:
+Feature #12 (foundation): "Add per-page timeout handling (default 60s, configurable)"
+- Complexity: low
+- Status: PASSED
+
+IMPLEMENTATION DETAILS:
+- BasicCrawler now accepts page_timeout_ms (default 60_000) and passes it into default CrawlerRunConfig.
+- Timeout stored on crawler instances (page_timeout_ms) for reference.
+- save_page_artifacts includes page_timeout_ms in metadata payload for traceability.
+
+TESTING:
+- Updated config tests for timeout propagation and custom values.
+- Metadata tests assert presence of page_timeout_ms.
+- Command: .venv/bin/pytest tests/test_crawler.py
+- Results: 41 tests PASSED (2 upstream crawl4ai deprecation warnings)
+
+CHANGES:
+- src/analyzer/crawler.py: page timeout configurability and metadata inclusion.
+- tests/test_crawler.py: timeout assertions and metadata field checks.
+- feature_list.json: Feature #12 marked passes: true
+
+RECOMMENDED NEXT FEATURE:
+- Feature #13 (foundation): "Implement concurrent crawling with rate limiting (5 concurrent requests)"
+  * Builds on crawler controls; adds concurrency/rate guardrails.
+
+BLOCKERS: None
+
+=================================================
+END SESSION 12
+=================================================

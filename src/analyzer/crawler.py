@@ -32,6 +32,7 @@ class BasicCrawler:
         config: Optional[CrawlerRunConfig] = None,
         max_pages: int = DEFAULT_MAX_PAGES,
         max_depth: int | None = DEFAULT_MAX_DEPTH,
+        page_timeout_ms: int = 60_000,
     ) -> None:
         """Initialize crawler with optional custom configuration.
 
@@ -39,10 +40,12 @@ class BasicCrawler:
             config: Optional CrawlerRunConfig. If None, uses default configuration.
             max_pages: Maximum pages to process per crawl session (default 1000).
             max_depth: Optional maximum crawl depth (None for unlimited).
+            page_timeout_ms: Per-page timeout in milliseconds (default 60_000).
         """
-        self.config = config or self._default_config()
+        self.config = config or self._default_config(page_timeout_ms=page_timeout_ms)
         self.max_pages = max_pages
         self.max_depth = max_depth
+        self.page_timeout_ms = page_timeout_ms
 
     @staticmethod
     def normalize_url(url: str) -> str:
@@ -121,7 +124,7 @@ class BasicCrawler:
         return unique
 
     @staticmethod
-    def _default_config() -> CrawlerRunConfig:
+    def _default_config(page_timeout_ms: int = 60_000) -> CrawlerRunConfig:
         """Create default crawler configuration.
 
         Configuration:
@@ -139,7 +142,7 @@ class BasicCrawler:
             cache_mode=CacheMode.BYPASS,
             check_robots_txt=True,
             wait_until="domcontentloaded",
-            page_timeout=60_000,
+            page_timeout=page_timeout_ms,
             screenshot=False,
             capture_network_requests=False,
         )
@@ -162,7 +165,6 @@ class BasicCrawler:
             result = await crawler.arun(url, config=self.config)
             return result
 
-    @staticmethod
     @staticmethod
     def _build_robot_parser(robots_txt: str | None) -> RobotFileParser | None:
         """Create a RobotFileParser from robots.txt content."""
@@ -252,6 +254,7 @@ class BasicCrawler:
         robots_txt: str | None = None,
         current_depth: int = 0,
         max_depth: int | None = None,
+        page_timeout_ms: int | None = None,
     ) -> None:
         """Save crawl result artifacts to directory.
 
@@ -304,6 +307,7 @@ class BasicCrawler:
             "timestamp": datetime.utcnow().isoformat() + "Z",
             "links": links,
             "title": result.title,
+            "page_timeout_ms": page_timeout_ms,
         }
         (output_dir / "metadata.json").write_text(
             json.dumps(metadata, indent=2), encoding="utf-8"

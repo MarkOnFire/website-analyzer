@@ -56,6 +56,7 @@ class TestBasicCrawlerConfig:
         assert crawler.config.capture_network_requests is False
         assert crawler.max_pages == BasicCrawler.DEFAULT_MAX_PAGES
         assert crawler.max_depth == BasicCrawler.DEFAULT_MAX_DEPTH
+        assert crawler.page_timeout_ms == 60_000
 
     def test_custom_config(self):
         """Test that custom config is accepted and used."""
@@ -66,12 +67,16 @@ class TestBasicCrawlerConfig:
             page_timeout=30_000,
         )
         crawler = BasicCrawler(
-            config=custom_config, max_pages=50, max_depth=3
+            config=custom_config,
+            max_pages=50,
+            max_depth=3,
+            page_timeout_ms=45_000,
         )
         assert crawler.config is custom_config
         assert crawler.config.page_timeout == 30_000
         assert crawler.max_pages == 50
         assert crawler.max_depth == 3
+        assert crawler.page_timeout_ms == 45_000
 
     def test_config_attributes(self):
         """Test all important config attributes are set correctly."""
@@ -346,6 +351,8 @@ class TestBasicCrawlerArtifactStorage:
             assert "timestamp" in metadata
             # Timestamp should end with Z (UTC)
             assert metadata["timestamp"].endswith("Z")
+            # Timeout info preserved
+            assert metadata["page_timeout_ms"] is None
 
     def test_metadata_json_valid(self):
         """Test that metadata.json is valid JSON."""
@@ -608,3 +615,4 @@ class TestBasicCrawlerEdgeCases:
             assert metadata["title"] is None
             assert metadata["redirected_url"] is None
             assert metadata["links"] == []
+            assert "page_timeout_ms" in metadata
