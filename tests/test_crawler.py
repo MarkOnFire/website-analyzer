@@ -54,6 +54,7 @@ class TestBasicCrawlerConfig:
         assert crawler.config.page_timeout == 60_000
         assert crawler.config.screenshot is False
         assert crawler.config.capture_network_requests is False
+        assert crawler.max_pages == BasicCrawler.DEFAULT_MAX_PAGES
 
     def test_custom_config(self):
         """Test that custom config is accepted and used."""
@@ -63,9 +64,10 @@ class TestBasicCrawlerConfig:
             cache_mode=CacheMode.BYPASS,
             page_timeout=30_000,
         )
-        crawler = BasicCrawler(config=custom_config)
+        crawler = BasicCrawler(config=custom_config, max_pages=50)
         assert crawler.config is custom_config
         assert crawler.config.page_timeout == 30_000
+        assert crawler.max_pages == 50
 
     def test_config_attributes(self):
         """Test all important config attributes are set correctly."""
@@ -204,6 +206,16 @@ class TestBasicCrawlerLinkFiltering:
         assert filtered == [
             "https://example.com/public",
             "https://example.com/public/page",
+        ]
+
+    def test_filter_internal_links_respects_max_pages(self):
+        links = [f"/page-{i}" for i in range(5)]
+        filtered = BasicCrawler.filter_internal_links(
+            "https://example.com", links, max_pages=2
+        )
+        assert filtered == [
+            "https://example.com/page-0",
+            "https://example.com/page-1",
         ]
 
 
@@ -526,6 +538,7 @@ class TestBasicCrawlerEdgeCases:
         """Config should default to respecting robots.txt."""
         crawler = BasicCrawler()
         assert crawler.config.check_robots_txt is True
+        assert crawler.max_pages == BasicCrawler.DEFAULT_MAX_PAGES
 
     def test_save_artifacts_with_special_chars_in_path(self):
         """Test saving artifacts to path with special characters."""

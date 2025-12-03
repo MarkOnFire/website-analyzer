@@ -24,13 +24,21 @@ class BasicCrawler:
     Respects robots.txt and implements configurable page timeout.
     """
 
-    def __init__(self, config: Optional[CrawlerRunConfig] = None) -> None:
+    DEFAULT_MAX_PAGES = 1000
+
+    def __init__(
+        self,
+        config: Optional[CrawlerRunConfig] = None,
+        max_pages: int = DEFAULT_MAX_PAGES,
+    ) -> None:
         """Initialize crawler with optional custom configuration.
 
         Args:
             config: Optional CrawlerRunConfig. If None, uses default configuration.
+            max_pages: Maximum pages to process per crawl session (default 1000).
         """
         self.config = config or self._default_config()
+        self.max_pages = max_pages
 
     @staticmethod
     def normalize_url(url: str) -> str:
@@ -182,6 +190,7 @@ class BasicCrawler:
         links: list[str],
         robots_txt: str | None = None,
         user_agent: str = "*",
+        max_pages: int | None = None,
     ) -> list[str]:
         """Return normalized, deduplicated internal links for a base URL."""
         normalized_base = BasicCrawler.normalize_url(base_url)
@@ -220,12 +229,18 @@ class BasicCrawler:
 
             candidates.append(normalized)
 
-        return BasicCrawler.deduplicate_urls(candidates)
+        unique = BasicCrawler.deduplicate_urls(candidates)
+        if max_pages is not None:
+            return unique[: max_pages if max_pages > 0 else 0]
+        return unique
 
     @staticmethod
     def save_page_artifacts(
         result: "CrawlResult",
         output_dir: Path,
+        max_pages: int | None = None,
+        user_agent: str = "*",
+        robots_txt: str | None = None,
     ) -> None:
         """Save crawl result artifacts to directory.
 
@@ -261,7 +276,11 @@ class BasicCrawler:
         links: list[str] = []
         if result.url:
             links = BasicCrawler.filter_internal_links(
-                base_url=result.url, links=result.links or []
+                base_url=result.url,
+                links=result.links or [],
+                robots_txt=robots_txt,
+                user_agent=user_agent,
+                max_pages=max_pages,
             )
 
         # Save metadata
