@@ -57,6 +57,7 @@ class TestBasicCrawlerConfig:
         assert crawler.max_pages == BasicCrawler.DEFAULT_MAX_PAGES
         assert crawler.max_depth == BasicCrawler.DEFAULT_MAX_DEPTH
         assert crawler.page_timeout_ms == 60_000
+        assert crawler.max_concurrency == BasicCrawler.DEFAULT_MAX_CONCURRENCY
 
     def test_custom_config(self):
         """Test that custom config is accepted and used."""
@@ -71,12 +72,14 @@ class TestBasicCrawlerConfig:
             max_pages=50,
             max_depth=3,
             page_timeout_ms=45_000,
+            max_concurrency=2,
         )
         assert crawler.config is custom_config
         assert crawler.config.page_timeout == 30_000
         assert crawler.max_pages == 50
         assert crawler.max_depth == 3
         assert crawler.page_timeout_ms == 45_000
+        assert crawler.max_concurrency == 2
 
     def test_config_attributes(self):
         """Test all important config attributes are set correctly."""
@@ -498,6 +501,8 @@ class TestBasicCrawlerArtifactStorage:
 class TestBasicCrawlerAsyncIntegration:
     """Test async crawling functionality (mocked)."""
 
+    import asyncio as _asyncio  # local alias to use in side effects
+
     @pytest.mark.asyncio
     async def test_crawl_url_returns_result(self):
         """Test that crawl_url returns a result object."""
@@ -550,6 +555,62 @@ class TestBasicCrawlerAsyncIntegration:
                 assert call_args[0][1] == custom_config
             else:
                 assert call_args[1].get("config") == custom_config
+
+    @pytest.mark.asyncio
+    async def test_crawl_urls_respects_concurrency_limit(self):
+        """Ensure crawl_urls enforces the max_concurrency limit."""
+        crawler = BasicCrawler(max_concurrency=2)
+
+        max_seen = 0
+        current = 0
+
+        async def fake_arun(url, config=None):
+            nonlocal max_seen, current
+            current += 1
+            max_seen = max(max_seen, current)
+            await self._asyncio.sleep(0.01)
+            current -= 1
+            return MockCrawlResult(url=url)
+
+        with patch("src.analyzer.crawler.AsyncWebCrawler") as mock_crawler_class:
+            mock_crawler = MagicMock()
+            mock_crawler.__aenter__ = AsyncMock(return_value=mock_crawler)
+            mock_crawler.__aexit__ = AsyncMock(return_value=None)
+            mock_crawler.arun = AsyncMock(side_effect=fake_arun)
+            mock_crawler_class.return_value = mock_crawler
+
+            urls = [f"https://example.com/page{i}" for i in range(4)]
+            results = await crawler.crawl_urls(urls)
+
+            assert [r.url for r in results] == urls
+            assert max_seen <= 2
+            assert mock_crawler.arun.call_count == 4
+
+    @pytest.mark.asyncio
+    async def test_crawl_urls_rate_limit_spacing(self):
+        """Ensure crawl_urls applies simple rate limiting between starts."""
+        crawler = BasicCrawler()
+        start_times = []
+
+        async def fake_arun(url, config=None):
+            start_times.append(self._asyncio.get_event_loop().time())
+            return MockCrawlResult(url=url)
+
+        with patch("src.analyzer.crawler.AsyncWebCrawler") as mock_crawler_class:
+            mock_crawler = MagicMock()
+            mock_crawler.__aenter__ = AsyncMock(return_value=mock_crawler)
+            mock_crawler.__aexit__ = AsyncMock(return_value=None)
+            mock_crawler.arun = AsyncMock(side_effect=fake_arun)
+            mock_crawler_class.return_value = mock_crawler
+
+            urls = [f"https://example.com/page{i}" for i in range(3)]
+            await crawler.crawl_urls(urls, rate_limit_per_sec=2)  # interval = 0.5s
+
+            # Verify each start is spaced by at least ~0.45s (tolerance)
+            intervals = [
+                start_times[i + 1] - start_times[i] for i in range(len(start_times) - 1)
+            ]
+            assert all(interval >= 0.45 for interval in intervals)
 
 
 class TestBasicCrawlerEdgeCases:

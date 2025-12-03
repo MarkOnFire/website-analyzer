@@ -4,6 +4,7 @@ This module provides fundamental crawling capabilities for single URL crawling
 with page artifact storage (raw HTML, cleaned HTML, markdown, metadata).
 """
 
+import asyncio
 import json
 import posixpath
 import re
@@ -26,6 +27,7 @@ class BasicCrawler:
 
     DEFAULT_MAX_PAGES = 1000
     DEFAULT_MAX_DEPTH: int | None = None
+    DEFAULT_MAX_CONCURRENCY = 5
 
     def __init__(
         self,
@@ -33,6 +35,7 @@ class BasicCrawler:
         max_pages: int = DEFAULT_MAX_PAGES,
         max_depth: int | None = DEFAULT_MAX_DEPTH,
         page_timeout_ms: int = 60_000,
+        max_concurrency: int = DEFAULT_MAX_CONCURRENCY,
     ) -> None:
         """Initialize crawler with optional custom configuration.
 
@@ -41,11 +44,13 @@ class BasicCrawler:
             max_pages: Maximum pages to process per crawl session (default 1000).
             max_depth: Optional maximum crawl depth (None for unlimited).
             page_timeout_ms: Per-page timeout in milliseconds (default 60_000).
+            max_concurrency: Maximum concurrent crawl requests (default 5).
         """
         self.config = config or self._default_config(page_timeout_ms=page_timeout_ms)
         self.max_pages = max_pages
         self.max_depth = max_depth
         self.page_timeout_ms = page_timeout_ms
+        self.max_concurrency = max_concurrency
 
     @staticmethod
     def normalize_url(url: str) -> str:
@@ -164,6 +169,48 @@ class BasicCrawler:
         async with AsyncWebCrawler() as crawler:
             result = await crawler.arun(url, config=self.config)
             return result
+
+    async def crawl_urls(
+        self,
+        urls: list[str],
+        max_concurrency: int | None = None,
+        rate_limit_per_sec: float | None = None,
+    ) -> list["CrawlResult"]:
+        """Crawl multiple URLs concurrently with optional rate limiting.
+
+        Args:
+            urls: URLs to crawl.
+            max_concurrency: Max concurrent requests (default uses crawler setting).
+            rate_limit_per_sec: Optional rate limit for request starts (requests/second).
+
+        Returns:
+            List of CrawlResult objects in the same order as input URLs.
+        """
+        if not urls:
+            return []
+
+        concurrency = max_concurrency or self.max_concurrency
+        semaphore = asyncio.Semaphore(concurrency)
+        rate_interval = 1 / rate_limit_per_sec if rate_limit_per_sec else 0
+        rate_lock = asyncio.Lock()
+        last_start = 0.0
+        loop = asyncio.get_event_loop()
+
+        async def fetch(url: str) -> "CrawlResult":
+            nonlocal last_start
+            async with semaphore:
+                if rate_interval:
+                    async with rate_lock:
+                        now = loop.time()
+                        wait_for = max(0, last_start + rate_interval - now)
+                        if wait_for > 0:
+                            await asyncio.sleep(wait_for)
+                        last_start = loop.time()
+                return await crawler.arun(url, config=self.config)
+
+        async with AsyncWebCrawler() as crawler:
+            tasks = [asyncio.create_task(fetch(u)) for u in urls]
+            return await asyncio.gather(*tasks)
 
     @staticmethod
     def _build_robot_parser(robots_txt: str | None) -> RobotFileParser | None:
