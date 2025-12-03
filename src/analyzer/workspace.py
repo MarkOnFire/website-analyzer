@@ -7,6 +7,8 @@ Provides functionality to:
 - Manage project metadata (URL, timestamps, crawl history)
 """
 
+from __future__ import annotations
+
 import json
 import re
 from datetime import datetime
@@ -268,3 +270,113 @@ class Workspace:
             Path to issues.json file
         """
         return self.project_dir / "issues.json"
+
+
+class SnapshotManager:
+    """Manages timestamped snapshot directories within a workspace.
+
+    A snapshot is a timestamped directory within the workspace's snapshots/
+    folder that contains page snapshots (HTML, markdown, metadata) from a
+    single crawl operation.
+
+    Snapshot directory structure:
+    - projects/<slug>/snapshots/
+      ├── 2025-12-02T14-30-45-123456Z/
+      │   ├── pages/
+      │   ├── sitemap.json
+      │   └── summary.json
+      └── 2025-12-02T15-45-30-654321Z/
+          └── ...
+    """
+
+    def __init__(self, snapshots_dir: Path) -> None:
+        """Initialize snapshot manager for a workspace's snapshots directory.
+
+        Args:
+            snapshots_dir: Path to the workspace's snapshots/ directory
+        """
+        self.snapshots_dir = snapshots_dir
+
+    @staticmethod
+    def create_timestamp() -> str:
+        """Generate a filesystem-safe ISO timestamp for snapshot naming.
+
+        Returns timestamp in format: YYYY-MM-DDTHH-MM-SS.ffffffZ
+        where colons are replaced with hyphens for filesystem compatibility.
+
+        Returns:
+            Timestamp string suitable for directory naming
+        """
+        now = datetime.utcnow()
+        # Format: 2025-12-02T14:30:45.123456 -> 2025-12-02T14-30-45.123456Z
+        iso_timestamp = now.isoformat()
+        # Replace colons in time portion with hyphens
+        # Format: YYYY-MM-DDTHH:MM:SS.ffffff -> YYYY-MM-DDTHH-MM-SS.ffffffZ
+        timestamp = iso_timestamp.replace(":", "-")
+        # Add Z suffix to indicate UTC timezone
+        if not timestamp.endswith("Z"):
+            timestamp = timestamp + "Z"
+        return timestamp
+
+    def create_snapshot_dir(self) -> Path:
+        """Create a new timestamped snapshot directory.
+
+        Creates a directory with format: YYYY-MM-DDTHH-MM-SS.ffffffZ
+
+        Returns:
+            Path to the newly created snapshot directory
+
+        Raises:
+            OSError: If directory creation fails
+        """
+        timestamp = self.create_timestamp()
+        snapshot_dir = self.snapshots_dir / timestamp
+
+        # Create the snapshot directory
+        snapshot_dir.mkdir(parents=True, exist_ok=False)
+
+        return snapshot_dir
+
+    def list_snapshots(self) -> list[Path]:
+        """List all snapshot directories in reverse chronological order.
+
+        Returns:
+            List of Path objects for snapshot directories, most recent first
+        """
+        if not self.snapshots_dir.exists():
+            return []
+
+        # Find all directories that match timestamp pattern
+        snapshots = []
+        for item in self.snapshots_dir.iterdir():
+            if item.is_dir() and item.name != ".gitkeep":
+                snapshots.append(item)
+
+        # Sort by name (ISO format) in reverse (most recent first)
+        snapshots.sort(reverse=True)
+        return snapshots
+
+    def get_latest_snapshot(self) -> Optional[Path]:
+        """Get the most recent snapshot directory.
+
+        Returns:
+            Path to the most recent snapshot, or None if no snapshots exist
+        """
+        snapshots = self.list_snapshots()
+        return snapshots[0] if snapshots else None
+
+    def validate_snapshot_timestamp(self, timestamp: str) -> bool:
+        """Validate that a string is a properly formatted snapshot timestamp.
+
+        Valid format: YYYY-MM-DDTHH-MM-SS.ffffffZ
+        Example: 2025-12-02T14-30-45.123456Z
+
+        Args:
+            timestamp: Timestamp string to validate
+
+        Returns:
+            True if timestamp is valid, False otherwise
+        """
+        # Pattern for ISO-like timestamp with hyphens instead of colons in time
+        pattern = r"^\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}\.\d{6}Z$"
+        return bool(re.match(pattern, timestamp))

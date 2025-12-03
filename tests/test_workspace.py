@@ -14,7 +14,7 @@ from pathlib import Path
 
 import pytest
 
-from src.analyzer.workspace import ProjectMetadata, Workspace, slugify_url
+from src.analyzer.workspace import ProjectMetadata, SnapshotManager, Workspace, slugify_url
 
 
 class TestSlugifyUrl:
@@ -462,6 +462,240 @@ class TestWorkspaceAccessors:
             issues_path = workspace.get_issues_path()
             assert issues_path.exists()
             assert issues_path.name == "issues.json"
+
+
+class TestSnapshotManagerTimestamp:
+    """Test suite for snapshot timestamp generation."""
+
+    def test_create_timestamp_format(self):
+        """Test that timestamp has correct format."""
+        timestamp = SnapshotManager.create_timestamp()
+        # Format should be: YYYY-MM-DDTHH-MM-SS.ffffffZ
+        # Structure: 2025-12-03T03-08-28.664648Z (27 chars)
+        assert len(timestamp) == 27  # 10 + 1 + 8 + 1 + 6 + 1 = 27
+        assert timestamp[10] == "T"  # T separator
+        assert timestamp[19] == "."  # Dot before microseconds
+        assert timestamp[-1] == "Z"  # UTC suffix
+        assert timestamp.count("-") == 4  # 2 in date + 2 in time
+
+    def test_create_timestamp_uniqueness(self):
+        """Test that consecutive timestamps are different."""
+        import time
+
+        ts1 = SnapshotManager.create_timestamp()
+        time.sleep(0.001)  # Small sleep to ensure different microsecond
+        ts2 = SnapshotManager.create_timestamp()
+
+        # Timestamps should be different (at minimum at microsecond level)
+        assert ts1 != ts2
+
+    def test_timestamp_iso_comparable(self):
+        """Test that timestamps are sortable chronologically."""
+        import time
+
+        ts1 = SnapshotManager.create_timestamp()
+        time.sleep(0.001)
+        ts2 = SnapshotManager.create_timestamp()
+        time.sleep(0.001)
+        ts3 = SnapshotManager.create_timestamp()
+
+        # Should be sortable in chronological order
+        timestamps = [ts3, ts1, ts2]
+        sorted_ts = sorted(timestamps)
+        assert sorted_ts == [ts1, ts2, ts3]
+
+
+class TestSnapshotManager:
+    """Test suite for snapshot directory management."""
+
+    def test_snapshot_manager_initialization(self):
+        """Test creating snapshot manager."""
+        with tempfile.TemporaryDirectory() as tmpdir:
+            snapshots_dir = Path(tmpdir) / "snapshots"
+            snapshots_dir.mkdir()
+
+            manager = SnapshotManager(snapshots_dir)
+            assert manager.snapshots_dir == snapshots_dir
+
+    def test_create_snapshot_dir(self):
+        """Test creating a new snapshot directory."""
+        with tempfile.TemporaryDirectory() as tmpdir:
+            snapshots_dir = Path(tmpdir) / "snapshots"
+            snapshots_dir.mkdir()
+
+            manager = SnapshotManager(snapshots_dir)
+            snapshot_dir = manager.create_snapshot_dir()
+
+            # Directory should exist
+            assert snapshot_dir.exists()
+            assert snapshot_dir.is_dir()
+
+            # Should be a subdirectory of snapshots
+            assert snapshot_dir.parent == snapshots_dir
+
+            # Name should have correct format
+            assert manager.validate_snapshot_timestamp(snapshot_dir.name)
+
+    def test_create_multiple_snapshot_dirs(self):
+        """Test creating multiple snapshot directories."""
+        import time
+
+        with tempfile.TemporaryDirectory() as tmpdir:
+            snapshots_dir = Path(tmpdir) / "snapshots"
+            snapshots_dir.mkdir()
+
+            manager = SnapshotManager(snapshots_dir)
+
+            # Create multiple snapshots
+            dirs = []
+            for _ in range(3):
+                dirs.append(manager.create_snapshot_dir())
+                time.sleep(0.001)
+
+            # All should exist
+            for d in dirs:
+                assert d.exists()
+
+            # All should have different names
+            names = [d.name for d in dirs]
+            assert len(set(names)) == 3
+
+    def test_list_snapshots_empty(self):
+        """Test listing snapshots when none exist."""
+        with tempfile.TemporaryDirectory() as tmpdir:
+            snapshots_dir = Path(tmpdir) / "snapshots"
+            snapshots_dir.mkdir()
+
+            manager = SnapshotManager(snapshots_dir)
+            snapshots = manager.list_snapshots()
+
+            assert snapshots == []
+
+    def test_list_snapshots_reverse_chronological(self):
+        """Test that snapshots are listed in reverse chronological order."""
+        import time
+
+        with tempfile.TemporaryDirectory() as tmpdir:
+            snapshots_dir = Path(tmpdir) / "snapshots"
+            snapshots_dir.mkdir()
+
+            manager = SnapshotManager(snapshots_dir)
+
+            # Create multiple snapshots
+            for _ in range(3):
+                manager.create_snapshot_dir()
+                time.sleep(0.001)
+
+            snapshots = manager.list_snapshots()
+
+            # Should have 3 snapshots
+            assert len(snapshots) == 3
+
+            # Should be in reverse chronological order (newest first)
+            names = [s.name for s in snapshots]
+            assert names == sorted(names, reverse=True)
+
+    def test_get_latest_snapshot_when_empty(self):
+        """Test getting latest snapshot when none exist."""
+        with tempfile.TemporaryDirectory() as tmpdir:
+            snapshots_dir = Path(tmpdir) / "snapshots"
+            snapshots_dir.mkdir()
+
+            manager = SnapshotManager(snapshots_dir)
+            latest = manager.get_latest_snapshot()
+
+            assert latest is None
+
+    def test_get_latest_snapshot(self):
+        """Test getting the most recent snapshot."""
+        import time
+
+        with tempfile.TemporaryDirectory() as tmpdir:
+            snapshots_dir = Path(tmpdir) / "snapshots"
+            snapshots_dir.mkdir()
+
+            manager = SnapshotManager(snapshots_dir)
+
+            # Create multiple snapshots
+            snapshots = []
+            for _ in range(3):
+                s = manager.create_snapshot_dir()
+                snapshots.append(s)
+                time.sleep(0.001)
+
+            latest = manager.get_latest_snapshot()
+
+            # Latest should be the last one created
+            assert latest == snapshots[-1]
+
+    def test_validate_snapshot_timestamp_valid(self):
+        """Test validating correct timestamp format."""
+        manager = SnapshotManager(Path("/tmp"))
+
+        # Valid timestamps
+        valid_timestamps = [
+            "2025-12-02T14-30-45.123456Z",
+            "2025-01-01T00-00-00.000000Z",
+            "2099-12-31T23-59-59.999999Z",
+        ]
+
+        for ts in valid_timestamps:
+            assert manager.validate_snapshot_timestamp(ts)
+
+    def test_validate_snapshot_timestamp_invalid(self):
+        """Test that invalid timestamps are rejected."""
+        manager = SnapshotManager(Path("/tmp"))
+
+        # Invalid timestamps
+        invalid_timestamps = [
+            "2025-12-02T14:30:45.123456Z",  # Colons in time portion
+            "2025-12-02T14-30-45-123456Z",  # Hyphen instead of dot before microseconds
+            "2025-12-02T14-30-45.123456",  # Missing Z
+            "2025/12/02T14-30-45.123456Z",  # Wrong date separator
+            "invalid",
+            "2025-12-02",
+            "",
+        ]
+
+        for ts in invalid_timestamps:
+            assert not manager.validate_snapshot_timestamp(ts)
+
+    def test_snapshot_dir_ignores_gitkeep(self):
+        """Test that .gitkeep file doesn't appear as a snapshot."""
+        with tempfile.TemporaryDirectory() as tmpdir:
+            snapshots_dir = Path(tmpdir) / "snapshots"
+            snapshots_dir.mkdir()
+            (snapshots_dir / ".gitkeep").touch()
+
+            manager = SnapshotManager(snapshots_dir)
+
+            # Create one real snapshot
+            manager.create_snapshot_dir()
+
+            snapshots = manager.list_snapshots()
+
+            # Should only have 1 snapshot, .gitkeep should be ignored
+            assert len(snapshots) == 1
+
+    def test_snapshot_dir_with_workspace(self):
+        """Test snapshot manager integration with workspace."""
+        with tempfile.TemporaryDirectory() as tmpdir:
+            base_dir = Path(tmpdir)
+
+            # Create a workspace
+            workspace = Workspace.create("https://example.com", base_dir)
+
+            # Create snapshot manager from workspace
+            manager = SnapshotManager(workspace.get_snapshots_dir())
+            snapshot_dir = manager.create_snapshot_dir()
+
+            # Snapshot should exist under workspace
+            assert snapshot_dir.exists()
+            assert snapshot_dir.parent == workspace.get_snapshots_dir()
+
+            # Workspace should see the snapshot
+            latest = manager.get_latest_snapshot()
+            assert latest == snapshot_dir
 
 
 if __name__ == "__main__":

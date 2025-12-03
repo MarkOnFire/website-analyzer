@@ -32,7 +32,7 @@
       "id": 4,
       "category": "foundation",
       "description": "Implement project slug generation from URL (normalize domains, handle subdomains)",
-      "passes": false,
+      "passes": true,
       "dependencies": [2],
       "estimated_complexity": "low"
     },
@@ -40,7 +40,7 @@
       "id": 5,
       "category": "foundation",
       "description": "Create snapshot directory structure with timestamp-based naming",
-      "passes": false,
+      "passes": true,
       "dependencies": [2],
       "estimated_complexity": "low"
     },
