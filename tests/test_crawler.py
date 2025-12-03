@@ -85,6 +85,48 @@ class TestBasicCrawlerConfig:
         assert config.screenshot is False
 
 
+class TestBasicCrawlerUrlNormalization:
+    """Test URL normalization and deduplication helpers."""
+
+    def test_normalize_url_lowercases_scheme_and_host(self):
+        normalized = BasicCrawler.normalize_url("HTTPS://Example.COM/Path")
+        assert normalized == "https://example.com/Path"
+
+    def test_normalize_url_removes_fragment_and_default_port(self):
+        normalized = BasicCrawler.normalize_url("http://example.com:80/page#section")
+        assert normalized == "http://example.com/page"
+
+    def test_normalize_url_retains_non_default_port(self):
+        normalized = BasicCrawler.normalize_url("https://example.com:8443/page")
+        assert normalized == "https://example.com:8443/page"
+
+    def test_normalize_url_sorts_query_params(self):
+        normalized = BasicCrawler.normalize_url("https://example.com/page?b=2&a=1")
+        assert normalized == "https://example.com/page?a=1&b=2"
+
+    def test_normalize_url_collapses_duplicate_slashes(self):
+        normalized = BasicCrawler.normalize_url("https://example.com//a//b///")
+        assert normalized == "https://example.com/a/b"
+
+    def test_normalize_url_requires_http_scheme(self):
+        with pytest.raises(ValueError):
+            BasicCrawler.normalize_url("ftp://example.com")
+
+    def test_normalize_url_requires_hostname(self):
+        with pytest.raises(ValueError):
+            BasicCrawler.normalize_url("https:///no-host")
+
+    def test_deduplicate_urls_preserves_order_and_skips_invalid(self):
+        urls = [
+            "HTTPS://Example.com",
+            "https://example.com/",
+            "https://example.com#frag",
+            "javascript:alert(1)",
+        ]
+        deduped = BasicCrawler.deduplicate_urls(urls)
+        assert deduped == ["https://example.com/"]
+
+
 class TestBasicCrawlerArtifactStorage:
     """Test page artifact storage functionality."""
 

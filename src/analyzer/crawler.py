@@ -5,9 +5,12 @@ with page artifact storage (raw HTML, cleaned HTML, markdown, metadata).
 """
 
 import json
+import posixpath
+import re
 from datetime import datetime
 from pathlib import Path
 from typing import Optional
+from urllib.parse import parse_qsl, urlparse, urlunparse, urlencode
 
 from crawl4ai import AsyncWebCrawler
 from crawl4ai.async_configs import CacheMode, CrawlerRunConfig
@@ -27,6 +30,82 @@ class BasicCrawler:
             config: Optional CrawlerRunConfig. If None, uses default configuration.
         """
         self.config = config or self._default_config()
+
+    @staticmethod
+    def normalize_url(url: str) -> str:
+        """Normalize a URL for consistent comparison and storage.
+
+        Normalization steps:
+        - Require http/https scheme
+        - Lowercase scheme and hostname
+        - Drop fragments
+        - Remove default ports (80/443)
+        - Normalize path, removing duplicate slashes
+        - Sort query parameters for stable ordering
+
+        Args:
+            url: Raw URL to normalize.
+
+        Returns:
+            Normalized URL string.
+
+        Raises:
+            ValueError: If the URL is empty, missing host, or uses an unsupported scheme.
+        """
+        if not url:
+            raise ValueError("URL cannot be empty")
+
+        parsed = urlparse(url)
+        if parsed.scheme.lower() not in {"http", "https"}:
+            raise ValueError(f"Unsupported URL scheme: {parsed.scheme or 'missing'}")
+        if not parsed.hostname:
+            raise ValueError("URL must include hostname")
+
+        scheme = parsed.scheme.lower()
+        hostname = parsed.hostname.lower()
+        port = parsed.port
+
+        # Remove default ports for scheme
+        if port and not ((scheme == "http" and port == 80) or (scheme == "https" and port == 443)):
+            netloc = f"{hostname}:{port}"
+        else:
+            netloc = hostname
+
+        # Normalize path (collapse duplicate slashes, handle '.' segments)
+        path = parsed.path or "/"
+        normalized_path = posixpath.normpath(path)
+        normalized_path = re.sub(r"/{2,}", "/", normalized_path)
+        if normalized_path == ".":
+            normalized_path = "/"
+        if not normalized_path.startswith("/"):
+            normalized_path = f"/{normalized_path}"
+        if normalized_path != "/" and normalized_path.endswith("/"):
+            normalized_path = normalized_path.rstrip("/")
+
+        # Stable query ordering
+        query = ""
+        if parsed.query:
+            query = urlencode(sorted(parse_qsl(parsed.query, keep_blank_values=True)))
+
+        return urlunparse((scheme, netloc, normalized_path, "", query, ""))
+
+    @staticmethod
+    def deduplicate_urls(urls: list[str]) -> list[str]:
+        """Deduplicate and normalize a collection of URLs, preserving order.
+
+        Invalid URLs are skipped.
+        """
+        seen: set[str] = set()
+        unique: list[str] = []
+        for url in urls:
+            try:
+                normalized = BasicCrawler.normalize_url(url)
+            except ValueError:
+                continue
+            if normalized not in seen:
+                seen.add(normalized)
+                unique.append(normalized)
+        return unique
 
     @staticmethod
     def _default_config() -> CrawlerRunConfig:
