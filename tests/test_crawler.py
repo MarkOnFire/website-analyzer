@@ -127,6 +127,64 @@ class TestBasicCrawlerUrlNormalization:
         assert deduped == ["https://example.com/"]
 
 
+class TestBasicCrawlerLinkFiltering:
+    """Test internal link extraction and filtering."""
+
+    def test_filter_internal_links_keeps_same_host(self):
+        links = [
+            "https://example.com/page1",
+            "https://other.com/page2",
+            "/page3",
+        ]
+        filtered = BasicCrawler.filter_internal_links(
+            "https://example.com", links
+        )
+        assert filtered == [
+            "https://example.com/page1",
+            "https://example.com/page3",
+        ]
+
+    def test_filter_internal_links_resolves_relative(self):
+        links = ["about", "../contact", "/pricing"]
+        filtered = BasicCrawler.filter_internal_links(
+            "https://example.com/docs/guide/", links
+        )
+        assert filtered == [
+            "https://example.com/docs/about",
+            "https://example.com/contact",
+            "https://example.com/pricing",
+        ]
+
+    def test_filter_internal_links_skips_non_http_and_fragments(self):
+        links = ["mailto:test@example.com", "javascript:void(0)", "#section"]
+        filtered = BasicCrawler.filter_internal_links(
+            "https://example.com", links
+        )
+        assert filtered == []
+
+    def test_filter_internal_links_deduplicates(self):
+        links = [
+            "https://example.com",
+            "https://example.com/",
+            "/",
+            "https://example.com#frag",
+        ]
+        filtered = BasicCrawler.filter_internal_links(
+            "https://example.com", links
+        )
+        assert filtered == ["https://example.com/"]
+
+    def test_filter_internal_links_respects_port(self):
+        links = [
+            "https://example.com:8080/page",
+            "https://example.com/page",
+        ]
+        filtered = BasicCrawler.filter_internal_links(
+            "https://example.com:8080", links
+        )
+        assert filtered == ["https://example.com:8080/page"]
+
+
 class TestBasicCrawlerArtifactStorage:
     """Test page artifact storage functionality."""
 
@@ -188,7 +246,11 @@ class TestBasicCrawlerArtifactStorage:
             output_dir = Path(tmpdir)
             url = "https://example.com/page"
             status_code = 200
-            links = ["https://example.com/", "https://example.com/about"]
+            links = [
+                "https://example.com/",
+                "https://other.com/about",
+                "/internal",
+            ]
             title = "Test Page"
 
             result = MockCrawlResult(
@@ -207,7 +269,10 @@ class TestBasicCrawlerArtifactStorage:
             # Verify all metadata fields
             assert metadata["url"] == url
             assert metadata["status_code"] == status_code
-            assert metadata["links"] == links
+            assert metadata["links"] == [
+                "https://example.com/",
+                "https://example.com/internal",
+            ]
             assert metadata["title"] == title
             assert "timestamp" in metadata
             # Timestamp should end with Z (UTC)
@@ -324,7 +389,8 @@ class TestBasicCrawlerArtifactStorage:
             links = [
                 "https://example.com/",
                 "https://example.com/about",
-                "https://example.com/contact",
+                "https://external.com/ignore",
+                "/contact",
             ]
             result = MockCrawlResult(links=links)
 
@@ -333,7 +399,11 @@ class TestBasicCrawlerArtifactStorage:
             metadata = json.loads(
                 (output_dir / "metadata.json").read_text(encoding="utf-8")
             )
-            assert metadata["links"] == links
+            assert metadata["links"] == [
+                "https://example.com/",
+                "https://example.com/about",
+                "https://example.com/contact",
+            ]
 
     def test_empty_links_list(self):
         """Test that empty links list is handled correctly."""

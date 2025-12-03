@@ -10,7 +10,7 @@ import re
 from datetime import datetime
 from pathlib import Path
 from typing import Optional
-from urllib.parse import parse_qsl, urlparse, urlunparse, urlencode
+from urllib.parse import parse_qsl, urljoin, urlparse, urlunparse, urlencode
 
 from crawl4ai import AsyncWebCrawler
 from crawl4ai.async_configs import CacheMode, CrawlerRunConfig
@@ -148,6 +148,41 @@ class BasicCrawler:
             return result
 
     @staticmethod
+    def filter_internal_links(base_url: str, links: list[str]) -> list[str]:
+        """Return normalized, deduplicated internal links for a base URL."""
+        normalized_base = BasicCrawler.normalize_url(base_url)
+        base_parsed = urlparse(normalized_base)
+        base_port = base_parsed.port
+        base_host = base_parsed.hostname
+
+        candidates: list[str] = []
+        for link in links:
+            if not link:
+                continue
+            lower = link.lower()
+            if lower.startswith(("mailto:", "tel:", "javascript:", "data:")):
+                continue
+            if lower.startswith("#"):
+                continue
+            try:
+                absolute = urljoin(normalized_base, link)
+                normalized = BasicCrawler.normalize_url(absolute)
+                parsed = urlparse(normalized)
+            except ValueError:
+                continue
+
+            # Internal if hostname matches and port matches (including default/None)
+            if parsed.hostname != base_host:
+                continue
+            parsed_port = parsed.port
+            if (parsed_port or None) != (base_port or None):
+                continue
+
+            candidates.append(normalized)
+
+        return BasicCrawler.deduplicate_urls(candidates)
+
+    @staticmethod
     def save_page_artifacts(
         result: "CrawlResult",
         output_dir: Path,
@@ -182,13 +217,20 @@ class BasicCrawler:
             result.markdown or "", encoding="utf-8"
         )
 
+        # Prepare links
+        links: list[str] = []
+        if result.url:
+            links = BasicCrawler.filter_internal_links(
+                base_url=result.url, links=result.links or []
+            )
+
         # Save metadata
         metadata = {
             "url": result.url,
             "status_code": result.status_code,
             "redirected_url": result.redirected_url,
             "timestamp": datetime.utcnow().isoformat() + "Z",
-            "links": result.links or [],
+            "links": links,
             "title": result.title,
         }
         (output_dir / "metadata.json").write_text(

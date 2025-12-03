@@ -64,7 +64,7 @@
       "id": 8,
       "category": "foundation",
       "description": "Implement link extraction and internal link filtering",
-      "passes": false,
+      "passes": true,
       "dependencies": [6],
       "estimated_complexity": "medium"
     },
