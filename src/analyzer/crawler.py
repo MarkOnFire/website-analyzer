@@ -356,6 +356,7 @@ class BasicCrawler:
             "links": links,
             "title": result.title,
             "page_timeout_ms": page_timeout_ms,
+            "headers": getattr(result, "headers", None),
         }
         (output_dir / "metadata.json").write_text(
             json.dumps(metadata, indent=2), encoding="utf-8"
@@ -369,6 +370,7 @@ class BasicCrawler:
         user_agent: str = "*",
         robots_txt: str | None = None,
         current_depth: int = 0,
+        include_sitemap: bool = True,
     ) -> Path:
         """Save a single page snapshot within a snapshot directory.
 
@@ -392,5 +394,23 @@ class BasicCrawler:
             current_depth=current_depth,
             page_timeout_ms=self.page_timeout_ms,
         )
+
+        if include_sitemap:
+            sitemap_path = snapshot_dir / "sitemap.json"
+            pages = BasicCrawler.filter_internal_links(
+                result.url,
+                result.links or [],
+                robots_txt=robots_txt,
+                user_agent=user_agent,
+                max_pages=self.max_pages,
+                current_depth=current_depth,
+                max_depth=self.max_depth,
+            )
+            sitemap = {
+                "root": result.url,
+                "pages": pages,
+                "generated_at": datetime.utcnow().isoformat() + "Z",
+            }
+            sitemap_path.write_text(json.dumps(sitemap, indent=2), encoding="utf-8")
 
         return page_dir

@@ -903,3 +903,47 @@ BLOCKERS: None
 =================================================
 END SESSION 14
 =================================================
+
+=================================================
+SESSION 15: Feature #15 Implementation - 2025-12-02
+=================================================
+
+SESSION PROTOCOL COMPLETION:
+1. Read session memory (claude-progress.txt) - Complete
+2. Reviewed feature_list.json - Feature #15 next
+3. Environment ready from prior sessions
+4. Implemented sitemap/metadata enrichment and reran tests
+
+FEATURE IMPLEMENTED:
+Feature #15 (foundation): "Generate sitemap.json with discovered URLs and structure"
+- Complexity: low
+- Status: PASSED
+
+IMPLEMENTATION DETAILS:
+- BasicCrawler.save_snapshot now writes sitemap.json in each snapshot:
+  * Includes root URL, normalized internal pages, generated_at timestamp
+  * Reuses link filtering (robots-aware, dedup, depth/page limits)
+- Added headers to metadata.json so crawl metadata (status, headers, timeout, links) are captured with snapshots.
+- SnapshotManager already creates pages/; sitemap saved at snapshot root.
+
+TESTING:
+- Updated snapshot test to verify sitemap creation.
+- Headers now present in metadata tests.
+- Command: .venv/bin/pytest tests/test_crawler.py
+- Results: 44 tests PASSED (2 upstream crawl4ai deprecation warnings)
+
+CHANGES:
+- src/analyzer/crawler.py: sitemap writing in save_snapshot; metadata includes headers.
+- src/analyzer/workspace.py: snapshot directories create pages/ subfolder.
+- tests/test_crawler.py: sitemap and headers assertions.
+- feature_list.json: Feature #15 marked passes: true
+
+RECOMMENDED NEXT FEATURE:
+- Feature #16 (foundation): "Create crawl summary with statistics (pages, errors, duration)"
+  * Builds on snapshot structure and metadata now present.
+
+BLOCKERS: None
+
+=================================================
+END SESSION 15
+=================================================

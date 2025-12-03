@@ -40,6 +40,7 @@ class MockCrawlResult:
         self.redirected_url = redirected_url
         self.title = title
         self.links = links or []
+        self.headers = {"Content-Type": "text/html"}
 
 
 class TestBasicCrawlerConfig:
@@ -354,6 +355,7 @@ class TestBasicCrawlerArtifactStorage:
             assert "timestamp" in metadata
             # Timestamp should end with Z (UTC)
             assert metadata["timestamp"].endswith("Z")
+            assert metadata["headers"] == {"Content-Type": "text/html"}
             # Timeout info preserved
             assert metadata["page_timeout_ms"] is None
 
@@ -633,6 +635,12 @@ class TestBasicCrawlerEdgeCases:
             assert page_dir.exists()
             assert (page_dir / "raw.html").exists()
             assert (page_dir / "metadata.json").exists()
+            # Sitemap should be created
+            sitemap = json.loads(
+                (snapshot_dir / "sitemap.json").read_text(encoding="utf-8")
+            )
+            assert sitemap["root"] == "https://example.com/page1"
+            assert sitemap["pages"] == []
 
     def test_save_artifacts_with_special_chars_in_path(self):
         """Test saving artifacts to path with special characters."""
@@ -689,3 +697,4 @@ class TestBasicCrawlerEdgeCases:
             assert metadata["redirected_url"] is None
             assert metadata["links"] == []
             assert "page_timeout_ms" in metadata
+            assert metadata["headers"] is not None

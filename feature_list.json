@@ -120,7 +120,7 @@
       "id": 15,
       "category": "foundation",
       "description": "Generate sitemap.json with discovered URLs and structure",
-      "passes": false,
+      "passes": true,
       "dependencies": [6, 14],
       "estimated_complexity": "low"
     },
