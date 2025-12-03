@@ -13,6 +13,7 @@ from pathlib import Path
 from typing import Optional
 from urllib.parse import parse_qsl, urljoin, urlparse, urlunparse, urlencode
 from urllib.robotparser import RobotFileParser
+from typing import Iterable, Pattern, Sequence
 
 from crawl4ai import AsyncWebCrawler
 from crawl4ai.async_configs import CacheMode, CrawlerRunConfig
@@ -45,6 +46,11 @@ class BasicCrawler:
         max_retries: int = DEFAULT_MAX_RETRIES,
         backoff_factor: float = DEFAULT_BACKOFF_FACTOR,
         progress_interval: int = 10,
+        include_subdomains: bool = True,
+        allowed_subdomains: Optional[Iterable[str]] = None,
+        blocked_subdomains: Optional[Iterable[str]] = None,
+        include_patterns: Optional[Sequence[str]] = None,
+        exclude_patterns: Optional[Sequence[str]] = None,
     ) -> None:
         """Initialize crawler with optional custom configuration.
 
@@ -57,6 +63,9 @@ class BasicCrawler:
             max_retries: Maximum retry attempts on network errors (default 3).
             backoff_factor: Base backoff delay in seconds (default 0.5).
             progress_interval: Emit progress callback every N pages (default 10).
+            include_subdomains: Whether to allow subdomains of the root host.
+            allowed_subdomains: Explicit subdomains allowed (overrides include_subdomains).
+            blocked_subdomains: Explicit subdomains to block.
         """
         self.config = config or self._default_config(page_timeout_ms=page_timeout_ms)
         self.max_pages = max_pages
@@ -66,6 +75,11 @@ class BasicCrawler:
         self.max_retries = max_retries
         self.backoff_factor = backoff_factor
         self.progress_interval = progress_interval
+        self.include_subdomains = include_subdomains
+        self.allowed_subdomains = set(allowed_subdomains or [])
+        self.blocked_subdomains = set(blocked_subdomains or [])
+        self.include_patterns = [re.compile(p) for p in (include_patterns or [])]
+        self.exclude_patterns = [re.compile(p) for p in (exclude_patterns or [])]
 
     @staticmethod
     def normalize_url(url: str) -> str:
@@ -320,6 +334,11 @@ class BasicCrawler:
         max_pages: int | None = None,
         current_depth: int = 0,
         max_depth: int | None = None,
+        include_subdomains: bool = True,
+        allowed_subdomains: Optional[Iterable[str]] = None,
+        blocked_subdomains: Optional[Iterable[str]] = None,
+        include_patterns: Optional[Sequence[Pattern[str]]] = None,
+        exclude_patterns: Optional[Sequence[Pattern[str]]] = None,
     ) -> list[str]:
         """Return normalized, deduplicated internal links for a base URL."""
         if max_depth is not None and current_depth >= max_depth:
@@ -329,6 +348,11 @@ class BasicCrawler:
         base_parsed = urlparse(normalized_base)
         base_port = base_parsed.port
         base_host = base_parsed.hostname
+        base_domain_parts = base_host.split(".") if base_host else []
+        allowed_subdomains = set(allowed_subdomains or [])
+        blocked_subdomains = set(blocked_subdomains or [])
+        include_patterns = list(include_patterns or [])
+        exclude_patterns = list(exclude_patterns or [])
 
         candidates: list[str] = []
         for link in links:
@@ -346,12 +370,33 @@ class BasicCrawler:
             except ValueError:
                 continue
 
-            # Internal if hostname matches and port matches (including default/None)
-            if parsed.hostname != base_host:
-                continue
+            # Internal if hostname matches or subdomain is allowed; port matches
+            host = parsed.hostname
             parsed_port = parsed.port
+            if host != base_host:
+                if not include_subdomains:
+                    continue
+                # check allowed/blocked subdomains
+                if host in blocked_subdomains:
+                    continue
+                if allowed_subdomains and host not in allowed_subdomains:
+                    continue
+                # Require same registrable domain
+                host_parts = host.split(".") if host else []
+                if len(host_parts) < 2 or len(base_domain_parts) < 2:
+                    continue
+                if host_parts[-2:] != base_domain_parts[-2:]:
+                    continue
             if (parsed_port or None) != (base_port or None):
                 continue
+
+            # Pattern includes/excludes
+            if include_patterns:
+                if not any(p.search(normalized) for p in include_patterns):
+                    continue
+            if exclude_patterns:
+                if any(p.search(normalized) for p in exclude_patterns):
+                    continue
 
             # Robots.txt enforcement
             if not BasicCrawler.is_allowed_by_robots(
@@ -376,6 +421,11 @@ class BasicCrawler:
         current_depth: int = 0,
         max_depth: int | None = None,
         page_timeout_ms: int | None = None,
+        include_subdomains: bool = True,
+        allowed_subdomains: Optional[Iterable[str]] = None,
+        blocked_subdomains: Optional[Iterable[str]] = None,
+        include_patterns: Optional[Sequence[Pattern[str]]] = None,
+        exclude_patterns: Optional[Sequence[Pattern[str]]] = None,
     ) -> None:
         """Save crawl result artifacts to directory.
 
@@ -418,6 +468,11 @@ class BasicCrawler:
                 max_pages=max_pages,
                 current_depth=current_depth,
                 max_depth=max_depth,
+                include_subdomains=include_subdomains,
+                allowed_subdomains=allowed_subdomains,
+                blocked_subdomains=blocked_subdomains,
+                include_patterns=include_patterns,
+                exclude_patterns=exclude_patterns,
             )
 
         # Save metadata
@@ -445,6 +500,11 @@ class BasicCrawler:
         current_depth: int = 0,
         include_sitemap: bool = True,
         summary: dict | None = None,
+        include_subdomains: bool | None = None,
+        allowed_subdomains: Optional[Iterable[str]] = None,
+        blocked_subdomains: Optional[Iterable[str]] = None,
+        include_patterns: Optional[Sequence[Pattern[str]]] = None,
+        exclude_patterns: Optional[Sequence[Pattern[str]]] = None,
     ) -> Path:
         """Save a single page snapshot within a snapshot directory.
 
@@ -467,6 +527,13 @@ class BasicCrawler:
             robots_txt=robots_txt,
             current_depth=current_depth,
             page_timeout_ms=self.page_timeout_ms,
+            include_subdomains=include_subdomains
+            if include_subdomains is not None
+            else self.include_subdomains,
+            allowed_subdomains=allowed_subdomains,
+            blocked_subdomains=blocked_subdomains,
+            include_patterns=include_patterns or self.include_patterns,
+            exclude_patterns=exclude_patterns or self.exclude_patterns,
         )
 
         if include_sitemap:
@@ -479,6 +546,13 @@ class BasicCrawler:
                 max_pages=self.max_pages,
                 current_depth=current_depth,
                 max_depth=self.max_depth,
+                include_subdomains=include_subdomains
+                if include_subdomains is not None
+                else self.include_subdomains,
+                allowed_subdomains=allowed_subdomains,
+                blocked_subdomains=blocked_subdomains,
+                include_patterns=include_patterns or self.include_patterns,
+                exclude_patterns=exclude_patterns or self.exclude_patterns,
             )
             sitemap = {
                 "root": result.url,

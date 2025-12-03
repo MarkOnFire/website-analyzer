@@ -160,7 +160,7 @@
       "id": 20,
       "category": "foundation",
       "description": "Add subdomain inclusion/exclusion logic",
-      "passes": false,
+      "passes": true,
       "dependencies": [6],
       "estimated_complexity": "low"
     },
@@ -168,7 +168,7 @@
       "id": 21,
       "category": "foundation",
       "description": "Implement URL pattern filtering (include/exclude patterns)",
-      "passes": false,
+      "passes": true,
       "dependencies": [6],
       "estimated_complexity": "medium"
     },

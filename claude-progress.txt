@@ -1111,3 +1111,86 @@ BLOCKERS: None
 =================================================
 END SESSION 19
 =================================================
+
+=================================================
+SESSION 20: Feature #20 Implementation - 2025-12-02
+=================================================
+
+SESSION PROTOCOL COMPLETION:
+1. Read session memory (claude-progress.txt) - Complete
+2. Reviewed feature_list.json - Feature #20 next
+3. Environment ready from prior sessions
+4. Implemented subdomain include/exclude logic and reran tests
+
+FEATURE IMPLEMENTED:
+Feature #20 (foundation): "Add subdomain inclusion/exclusion logic"
+- Complexity: low
+- Status: PASSED
+
+IMPLEMENTATION DETAILS:
+- BasicCrawler now accepts include_subdomains (default True), allowed_subdomains, blocked_subdomains.
+- filter_internal_links enforces:
+  * Same registrable domain required for subdomains
+  * Block list overrides include
+  * Allowed list restricts when provided
+  * Ports must match base
+- Snapshot saving and metadata link filtering respect these settings.
+
+TESTING:
+- Added subdomain inclusion/exclusion and allow/block tests.
+- Updated config tests for new fields.
+- Command: .venv/bin/pytest tests/test_crawler.py
+- Results: 51 tests PASSED (2 upstream crawl4ai deprecation warnings)
+
+CHANGES:
+- src/analyzer/crawler.py: subdomain configuration; link filter updated; snapshot saver passes settings.
+- tests/test_crawler.py: subdomain filter tests; config expectations.
+- feature_list.json: Feature #20 marked passes: true
+
+RECOMMENDED NEXT FEATURE:
+- Feature #21 (foundation): "Add URL pattern filtering (include/exclude patterns)"
+
+BLOCKERS: None
+
+=================================================
+END SESSION 20
+=================================================
+
+=================================================
+SESSION 21: Feature #21 Implementation - 2025-12-02
+=================================================
+
+SESSION PROTOCOL COMPLETION:
+1. Read session memory (claude-progress.txt) - Complete
+2. Reviewed feature_list.json - Feature #21 next
+3. Environment ready from prior sessions
+4. Implemented URL pattern filtering and reran tests
+
+FEATURE IMPLEMENTED:
+Feature #21 (foundation): "Implement URL pattern filtering (include/exclude patterns)"
+- Complexity: medium
+- Status: PASSED
+
+IMPLEMENTATION DETAILS:
+- BasicCrawler now supports include_patterns/exclude_patterns (regex) plus subdomain settings.
+- filter_internal_links applies allow/block patterns after host/port checks, robots, depth, and subdomain logic.
+- Snapshot saver and metadata link filtering honor pattern settings; patterns can be passed or fall back to crawler defaults.
+
+TESTING:
+- Added config coverage and pattern filtering tests (include/exclude).
+- Command: .venv/bin/pytest tests/test_crawler.py
+- Results: 53 tests PASSED (2 upstream crawl4ai deprecation warnings)
+
+CHANGES:
+- src/analyzer/crawler.py: pattern config, filtering, and propagation to snapshots.
+- tests/test_crawler.py: pattern tests and config expectations.
+- feature_list.json: Feature #21 marked passes: true
+
+RECOMMENDED NEXT FEATURE:
+- Feature #22 (foundation): "Add priority URL queue for important pages"
+
+BLOCKERS: None
+
+=================================================
+END SESSION 21
+=================================================

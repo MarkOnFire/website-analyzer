@@ -9,6 +9,7 @@ Tests cover:
 """
 
 import json
+import re
 import tempfile
 from pathlib import Path
 from unittest.mock import AsyncMock, MagicMock, patch
@@ -62,6 +63,11 @@ class TestBasicCrawlerConfig:
         assert crawler.max_retries == BasicCrawler.DEFAULT_MAX_RETRIES
         assert crawler.backoff_factor == BasicCrawler.DEFAULT_BACKOFF_FACTOR
         assert crawler.progress_interval == 10
+        assert crawler.include_subdomains is True
+        assert crawler.allowed_subdomains == set()
+        assert crawler.blocked_subdomains == set()
+        assert crawler.include_patterns == []
+        assert crawler.exclude_patterns == []
         assert crawler.max_depth == BasicCrawler.DEFAULT_MAX_DEPTH
 
     def test_custom_config(self):
@@ -81,6 +87,11 @@ class TestBasicCrawlerConfig:
             max_retries=5,
             backoff_factor=0.1,
             progress_interval=5,
+            include_subdomains=False,
+            allowed_subdomains=["api.example.com"],
+            blocked_subdomains=["dev.example.com"],
+            include_patterns=[r"/allowed"],
+            exclude_patterns=[r"/blocked"],
         )
         assert crawler.config is custom_config
         assert crawler.config.page_timeout == 30_000
@@ -91,6 +102,11 @@ class TestBasicCrawlerConfig:
         assert crawler.max_retries == 5
         assert crawler.backoff_factor == 0.1
         assert crawler.progress_interval == 5
+        assert crawler.include_subdomains is False
+        assert crawler.allowed_subdomains == {"api.example.com"}
+        assert crawler.blocked_subdomains == {"dev.example.com"}
+        assert len(crawler.include_patterns) == 1
+        assert len(crawler.exclude_patterns) == 1
 
     def test_config_attributes(self):
         """Test all important config attributes are set correctly."""
@@ -250,6 +266,72 @@ class TestBasicCrawlerLinkFiltering:
             max_depth=2,
         )
         assert filtered == []
+
+    def test_filter_internal_links_subdomain_inclusion(self):
+        links = [
+            "https://blog.example.com/page",
+            "https://api.example.com/page",
+            "https://other.com/page",
+        ]
+        filtered = BasicCrawler.filter_internal_links(
+            "https://example.com",
+            links,
+            include_subdomains=True,
+        )
+        assert "https://blog.example.com/page" in filtered
+        assert "https://api.example.com/page" in filtered
+        assert "https://other.com/page" not in filtered
+
+    def test_filter_internal_links_subdomain_exclusion(self):
+        links = ["https://blog.example.com/page", "https://example.com/page"]
+        filtered = BasicCrawler.filter_internal_links(
+            "https://example.com",
+            links,
+            include_subdomains=False,
+        )
+        assert filtered == ["https://example.com/page"]
+
+    def test_filter_internal_links_allowed_blocked_subdomains(self):
+        links = [
+            "https://api.example.com/page",
+            "https://dev.example.com/page",
+            "https://example.com/page",
+        ]
+        filtered = BasicCrawler.filter_internal_links(
+            "https://example.com",
+            links,
+            include_subdomains=True,
+            allowed_subdomains={"api.example.com"},
+            blocked_subdomains={"dev.example.com"},
+        )
+        assert filtered == [
+            "https://api.example.com/page",
+            "https://example.com/page",
+        ]
+
+    def test_filter_internal_links_include_patterns(self):
+        links = [
+            "https://example.com/allowed/path",
+            "https://example.com/blocked/path",
+        ]
+        filtered = BasicCrawler.filter_internal_links(
+            "https://example.com",
+            links,
+            include_patterns=[re.compile(r"/allowed")],
+        )
+        assert filtered == ["https://example.com/allowed/path"]
+
+    def test_filter_internal_links_exclude_patterns(self):
+        links = [
+            "https://example.com/ok",
+            "https://example.com/blocked",
+        ]
+        filtered = BasicCrawler.filter_internal_links(
+            "https://example.com",
+            links,
+            exclude_patterns=[re.compile(r"blocked")],
+        )
+        assert filtered == ["https://example.com/ok"]
 
 
 class TestRobotsParsing:
