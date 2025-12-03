@@ -48,7 +48,7 @@
       "id": 6,
       "category": "foundation",
       "description": "Implement basic crawler using Crawl4AI AsyncWebCrawler",
-      "passes": false,
+      "passes": true,
       "dependencies": [5],
       "estimated_complexity": "high"
     },
