@@ -192,7 +192,7 @@
       "id": 24,
       "category": "test-framework",
       "description": "Create SiteSnapshot data class with page data and metadata",
-      "passes": false,
+      "passes": true,
       "dependencies": [23],
       "estimated_complexity": "low"
     },
@@ -200,7 +200,7 @@
       "id": 25,
       "category": "test-framework",
       "description": "Create TestResult data class with structured output schema",
-      "passes": false,
+      "passes": true,
       "dependencies": [23],
       "estimated_complexity": "low"
     },
@@ -208,7 +208,7 @@
       "id": 26,
       "category": "test-framework",
       "description": "Implement plugin discovery and loading system",
-      "passes": false,
+      "passes": true,
       "dependencies": [23],
       "estimated_complexity": "medium"
     },
@@ -216,7 +216,7 @@
       "id": 27,
       "category": "test-framework",
       "description": "Create test runner that orchestrates plugin execution",
-      "passes": false,
+      "passes": true,
       "dependencies": [23, 26],
       "estimated_complexity": "medium"
     },
@@ -240,7 +240,7 @@
       "id": 30,
       "category": "test-framework",
       "description": "Create test configuration passing system (per-test config)",
-      "passes": false,
+      "passes": true,
       "dependencies": [27],
       "estimated_complexity": "low"
     },
@@ -264,7 +264,7 @@
       "id": 33,
       "category": "test-framework",
       "description": "Create reporter module for aggregating test results",
-      "passes": false,
+      "passes": true,
       "dependencies": [28],
       "estimated_complexity": "medium"
     },
