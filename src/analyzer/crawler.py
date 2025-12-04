@@ -51,6 +51,7 @@ class BasicCrawler:
         blocked_subdomains: Optional[Iterable[str]] = None,
         include_patterns: Optional[Sequence[str]] = None,
         exclude_patterns: Optional[Sequence[str]] = None,
+        priority_urls: Optional[list[str]] = None,
     ) -> None:
         """Initialize crawler with optional custom configuration.
 
@@ -80,6 +81,7 @@ class BasicCrawler:
         self.blocked_subdomains = set(blocked_subdomains or [])
         self.include_patterns = [re.compile(p) for p in (include_patterns or [])]
         self.exclude_patterns = [re.compile(p) for p in (exclude_patterns or [])]
+        self.priority_urls = priority_urls or []
 
     @staticmethod
     def normalize_url(url: str) -> str:
@@ -224,6 +226,7 @@ class BasicCrawler:
         rate_limit_per_sec: float | None = None,
         progress_callback: Optional[callable] = None,
         on_interrupt: Optional[callable] = None,
+        priority_urls: Optional[list[str]] = None,
     ) -> list["CrawlResult"]:
         """Crawl multiple URLs concurrently with optional rate limiting.
 
@@ -237,8 +240,20 @@ class BasicCrawler:
         Returns:
             List of CrawlResult objects in the same order as input URLs.
         """
-        if not urls:
+        if not urls and not priority_urls:
             return []
+
+        # Merge priority URLs first, preserving input order uniqueness
+        ordered_urls: list[str] = []
+        seen: set[str] = set()
+        for u in (priority_urls or []):
+            if u not in seen:
+                ordered_urls.append(u)
+                seen.add(u)
+        for u in urls:
+            if u not in seen:
+                ordered_urls.append(u)
+                seen.add(u)
 
         concurrency = max_concurrency or self.max_concurrency
         semaphore = asyncio.Semaphore(concurrency)
@@ -246,7 +261,7 @@ class BasicCrawler:
         rate_lock = asyncio.Lock()
         last_start = 0.0
         loop = asyncio.get_event_loop()
-        total = len(urls)
+        total = len(ordered_urls)
         completed = 0
         interval = self.progress_interval
 
@@ -270,7 +285,7 @@ class BasicCrawler:
 
             tasks = [
                 asyncio.create_task(fetch_with_index(idx, url))
-                for idx, url in enumerate(urls)
+                for idx, url in enumerate(ordered_urls)
             ]
 
             results: list["CrawlResult"] = [None] * total  # type: ignore

@@ -176,7 +176,7 @@
       "id": 22,
       "category": "foundation",
       "description": "Add priority URL queue for important pages",
-      "passes": false,
+      "passes": true,
       "dependencies": [6],
       "estimated_complexity": "low"
     },
@@ -184,7 +184,7 @@
       "id": 23,
       "category": "test-framework",
       "description": "Define TestPlugin protocol interface with name, description, analyze method",
-      "passes": false,
+      "passes": true,
       "dependencies": [],
       "estimated_complexity": "low"
     },

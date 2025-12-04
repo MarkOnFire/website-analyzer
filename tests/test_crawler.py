@@ -68,6 +68,7 @@ class TestBasicCrawlerConfig:
         assert crawler.blocked_subdomains == set()
         assert crawler.include_patterns == []
         assert crawler.exclude_patterns == []
+        assert crawler.priority_urls == []
         assert crawler.max_depth == BasicCrawler.DEFAULT_MAX_DEPTH
 
     def test_custom_config(self):
@@ -92,6 +93,7 @@ class TestBasicCrawlerConfig:
             blocked_subdomains=["dev.example.com"],
             include_patterns=[r"/allowed"],
             exclude_patterns=[r"/blocked"],
+            priority_urls=["https://priority.example.com"],
         )
         assert crawler.config is custom_config
         assert crawler.config.page_timeout == 30_000
@@ -107,6 +109,7 @@ class TestBasicCrawlerConfig:
         assert crawler.blocked_subdomains == {"dev.example.com"}
         assert len(crawler.include_patterns) == 1
         assert len(crawler.exclude_patterns) == 1
+        assert crawler.priority_urls == ["https://priority.example.com"]
 
     def test_config_attributes(self):
         """Test all important config attributes are set correctly."""
@@ -332,6 +335,42 @@ class TestBasicCrawlerLinkFiltering:
             exclude_patterns=[re.compile(r"blocked")],
         )
         assert filtered == ["https://example.com/ok"]
+
+    @pytest.mark.asyncio
+    async def test_priority_urls_processed_first(self):
+        crawler = BasicCrawler(max_concurrency=2)
+        order: list[str] = []
+
+        async def fake_arun(url, config=None):
+            order.append(url)
+            return MockCrawlResult(url=url)
+
+        with patch("src.analyzer.crawler.AsyncWebCrawler") as mock_crawler_class:
+            mock_crawler = MagicMock()
+            mock_crawler.__aenter__ = AsyncMock(return_value=mock_crawler)
+            mock_crawler.__aexit__ = AsyncMock(return_value=None)
+            mock_crawler.arun = AsyncMock(side_effect=fake_arun)
+            mock_crawler_class.return_value = mock_crawler
+
+            urls = [
+                "https://example.com/page1",
+                "https://example.com/page2",
+            ]
+            priority = [
+                "https://example.com/priority1",
+                "https://example.com/page1",  # duplicate should dedupe
+            ]
+            results = await crawler.crawl_urls(urls, priority_urls=priority)
+
+            assert [r.url for r in results] == [
+                "https://example.com/priority1",
+                "https://example.com/page1",
+                "https://example.com/page2",
+            ]
+            assert order[:2] == [
+                "https://example.com/priority1",
+                "https://example.com/page1",
+            ]
 
 
 class TestRobotsParsing:
