@@ -344,7 +344,7 @@
       "id": 43,
       "category": "migration-scanner",
       "description": "Add suggestion generation for common patterns (e.g., jQuery replacements)",
-      "passes": false,
+      "passes": true,
       "dependencies": [37],
       "estimated_complexity": "medium"
     },

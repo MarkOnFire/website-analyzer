@@ -16,6 +16,7 @@ class MigrationFinding(BaseModel):
     context: str
     line_number: int
     pattern_name: str # New field to indicate which pattern matched
+    suggestion: Optional[str] = None # New field for suggested fix/replacement
 
 
 class MigrationScanner(TestPlugin):
@@ -24,6 +25,14 @@ class MigrationScanner(TestPlugin):
     """
     name: str = "migration-scanner"
     description: str = "Scans for deprecated patterns or migration artifacts."
+
+    _SUGGESTIONS: Dict[str, str] = {
+        "jquery_live_event": "jQuery .live() is deprecated. Consider using .on() instead. For example, replace `$(selector).live('event', handler)` with `$(document).on('event', selector, handler)`.",
+        "deprecated_api_call": "This API call is deprecated. Refer to the project's migration guide or official documentation for alternatives.",
+        "old_js_syntax": "This JavaScript syntax might be outdated. Consider updating to modern ES6+ syntax for better maintainability and performance.",
+        "http_link": "Consider updating HTTP links to HTTPS for improved security and SEO.",
+        # Add more common patterns and suggestions here
+    }
 
     @staticmethod
     def _extract_context(text: str, start_char: int, end_char: int, lines_before: int = 10, lines_after: int = 10) -> Dict[str, Any]:
@@ -103,6 +112,9 @@ class MigrationScanner(TestPlugin):
                 if matches:
                     for match in matches:
                         context_info = self._extract_context(content, match.start(), match.end(), lines_before=10, lines_after=10)
+                        
+                        suggestion = self._SUGGESTIONS.get(pattern_name) # Get suggestion using pattern_name
+
                         findings.append(MigrationFinding( # Create MigrationFinding object
                             url=page.url,
                             match=match.group(0),
@@ -111,7 +123,8 @@ class MigrationScanner(TestPlugin):
                             page_slug=page.directory.name,
                             context=context_info["context_text"],
                             line_number=context_info["line_number"],
-                            pattern_name=pattern_name # New field to track which pattern matched
+                            pattern_name=pattern_name,
+                            suggestion=suggestion # Add suggestion here
                         ))
         
         if findings:
