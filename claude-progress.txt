@@ -533,12 +533,12 @@ Feature #6 (foundation): "Implement basic crawler using Crawl4AI AsyncWebCrawler
 - Status: PASSED
 - Implementation already present in BasicCrawler:
   * Uses AsyncWebCrawler with sensible defaults (robots.txt, 60s timeout, no screenshots/network capture)
-  * Saves page artifacts (raw HTML, cleaned HTML, markdown, metadata.json) with ISO UTC timestamps
+  * Saves page artifacts (raw HTML, cleaned HTML, markdown, metadata) with ISO UTC timestamps
   * Configurable via injected CrawlerRunConfig
 
 TESTING:
 - Command: .venv/bin/pytest tests/test_crawler.py
-- Results: 22 tests PASSED (2 third-party deprecation warnings from crawl4ai models)
+- Results: 22 tests PASSED (2 upstream crawl4ai deprecation warnings)
 - Coverage: default config, custom config, artifact saving, metadata structure, async crawl integration (mocked), edge cases (large content, unicode)
 
 CHANGES:
@@ -1313,4 +1313,46 @@ NEXT STEPS:
 
 =================================================
 END SESSION 24
+=================================================
+
+=================================================
+SESSION 25: CLI Framework Implementation - 2025-12-05
+=================================================
+
+SESSION PROTOCOL COMPLETION:
+1. Read session memory - Complete
+2. Reviewed feature_list.json - Targeted Features 34-35 (CLI Framework)
+3. Executed batch implementation strategy
+
+FEATURES IMPLEMENTED (BATCH):
+Features 34-35 (test-framework):
+- Feature #34: Implement CLI framework using Typer with subcommands
+- Feature #35: Add Rich progress bars and terminal UI for CLI
+
+IMPLEMENTATION DETAILS:
+- Created `src/analyzer/cli.py` with `Typer` application.
+- Implemented `project` subcommands (`new`, `list`, `snapshots`).
+- Implemented `crawl start` subcommand with recursive crawling logic.
+- Implemented `test run` subcommand for executing tests.
+- Integrated `rich.console.Console` for colorful and formatted terminal output.
+- Integrated `rich.progress.Progress` for a progress bar during the crawl process.
+- Fixed `AttributeError` for `CrawlResult.title` in `BasicCrawler.save_page_artifacts`.
+- Fixed `SyntaxError` due to async function definition inside `try` block.
+- Fixed `TypeError` for `console.print` (removed `err=True` which is not supported by Rich).
+- Fixed `TypeError` for `BasicCrawler.save_snapshot` (incorrect arguments passed).
+
+VERIFICATION:
+- All CLI commands (`project new`, `project list`, `project snapshots`, `crawl start`, `test run`) were tested and function as expected.
+- Recursive crawl with `max-pages` and `max-depth` limits works.
+- Rich progress bar is displayed during crawling.
+
+STATUS:
+- CLI Framework is complete.
+- Ready for implementing the first real plugin (Feature 36 - Migration Scanner).
+
+NEXT STEPS:
+- Implement Migration Scanner plugin (Feature 36) to validate the framework with real logic.
+
+=================================================
+END SESSION 25
 =================================================

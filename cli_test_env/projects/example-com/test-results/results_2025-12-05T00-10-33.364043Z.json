@@ -1,0 +1,27 @@
+[
+  {
+    "plugin_name": "migration-scanner",
+    "timestamp": "2025-12-05T00:10:33.363996Z",
+    "status": "fail",
+    "summary": "Found 2 migration-related patterns across 1 unique pages.",
+    "details": {
+      "findings": [
+        {
+          "url": "https://example.com",
+          "match": "Example Domain",
+          "start": 44,
+          "end": 58,
+          "page_slug": "example-com"
+        },
+        {
+          "url": "https://example.com",
+          "match": "Example Domain",
+          "start": 316,
+          "end": 330,
+          "page_slug": "example-com"
+        }
+      ],
+      "pattern": "Example Domain"
+    }
+  }
+]

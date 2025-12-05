@@ -1,0 +1,46 @@
+[
+  {
+    "plugin_name": "migration-scanner",
+    "timestamp": "2025-12-05T00:19:02.243400Z",
+    "status": "fail",
+    "summary": "Found 3 migration-related patterns across 1 unique pages.",
+    "details": {
+      "findings": [
+        {
+          "url": "https://example.com",
+          "match": "Example Domain",
+          "start": 44,
+          "end": 58,
+          "page_slug": "example-com",
+          "context": "<!DOCTYPE html><html lang=\"en\"><head><title>Example Domain</title><meta name=\"viewport\" content=\"width=device-width, initial-scale=1\"><style>body{background:#eee;width:60vw;margin:15vh auto;font-family:system-ui,sans-serif}h1{font-size:1.5em}div{opacity:0.8}a:link,a:visited{color:#348}</style></head><body><div><h1>Example Domain</h1><p>This domain is for use in documentation examples without needing permission. Avoid use in operations.</p><p><a href=\"https://iana.org/domains/example\">Learn more</a></p></div>\n</body></html>",
+          "line_number": 1,
+          "pattern_name": "title_pattern"
+        },
+        {
+          "url": "https://example.com",
+          "match": "Example Domain",
+          "start": 316,
+          "end": 330,
+          "page_slug": "example-com",
+          "context": "<!DOCTYPE html><html lang=\"en\"><head><title>Example Domain</title><meta name=\"viewport\" content=\"width=device-width, initial-scale=1\"><style>body{background:#eee;width:60vw;margin:15vh auto;font-family:system-ui,sans-serif}h1{font-size:1.5em}div{opacity:0.8}a:link,a:visited{color:#348}</style></head><body><div><h1>Example Domain</h1><p>This domain is for use in documentation examples without needing permission. Avoid use in operations.</p><p><a href=\"https://iana.org/domains/example\">Learn more</a></p></div>\n</body></html>",
+          "line_number": 1,
+          "pattern_name": "title_pattern"
+        },
+        {
+          "url": "https://example.com",
+          "match": "iana.org",
+          "start": 463,
+          "end": 471,
+          "page_slug": "example-com",
+          "context": "<!DOCTYPE html><html lang=\"en\"><head><title>Example Domain</title><meta name=\"viewport\" content=\"width=device-width, initial-scale=1\"><style>body{background:#eee;width:60vw;margin:15vh auto;font-family:system-ui,sans-serif}h1{font-size:1.5em}div{opacity:0.8}a:link,a:visited{color:#348}</style></head><body><div><h1>Example Domain</h1><p>This domain is for use in documentation examples without needing permission. Avoid use in operations.</p><p><a href=\"https://iana.org/domains/example\">Learn more</a></p></div>\n</body></html>",
+          "line_number": 1,
+          "pattern_name": "link_pattern"
+        }
+      ],
+      "patterns": {
+        "title_pattern": "Example Domain",
+        "link_pattern": "iana\\.org"
+      }
+    }
+  }
+]

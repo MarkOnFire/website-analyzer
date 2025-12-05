@@ -288,7 +288,7 @@
       "id": 36,
       "category": "migration-scanner",
       "description": "Create migration scanner plugin skeleton",
-      "passes": false,
+      "passes": true,
       "dependencies": [23],
       "estimated_complexity": "low"
     },
@@ -296,7 +296,7 @@
       "id": 37,
       "category": "migration-scanner",
       "description": "Implement simple regex pattern matching across page content",
-      "passes": false,
+      "passes": true,
       "dependencies": [36],
       "estimated_complexity": "medium"
     },
@@ -304,7 +304,7 @@
       "id": 38,
       "category": "migration-scanner",
       "description": "Add context extraction around pattern matches (10 lines before/after)",
-      "passes": false,
+      "passes": true,
       "dependencies": [37],
       "estimated_complexity": "low"
     },
@@ -312,7 +312,7 @@
       "id": 39,
       "category": "migration-scanner",
       "description": "Implement line number tracking for matches in HTML/markdown",
-      "passes": false,
+      "passes": true,
       "dependencies": [37],
       "estimated_complexity": "low"
     },
@@ -320,7 +320,7 @@
       "id": 40,
       "category": "migration-scanner",
       "description": "Create structured output format (affected pages, matches, context)",
-      "passes": false,
+      "passes": true,
       "dependencies": [37, 38],
       "estimated_complexity": "low"
     },
@@ -328,7 +328,7 @@
       "id": 41,
       "category": "migration-scanner",
       "description": "Add support for multiple patterns in single scan",
-      "passes": false,
+      "passes": true,
       "dependencies": [37],
       "estimated_complexity": "low"
     },
@@ -336,7 +336,7 @@
       "id": 42,
       "category": "migration-scanner",
       "description": "Implement case-sensitive/insensitive pattern matching option",
-      "passes": false,
+      "passes": true,
       "dependencies": [37],
       "estimated_complexity": "low"
     },
@@ -368,7 +368,7 @@
       "id": 46,
       "category": "migration-scanner",
       "description": "Handle edge case: pattern not found (return empty results)",
-      "passes": false,
+      "passes": true,
       "dependencies": [37],
       "estimated_complexity": "low"
     },
@@ -376,7 +376,7 @@
       "id": 47,
       "category": "migration-scanner",
       "description": "Handle edge case: malformed regex patterns (validation, error messages)",
-      "passes": false,
+      "passes": true,
       "dependencies": [37],
       "estimated_complexity": "low"
     },
