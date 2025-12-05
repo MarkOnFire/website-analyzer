@@ -272,7 +272,7 @@
       "id": 34,
       "category": "test-framework",
       "description": "Implement CLI framework using Typer with subcommands",
-      "passes": false,
+      "passes": true,
       "dependencies": [],
       "estimated_complexity": "medium"
     },
@@ -280,7 +280,7 @@
       "id": 35,
       "category": "test-framework",
       "description": "Add Rich progress bars and terminal UI for CLI",
-      "passes": false,
+      "passes": true,
       "dependencies": [34],
       "estimated_complexity": "low"
     },

@@ -17,6 +17,8 @@ from src.analyzer.workspace import SnapshotManager, Workspace
 class TestRunner:
     """Orchestrates test execution."""
 
+    DEFAULT_TIMEOUT_SECONDS = 300 # Default timeout for individual plugin execution
+
     def __init__(self, base_dir: Path):
         """Initialize runner.
 

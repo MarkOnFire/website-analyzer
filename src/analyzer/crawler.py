@@ -497,7 +497,7 @@ class BasicCrawler:
             "redirected_url": result.redirected_url,
             "timestamp": datetime.utcnow().isoformat() + "Z",
             "links": links,
-            "title": result.title,
+            "title": getattr(result, "title", None),
             "page_timeout_ms": page_timeout_ms,
             "headers": getattr(result, "headers", None),
         }
