@@ -10,6 +10,8 @@ import sys
 from pathlib import Path
 from typing import Iterator, List, Type
 
+from pydantic import BaseModel # Moved from inside function
+
 from src.analyzer.test_plugin import TestPlugin
 
 
@@ -56,22 +58,26 @@ def load_plugins(package_name: str = "src.analyzer.plugins") -> List[TestPlugin]
                 if inspect.isabstract(obj):
                     continue
 
+                # Skip Pydantic BaseModel subclasses from being treated as plugins
+                if issubclass(obj, BaseModel) and obj is not BaseModel:
+                    continue
+
                 # Try to instantiate and check protocol adherence
                 try:
                     # Assume plugins have no-arg constructors
                     instance = obj()
                     if isinstance(instance, TestPlugin):
                         plugins.append(instance)
-                except TypeError:
-                    # Constructor might require args, skip
-                    continue
-                except Exception:
-                    # Instantiation failed
-                    continue
+                except TypeError as e:
+                    # Constructor might require args, or other instantiation issue
+                    pass
+                except Exception as e:
+                    # Other instantiation failed
+                    pass
 
-        except ImportError:
+        except ImportError as e:
             continue
-        except Exception:
+        except Exception as e:
             continue
 
     return plugins

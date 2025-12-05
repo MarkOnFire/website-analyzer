@@ -352,7 +352,7 @@
       "id": 44,
       "category": "migration-scanner",
       "description": "Test migration scanner with jQuery .live() pattern on sample site",
-      "passes": false,
+      "passes": true,
       "dependencies": [37, 40],
       "estimated_complexity": "low"
     },
@@ -360,7 +360,7 @@
       "id": 45,
       "category": "migration-scanner",
       "description": "Test migration scanner with deprecated API patterns",
-      "passes": false,
+      "passes": true,
       "dependencies": [37, 40],
       "estimated_complexity": "low"
     },

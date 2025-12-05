@@ -1,5 +1,5 @@
 import re
-from typing import Any, Dict, List
+from typing import Any, Dict, List, Optional
 
 from pydantic import BaseModel
 
@@ -31,6 +31,8 @@ class MigrationScanner(TestPlugin):
         "deprecated_api_call": "This API call is deprecated. Refer to the project's migration guide or official documentation for alternatives.",
         "old_js_syntax": "This JavaScript syntax might be outdated. Consider updating to modern ES6+ syntax for better maintainability and performance.",
         "http_link": "Consider updating HTTP links to HTTPS for improved security and SEO.",
+        "old_document_write": "Avoid using `document.write()` as it can cause performance issues and is often misused. Consider manipulating the DOM directly.",
+        "sync_xhr": "Synchronous XMLHttpRequest (XHR) is deprecated on the main thread due to its negative impact on user experience. Use asynchronous XHR or the Fetch API instead."
         # Add more common patterns and suggestions here
     }
 
