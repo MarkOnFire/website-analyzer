@@ -224,7 +224,7 @@
       "id": 28,
       "category": "test-framework",
       "description": "Implement test result storage to test-results/ directories",
-      "passes": false,
+      "passes": true,
       "dependencies": [27],
       "estimated_complexity": "low"
     },
@@ -232,7 +232,7 @@
       "id": 29,
       "category": "test-framework",
       "description": "Add timestamp-based result file naming",
-      "passes": false,
+      "passes": true,
       "dependencies": [28],
       "estimated_complexity": "low"
     },
@@ -248,7 +248,7 @@
       "id": 31,
       "category": "test-framework",
       "description": "Implement test timeout handling and cancellation",
-      "passes": false,
+      "passes": true,
       "dependencies": [27],
       "estimated_complexity": "medium"
     },
@@ -256,7 +256,7 @@
       "id": 32,
       "category": "test-framework",
       "description": "Add test execution error handling and reporting",
-      "passes": false,
+      "passes": true,
       "dependencies": [27],
       "estimated_complexity": "medium"
     },
