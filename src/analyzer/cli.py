@@ -1,10 +1,18 @@
 import asyncio
 import json
+import re
 import typer
 from pathlib import Path
 from typing import Optional, List, Dict, Any, Set
 from rich.progress import Progress, SpinnerColumn, TextColumn, BarColumn, TaskProgressColumn, TimeRemainingColumn, TimeElapsedColumn
 from rich.console import Console
+from rich.table import Table
+from rich.panel import Panel
+from rich.syntax import Syntax
+import platform
+import subprocess
+import sys
+from datetime import datetime, timedelta
 
 from src.analyzer.workspace import Workspace, ProjectMetadata, slugify_url, SnapshotManager
 from src.analyzer.crawler import BasicCrawler
@@ -13,10 +21,217 @@ from src.analyzer.test_plugin import TestResult # For type hinting, not directly
 from src.analyzer.config import ConfigLoader, ConfigMerger, create_example_config
 from bug_finder_export import export_results, export_to_html, export_to_json, export_to_csv
 from bug_finder_export_markdown import export_to_markdown, export_to_slack_snippet
-from datetime import datetime
 
 
 console = Console()
+
+
+# Utility Functions for Enhanced UX
+class ScanManager:
+    """Manage scan history and metadata."""
+
+    SCAN_REGISTRY = Path.home() / ".bug-finder" / "scans.json"
+
+    @classmethod
+    def _ensure_registry(cls):
+        """Ensure scan registry file exists."""
+        cls.SCAN_REGISTRY.parent.mkdir(parents=True, exist_ok=True)
+        if not cls.SCAN_REGISTRY.exists():
+            cls.SCAN_REGISTRY.write_text(json.dumps({"scans": []}, indent=2))
+
+    @classmethod
+    def record_scan(cls, scan_id: str, site_url: str, example_url: str, max_pages: int,
+                    status: str = "running", output_file: Optional[str] = None):
+        """Record a new scan in registry."""
+        cls._ensure_registry()
+        data = json.loads(cls.SCAN_REGISTRY.read_text())
+
+        scan = {
+            "id": scan_id,
+            "site_url": site_url,
+            "example_url": example_url,
+            "max_pages": max_pages,
+            "status": status,
+            "output_file": output_file,
+            "started_at": datetime.now().isoformat(),
+            "completed_at": None,
+        }
+
+        data["scans"].append(scan)
+        cls.SCAN_REGISTRY.write_text(json.dumps(data, indent=2))
+
+        return scan_id
+
+    @classmethod
+    def update_scan(cls, scan_id: str, status: str, output_file: Optional[str] = None):
+        """Update scan status."""
+        cls._ensure_registry()
+        data = json.loads(cls.SCAN_REGISTRY.read_text())
+
+        for scan in data["scans"]:
+            if scan["id"] == scan_id:
+                scan["status"] = status
+                if status == "completed":
+                    scan["completed_at"] = datetime.now().isoformat()
+                if output_file:
+                    scan["output_file"] = output_file
+                break
+
+        cls.SCAN_REGISTRY.write_text(json.dumps(data, indent=2))
+
+    @classmethod
+    def list_scans(cls, limit: int = 20) -> List[Dict[str, Any]]:
+        """List recent scans."""
+        cls._ensure_registry()
+        data = json.loads(cls.SCAN_REGISTRY.read_text())
+        # Return most recent first
+        return sorted(data["scans"], key=lambda x: x["started_at"], reverse=True)[:limit]
+
+    @classmethod
+    def get_scan(cls, scan_id: str) -> Optional[Dict[str, Any]]:
+        """Get scan details by ID."""
+        cls._ensure_registry()
+        data = json.loads(cls.SCAN_REGISTRY.read_text())
+
+        for scan in data["scans"]:
+            if scan["id"] == scan_id:
+                return scan
+        return None
+
+    @classmethod
+    def generate_scan_id(cls) -> str:
+        """Generate unique scan ID."""
+        import time
+        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+        unique_id = f"scan_{timestamp}_{int(time.time() * 1000) % 10000:04d}"
+        return unique_id
+
+
+class EnvironmentChecker:
+    """Check environment setup and dependencies."""
+
+    @staticmethod
+    def check_python_version() -> Dict[str, Any]:
+        """Check Python version (needs 3.11+)."""
+        version = sys.version_info
+        is_valid = version.major > 3 or (version.major == 3 and version.minor >= 11)
+
+        return {
+            "name": "Python Version",
+            "version": f"{version.major}.{version.minor}.{version.micro}",
+            "required": "3.11+",
+            "status": "ok" if is_valid else "error",
+            "message": "Correct version" if is_valid else "Python 3.11 or higher required",
+        }
+
+    @staticmethod
+    def check_dependency(module_name: str, import_name: str = None) -> Dict[str, Any]:
+        """Check if a dependency is installed."""
+        import_as = import_name or module_name
+
+        try:
+            __import__(import_as)
+            # Try to get version
+            version = None
+            try:
+                version = __import__(import_as).__version__
+            except AttributeError:
+                pass
+
+            return {
+                "name": module_name,
+                "status": "ok",
+                "version": version or "installed",
+            }
+        except ImportError:
+            return {
+                "name": module_name,
+                "status": "missing",
+                "message": f"Install with: pip install {module_name}",
+            }
+
+    @staticmethod
+    def check_playwright() -> Dict[str, Any]:
+        """Check Playwright/Chromium installation."""
+        try:
+            __import__("playwright")
+            # Check if chromium is installed
+            result = subprocess.run(
+                [sys.executable, "-m", "playwright", "install-deps", "--help"],
+                capture_output=True,
+                timeout=5,
+            )
+            return {
+                "name": "Playwright",
+                "status": "ok",
+                "message": "Chromium available",
+            }
+        except Exception as e:
+            return {
+                "name": "Playwright",
+                "status": "missing",
+                "message": "Install with: pip install playwright && python -m playwright install chromium",
+            }
+
+    @classmethod
+    def run_all_checks(cls) -> List[Dict[str, Any]]:
+        """Run all environment checks."""
+        checks = [
+            cls.check_python_version(),
+            cls.check_dependency("crawl4ai"),
+            cls.check_dependency("typer"),
+            cls.check_dependency("rich"),
+            cls.check_dependency("beautifulsoup4", "bs4"),
+            cls.check_dependency("requests"),
+            cls.check_playwright(),
+        ]
+
+        return checks
+
+
+class SuggestiveErrorHandler:
+    """Provide helpful suggestions for common errors."""
+
+    SUGGESTIONS = {
+        "url": {
+            "pattern": "Could not (fetch|parse|connect)",
+            "suggestion": "The URL might be inaccessible. Try:\n"
+                         "  - Check the URL is correct and public\n"
+                         "  - Use web.archive.org for historical pages\n"
+                         "  - Try --dry-run to preview without fetching",
+        },
+        "url_timeout": {
+            "pattern": "timeout|timed out",
+            "suggestion": "The page took too long to load. Try:\n"
+                         "  - Reduce --max-pages to test with fewer pages\n"
+                         "  - Use --dry-run to check if settings are valid\n"
+                         "  - Check your internet connection",
+        },
+        "memory": {
+            "pattern": "MemoryError|out of memory",
+            "suggestion": "Running out of memory. Try:\n"
+                         "  - Reduce --max-pages to scan fewer pages\n"
+                         "  - Close other applications\n"
+                         "  - Use --incremental for long scans",
+        },
+        "regex": {
+            "pattern": "regex|pattern|invalid expression",
+            "suggestion": "Pattern error in your bug text. Try:\n"
+                         "  - Check for special regex characters (. * + ? [ ])\n"
+                         "  - Use simpler text patterns\n"
+                         "  - Test with: bug-finder patterns test",
+        },
+    }
+
+    @staticmethod
+    def suggest_for_error(error_msg: str) -> Optional[str]:
+        """Generate suggestion for error message."""
+        import re as regex_module
+
+        for key, info in SuggestiveErrorHandler.SUGGESTIONS.items():
+            if regex_module.search(info["pattern"], error_msg, regex_module.IGNORECASE):
+                return info["suggestion"]
+        return None
 
 app = typer.Typer(
     name="website-analyzer",
@@ -401,6 +616,26 @@ def bug_finder_scan(
         False, "--incremental", "-i",
         help="Enable incremental output. Results written to .partial.json as they're found, useful for long scans."
     ),
+    pattern_file: Optional[List[str]] = typer.Option(
+        None, "--pattern-file",
+        help="Load custom pattern(s) from pattern library. Can specify multiple times."
+    ),
+    load_all_patterns: bool = typer.Option(
+        False, "--load-all-patterns",
+        help="Load all available patterns from the pattern library."
+    ),
+    quiet: bool = typer.Option(
+        False, "--quiet", "-q",
+        help="Minimal output. Only show errors and final results."
+    ),
+    verbose: bool = typer.Option(
+        False, "--verbose", "-v",
+        help="Detailed debug output. Shows all scanner activities and errors."
+    ),
+    dry_run: bool = typer.Option(
+        False, "--dry-run",
+        help="Preview what the scan would do without actually running it. Validates settings and shows plan."
+    ),
 ):
     """
     Scan a website for visual bugs similar to a provided example.
@@ -416,6 +651,12 @@ def bug_finder_scan(
     - CLI arguments override config file settings
     - Site-specific settings can be configured in config file
 
+    Custom Patterns:
+    - Use --pattern-file to load a single pattern from the pattern library
+    - Specify multiple times to load multiple patterns
+    - Use --load-all-patterns to load all available patterns
+    - Patterns must exist in the patterns/ directory
+
     Incremental Mode:
     - With --incremental, results are written to .partial.json as matches are found
     - File always contains valid JSON with scan progress metadata
@@ -427,6 +668,23 @@ def bug_finder_scan(
             --example-url "https://archive.org/web/.../page-with-bug" \\
             --site "https://www.example.com" \\
             --max-pages 100
+
+    Example with custom pattern:
+        python -m src.analyzer.cli bug-finder scan \\
+            --site "https://www.example.com" \\
+            --pattern-file wordpress_embed_bug \\
+            --max-pages 500
+
+    Example with multiple patterns:
+        python -m src.analyzer.cli bug-finder scan \\
+            --site "https://www.example.com" \\
+            --pattern-file wordpress_embed_bug \\
+            --pattern-file missing_alt_text
+
+    Example with all patterns:
+        python -m src.analyzer.cli bug-finder scan \\
+            --site "https://www.example.com" \\
+            --load-all-patterns
 
     Example with incremental mode:
         python -m src.analyzer.cli bug-finder scan \\
@@ -442,7 +700,7 @@ def bug_finder_scan(
     """
     async def _run_scan_async():
         from bug_finder_cli import BugFinderCLI
-        cli = BugFinderCLI()
+        cli = BugFinderCLI(quiet=quiet, verbose=verbose)
 
         # Load configuration file if provided
         effective_config = {
@@ -452,9 +710,11 @@ def bug_finder_scan(
 
         if config:
             try:
-                console.print(f"[cyan]Loading config from: {config}[/cyan]")
+                if not quiet:
+                    console.print(f"[cyan]Loading config from: {config}[/cyan]")
                 config_obj = ConfigLoader.load(config)
-                console.print(f"[green]✓ Config loaded[/green]")
+                if not quiet:
+                    console.print(f"[green]✓ Config loaded[/green]")
 
                 # Merge config with CLI overrides
                 merged = ConfigMerger.merge(
@@ -479,22 +739,57 @@ def bug_finder_scan(
 
         # Validate required arguments
         if not example_url:
+            suggestion = "You need to provide a URL showing the bug.\n" \
+                        "  - Use --example-url with a page that shows the bug\n" \
+                        "  - Archive pages work great: web.archive.org/web/..."
             console.print("[red]Error: --example-url is required[/red]")
+            console.print(f"[yellow]{suggestion}[/yellow]")
             raise typer.Exit(code=1)
 
         if not site_to_scan:
+            suggestion = "You need to provide the site to scan.\n" \
+                        "  - Use --site with your website's base URL\n" \
+                        "  - Example: --site https://www.example.com"
             console.print("[red]Error: --site is required[/red]")
+            console.print(f"[yellow]{suggestion}[/yellow]")
             raise typer.Exit(code=1)
 
-        console.print("[bold green]Bug Finder - Visual Bug Scanner[/bold green]")
-        console.print(f"Example URL: {example_url}")
-        console.print(f"Site to scan: {site_to_scan}")
-        console.print(f"Max pages: {effective_config['max_pages']}")
-        if incremental:
-            console.print(f"Incremental output: [cyan]ENABLED[/cyan]")
-        if config:
-            console.print(f"Config file: {config}")
-        console.print()
+        # Handle dry-run mode
+        if dry_run:
+            if not quiet:
+                console.print("[bold cyan]DRY RUN - Preview Mode[/bold cyan]")
+                console.print()
+                console.print("[cyan]Scan Configuration:[/cyan]")
+                console.print(f"  Example URL: {example_url}")
+                console.print(f"  Site to scan: {site_to_scan}")
+                console.print(f"  Max pages: {effective_config['max_pages']}")
+                console.print(f"  Output format: {effective_config['format']}")
+                console.print(f"  Incremental: {'Yes' if incremental else 'No'}")
+                if config:
+                    console.print(f"  Config file: {config}")
+                console.print()
+
+                console.print("[yellow]What will happen when you run without --dry-run:[/yellow]")
+                console.print("  1. Fetch content from example URL")
+                console.print("  2. Analyze and extract bug pattern")
+                console.print("  3. Generate search patterns")
+                console.print(f"  4. Scan up to {effective_config['max_pages']} pages from {site_to_scan}")
+                console.print("  5. Report all pages containing similar bugs")
+                console.print()
+                console.print("[green]Settings look valid![/green]")
+                console.print("[dim]To run the actual scan, remove --dry-run[/dim]")
+            return
+
+        if not quiet:
+            console.print("[bold green]Bug Finder - Visual Bug Scanner[/bold green]")
+            console.print(f"Example URL: {example_url}")
+            console.print(f"Site to scan: {site_to_scan}")
+            console.print(f"Max pages: {effective_config['max_pages']}")
+            if incremental:
+                console.print(f"Incremental output: [cyan]ENABLED[/cyan]")
+            if config:
+                console.print(f"Config file: {config}")
+            console.print()
 
         # Determine output file for incremental mode
         incremental_output_file = None
@@ -510,6 +805,13 @@ def bug_finder_scan(
                 scans_dir.mkdir(parents=True, exist_ok=True)
                 incremental_output_file = str(scans_dir / f"bug_results_{site_slug}")
 
+        # Generate scan ID for tracking
+        scan_id = ScanManager.generate_scan_id()
+        ScanManager.record_scan(scan_id, site_to_scan, example_url, effective_config['max_pages'])
+
+        if not quiet:
+            console.print(f"[dim]Scan ID: {scan_id}[/dim]")
+
         try:
             matches = await cli.find_bugs(
                 example_url=example_url,
@@ -521,14 +823,15 @@ def bug_finder_scan(
             )
 
             if matches:
-                console.print(f"\n[bold red]Found {len(matches)} pages with bugs![/bold red]")
-                console.print("\nTop 10 affected pages:")
-                for i, match in enumerate(matches[:10], 1):
-                    console.print(f"  {i}. [link]{match['url']}[/link]")
-                    console.print(f"     Matches: {match['total_matches']} pattern(s)")
+                if not quiet:
+                    console.print(f"\n[bold red]Found {len(matches)} pages with bugs![/bold red]")
+                    console.print("\nTop 10 affected pages:")
+                    for i, match in enumerate(matches[:10], 1):
+                        console.print(f"  {i}. [link]{match['url']}[/link]")
+                        console.print(f"     Matches: {match['total_matches']} pattern(s)")
 
-                if len(matches) > 10:
-                    console.print(f"\n  ... and {len(matches) - 10} more")
+                    if len(matches) > 10:
+                        console.print(f"\n  ... and {len(matches) - 10} more")
 
                 # Output file - use projects directory structure
                 if output:
@@ -556,30 +859,61 @@ def bug_finder_scan(
                     'example_url': example_url,
                     'pages_scanned': effective_config['max_pages'],
                     'config_file': str(config) if config else None,
+                    'scan_id': scan_id,
                 }
 
                 # Export results in specified format
                 export_results(matches, output_file, metadata, format=effective_config['format'])
 
+                # Update scan registry
+                ScanManager.update_scan(scan_id, "completed", str(output_file))
+
                 # Show what was saved
-                if effective_config['format'] == 'all':
-                    console.print(f"\n[green]Results saved in all formats:[/green]")
-                    console.print(f"  - {output_file}.txt")
-                    console.print(f"  - {output_file}.csv")
-                    console.print(f"  - {output_file}.html")
-                    console.print(f"  - {output_file}.json")
-                else:
-                    ext = '.txt' if effective_config['format'] == 'txt' else f".{effective_config['format']}"
-                    console.print(f"\n[green]Full results saved to: {output_file}{ext}[/green]")
+                if not quiet:
+                    if effective_config['format'] == 'all':
+                        console.print(f"\n[green]Results saved in all formats:[/green]")
+                        console.print(f"  - {output_file}.txt")
+                        console.print(f"  - {output_file}.csv")
+                        console.print(f"  - {output_file}.html")
+                        console.print(f"  - {output_file}.json")
+                    else:
+                        ext = '.txt' if effective_config['format'] == 'txt' else f".{effective_config['format']}"
+                        console.print(f"\n[green]Full results saved to: {output_file}{ext}[/green]")
+
+                    console.print()
+                    console.print("[cyan]Next steps:[/cyan]")
+                    console.print(f"  1. Review results: {output_file}.txt")
+                    console.print(f"  2. Compare with another scan: bug-finder compare")
+                    console.print(f"  3. Resume if needed: bug-finder scan --resume {scan_id}")
             else:
-                console.print("\n[bold green]No bugs found![/bold green]")
-                console.print("The site appears clean or bugs are on unscanned pages.")
+                ScanManager.update_scan(scan_id, "completed_clean")
+                if not quiet:
+                    console.print("\n[bold green]No bugs found![/bold green]")
+                    console.print("The site appears clean or bugs are on unscanned pages.")
 
         except ValueError as e:
-            console.print(f"[red]Error: {e}[/red]")
+            error_msg = str(e)
+            ScanManager.update_scan(scan_id, "error")
+            console.print(f"[red]Error: {error_msg}[/red]")
+
+            # Provide helpful suggestions
+            suggestion = SuggestiveErrorHandler.suggest_for_error(error_msg)
+            if suggestion:
+                console.print(f"\n[yellow]Suggestions:[/yellow]")
+                console.print(f"[yellow]{suggestion}[/yellow]")
+
             raise typer.Exit(code=1)
         except Exception as e:
-            console.print(f"[red]Unexpected error: {e}[/red]")
+            error_msg = str(e)
+            ScanManager.update_scan(scan_id, "error")
+            console.print(f"[red]Unexpected error: {error_msg}[/red]")
+
+            # Provide helpful suggestions
+            suggestion = SuggestiveErrorHandler.suggest_for_error(error_msg)
+            if suggestion:
+                console.print(f"\n[yellow]Suggestions:[/yellow]")
+                console.print(f"[yellow]{suggestion}[/yellow]")
+
             raise typer.Exit(code=1)
 
     try:
@@ -735,6 +1069,887 @@ def bug_finder_export(
         raise
     except Exception as e:
         console.print(f"[red]Unexpected error: {e}[/red]")
+        raise typer.Exit(code=1)
+
+
+@bug_finder_app.command("patterns")
+def bug_finder_patterns_root():
+    """
+    Manage custom bug patterns for scanning.
+
+    Patterns are reusable bug definitions that can be shared across projects.
+    Use subcommands to list, add, test, or manage patterns.
+
+    Available subcommands:
+        list    - Show all available patterns
+        add     - Create a new pattern interactively
+        test    - Test a pattern against content or URL
+        template - Get a pattern template
+    """
+    console.print("[bold cyan]Bug Finder Pattern Management[/bold cyan]")
+    console.print()
+    console.print("Use one of these subcommands:")
+    console.print("  list       - List all available patterns")
+    console.print("  add        - Create a new pattern")
+    console.print("  test       - Test a pattern against content or URL")
+    console.print("  template   - Show pattern template")
+    console.print()
+    console.print("Examples:")
+    console.print("  python -m src.analyzer.cli bug-finder patterns list")
+    console.print("  python -m src.analyzer.cli bug-finder patterns add")
+    console.print("  python -m src.analyzer.cli bug-finder patterns test --pattern wordpress_embed_bug")
+
+
+patterns_app = typer.Typer(
+    name="patterns",
+    help="Manage custom bug patterns for scanning."
+)
+bug_finder_app.add_typer(patterns_app)
+
+
+@patterns_app.command("list")
+def patterns_list(
+    verbose: bool = typer.Option(
+        False, "--verbose", "-v",
+        help="Show detailed information about each pattern."
+    ),
+    format: str = typer.Option(
+        "table", "--format", "-f",
+        help="Output format: table, json, or csv."
+    ),
+):
+    """
+    List all available bug patterns.
+
+    Shows pattern names, descriptions, and severity levels.
+    Use --verbose for detailed information including tags, author, and timestamps.
+
+    Example:
+        python -m src.analyzer.cli bug-finder patterns list
+        python -m src.analyzer.cli bug-finder patterns list --verbose
+        python -m src.analyzer.cli bug-finder patterns list --format json
+    """
+    from src.analyzer.pattern_library import PatternLibrary
+
+    try:
+        library = PatternLibrary()
+        patterns = library.list_patterns()
+
+        if not patterns:
+            console.print("[yellow]No patterns found in the pattern library.[/yellow]")
+            console.print()
+            console.print("To create your first pattern, run:")
+            console.print("  python -m src.analyzer.cli bug-finder patterns add")
+            return
+
+        console.print(f"[bold cyan]Available Patterns ({len(patterns)})[/bold cyan]")
+        console.print()
+
+        if format == "json":
+            import json
+            console.print_json(data=patterns)
+        elif format == "csv":
+            import csv
+            import io
+            output = io.StringIO()
+            if patterns and "error" not in patterns[0]:
+                writer = csv.DictWriter(output, fieldnames=patterns[0].keys())
+                writer.writeheader()
+                for p in patterns:
+                    if "error" not in p:
+                        writer.writerow(p)
+            console.print(output.getvalue())
+        else:  # table format
+            from rich.table import Table
+
+            table = Table(title="Bug Patterns")
+            table.add_column("Name", style="cyan")
+            table.add_column("Description", style="white")
+            table.add_column("Severity", style="yellow")
+            table.add_column("Patterns", justify="right", style="magenta")
+
+            if verbose:
+                table.add_column("Tags", style="green")
+                table.add_column("Author", style="blue")
+                table.add_column("Created", style="dim")
+
+            for p in patterns:
+                if "error" in p:
+                    table.add_row(
+                        p["filename"],
+                        f"[red]Error: {p['error']}[/red]",
+                        "",
+                        ""
+                    )
+                else:
+                    severity_color = {
+                        "low": "yellow",
+                        "medium": "yellow",
+                        "high": "red",
+                        "critical": "bold red",
+                    }.get(p.get("severity", "medium"), "yellow")
+
+                    row = [
+                        p["name"],
+                        p["description"][:50] + "..." if len(p["description"]) > 50 else p["description"],
+                        f"[{severity_color}]{p['severity']}[/{severity_color}]",
+                        str(p["patterns_count"]),
+                    ]
+
+                    if verbose:
+                        tags = ", ".join(p.get("tags", [])[:3])
+                        if len(p.get("tags", [])) > 3:
+                            tags += "..."
+                        row.extend([
+                            tags,
+                            p.get("author", "Unknown")[:15] if p.get("author") else "-",
+                            p.get("created_at", "N/A")[:10] if p.get("created_at") else "-",
+                        ])
+
+                    table.add_row(*row)
+
+            console.print(table)
+
+        console.print()
+        console.print(f"[dim]Patterns directory: {library.patterns_dir}[/dim]")
+
+    except Exception as e:
+        console.print(f"[red]Error loading patterns: {e}[/red]")
+        raise typer.Exit(code=1)
+
+
+@patterns_app.command("add")
+def patterns_add(
+    name: Optional[str] = typer.Option(
+        None, "--name", "-n",
+        help="Pattern name (e.g., my_pattern)."
+    ),
+    description: Optional[str] = typer.Option(
+        None, "--description", "-d",
+        help="Pattern description."
+    ),
+    severity: str = typer.Option(
+        "medium", "--severity", "-s",
+        help="Severity level: low, medium, high, or critical."
+    ),
+    file: Optional[Path] = typer.Option(
+        None, "--file", "-f",
+        help="Load pattern from existing JSON file instead of interactive mode."
+    ),
+):
+    """
+    Create a new bug pattern interactively.
+
+    Guides you through creating a new pattern with:
+    - Pattern name and description
+    - Regular expressions to match bugs
+    - Example matches
+    - Severity and tags
+
+    Example interactive:
+        python -m src.analyzer.cli bug-finder patterns add
+
+    Example from file:
+        python -m src.analyzer.cli bug-finder patterns add --file my_pattern.json
+
+    Example with options:
+        python -m src.analyzer.cli bug-finder patterns add \\
+            --name "my_pattern" \\
+            --description "Detects my specific bug" \\
+            --severity high
+    """
+    from src.analyzer.pattern_library import PatternLibrary, Pattern
+    import sys
+
+    try:
+        library = PatternLibrary()
+
+        if file:
+            # Load from existing file
+            if not file.exists():
+                console.print(f"[red]Error: File not found: {file}[/red]")
+                raise typer.Exit(code=1)
+
+            try:
+                pattern = library.load_pattern_file(file)
+                saved_path = library.save_pattern(pattern, file.name)
+                console.print(f"[green]✓ Pattern loaded and saved: {saved_path}[/green]")
+            except ValueError as e:
+                console.print(f"[red]Error: {e}[/red]")
+                raise typer.Exit(code=1)
+            return
+
+        # Interactive mode
+        console.print("[bold cyan]Create New Pattern[/bold cyan]")
+        console.print()
+
+        # Get pattern name
+        if name is None:
+            name = typer.prompt("Pattern name (lowercase, underscores)", default="new_pattern")
+
+        if not name:
+            console.print("[red]Error: Pattern name is required[/red]")
+            raise typer.Exit(code=1)
+
+        # Check for duplicates
+        if library.load_pattern_by_name(name):
+            console.print(f"[red]Error: Pattern '{name}' already exists[/red]")
+            raise typer.Exit(code=1)
+
+        # Get description
+        if description is None:
+            description = typer.prompt("Description", default="")
+
+        if not description:
+            console.print("[red]Error: Description is required[/red]")
+            raise typer.Exit(code=1)
+
+        # Get regex patterns
+        console.print()
+        console.print("[cyan]Enter regex patterns (one per line, empty line to finish):[/cyan]")
+        patterns = []
+        pattern_num = 1
+
+        while True:
+            pattern_input = typer.prompt(f"Pattern {pattern_num}", default="")
+            if not pattern_input:
+                if patterns:
+                    break
+                console.print("[yellow]At least one pattern is required[/yellow]")
+                continue
+
+            # Validate regex
+            try:
+                re.compile(pattern_input)
+                patterns.append(pattern_input)
+                pattern_num += 1
+            except re.error as e:
+                console.print(f"[red]Invalid regex: {e}[/red]")
+
+        # Get examples
+        console.print()
+        console.print("[cyan]Enter examples (one per line, empty line to finish):[/cyan]")
+        examples = []
+        example_num = 1
+
+        while True:
+            example_input = typer.prompt(f"Example {example_num}", default="")
+            if not example_input:
+                if examples:
+                    break
+                console.print("[yellow]At least one example is required[/yellow]")
+                continue
+
+            examples.append(example_input)
+            example_num += 1
+
+        # Get tags
+        console.print()
+        tags_input = typer.prompt(
+            "Tags (comma-separated, optional)",
+            default=""
+        )
+        tags = [t.strip() for t in tags_input.split(",") if t.strip()] if tags_input else []
+
+        # Get author
+        author = typer.prompt("Author (optional)", default="")
+
+        # Create pattern
+        pattern = library.create_pattern_from_template(
+            name=name,
+            description=description,
+            regex_patterns=patterns,
+            severity=severity,
+            examples=examples,
+            tags=tags or None,
+            author=author or None,
+        )
+
+        # Save pattern
+        saved_path = library.save_pattern(pattern)
+
+        console.print()
+        console.print(f"[green]✓ Pattern created successfully![/green]")
+        console.print(f"[green]Saved to: {saved_path}[/green]")
+        console.print()
+        console.print(f"[cyan]Pattern details:[/cyan]")
+        console.print(f"  Name: {pattern.name}")
+        console.print(f"  Severity: {pattern.severity}")
+        console.print(f"  Patterns: {len(pattern.patterns)}")
+        console.print(f"  Examples: {len(pattern.examples)}")
+
+        # Test the pattern
+        console.print()
+        test_pattern = typer.confirm("Test pattern now?", default=True)
+
+        if test_pattern and pattern.examples:
+            console.print()
+            console.print("[cyan]Testing pattern on examples...[/cyan]")
+
+            result = library.test_pattern_on_content(pattern, " ".join(pattern.examples))
+
+            if result["total_matches"] > 0:
+                console.print(f"[green]✓ Pattern matched {result['total_matches']} time(s) in examples[/green]")
+            else:
+                console.print(f"[yellow]⚠ Pattern didn't match any examples (may need adjustment)[/yellow]")
+
+    except Exception as e:
+        console.print(f"[red]Error: {e}[/red]")
+        raise typer.Exit(code=1)
+
+
+@patterns_app.command("test")
+def patterns_test(
+    pattern: Optional[str] = typer.Option(
+        None, "--pattern", "-p",
+        help="Pattern name to test (e.g., wordpress_embed_bug)."
+    ),
+    content: Optional[str] = typer.Option(
+        None, "--content", "-c",
+        help="Content to test against (HTML or text)."
+    ),
+    url: Optional[str] = typer.Option(
+        None, "--url", "-u",
+        help="URL to fetch and test against."
+    ),
+    file: Optional[Path] = typer.Option(
+        None, "--file", "-f",
+        help="File containing content to test (HTML or text)."
+    ),
+):
+    """
+    Test a pattern against content or a URL.
+
+    Test patterns in three ways:
+    1. Against provided text content
+    2. Against a file's content
+    3. Against a live URL (requires crawl4ai)
+
+    Example with text:
+        python -m src.analyzer.cli bug-finder patterns test \\
+            --pattern wordpress_embed_bug \\
+            --content "<div>field[0]</div>"
+
+    Example with URL:
+        python -m src.analyzer.cli bug-finder patterns test \\
+            --pattern missing_alt_text \\
+            --url https://example.com/page
+
+    Example with file:
+        python -m src.analyzer.cli bug-finder patterns test \\
+            --pattern broken_image_tag \\
+            --file test_page.html
+    """
+    from src.analyzer.pattern_library import PatternLibrary
+
+    try:
+        library = PatternLibrary()
+
+        if not pattern:
+            console.print("[red]Error: --pattern is required[/red]")
+            raise typer.Exit(code=1)
+
+        # Load the pattern
+        loaded_pattern = library.load_pattern_by_name(pattern)
+        if not loaded_pattern:
+            console.print(f"[red]Error: Pattern '{pattern}' not found[/red]")
+            raise typer.Exit(code=1)
+
+        console.print(f"[bold cyan]Testing Pattern: {loaded_pattern.name}[/bold cyan]")
+        console.print(f"Description: {loaded_pattern.description}")
+        console.print(f"Severity: {loaded_pattern.severity}")
+        console.print()
+
+        # Determine test content
+        test_content = None
+
+        if content:
+            test_content = content
+            source = "provided text"
+        elif file:
+            if not file.exists():
+                console.print(f"[red]Error: File not found: {file}[/red]")
+                raise typer.Exit(code=1)
+            with open(file, "r", encoding="utf-8") as f:
+                test_content = f.read()
+            source = f"file: {file}"
+        elif url:
+            console.print(f"[cyan]Fetching content from URL...[/cyan]")
+            result = library.test_pattern_on_url(loaded_pattern, url)
+
+            if "error" in result:
+                console.print(f"[red]Error: {result['error']}[/red]")
+                raise typer.Exit(code=1)
+
+            console.print(f"[cyan]URL: {result.get('url', url)}[/cyan]")
+            console.print(f"[cyan]HTML length: {result.get('html_length', 'unknown')} bytes[/cyan]")
+            console.print(f"[cyan]Total matches: {result.get('total_matches', 0)}[/cyan]")
+            console.print()
+
+            if result.get("total_matches", 0) > 0:
+                console.print("[green]Pattern Matches:[/green]")
+                for regex, match_info in result.get("matches_by_pattern", {}).items():
+                    if "count" in match_info:
+                        console.print(f"  [cyan]{regex}[/cyan]")
+                        console.print(f"    Count: {match_info['count']}")
+                        if match_info.get("matches"):
+                            for i, m in enumerate(match_info["matches"][:3], 1):
+                                preview = str(m)[:80]
+                                console.print(f"    {i}. {preview}...")
+            else:
+                console.print("[yellow]No matches found[/yellow]")
+
+            return
+
+        if not test_content:
+            console.print("[red]Error: Must provide one of: --content, --url, or --file[/red]")
+            raise typer.Exit(code=1)
+
+        # Test against provided content
+        console.print(f"[cyan]Testing against: {source}[/cyan]")
+        console.print(f"[cyan]Content length: {len(test_content)} bytes[/cyan]")
+        console.print()
+
+        result = library.test_pattern_on_content(loaded_pattern, test_content)
+
+        if result["total_matches"] > 0:
+            console.print(f"[green]Found {result['total_matches']} match(es)[/green]")
+            console.print()
+            console.print("[green]Pattern Matches:[/green]")
+
+            for regex, match_info in result["matches_by_pattern"].items():
+                if "count" in match_info:
+                    console.print(f"  [cyan]{regex}[/cyan]")
+                    console.print(f"    Count: {match_info['count']}")
+
+                    if match_info.get("matches"):
+                        console.print(f"    Samples (first 3):")
+                        for i, m in enumerate(match_info["matches"][:3], 1):
+                            preview = str(m)[:100]
+                            console.print(f"      {i}. {preview}")
+                elif "error" in match_info:
+                    console.print(f"  [red]{regex}[/red]")
+                    console.print(f"    Error: {match_info['error']}")
+        else:
+            console.print("[yellow]No matches found[/yellow]")
+            console.print()
+            console.print("This could mean:")
+            console.print("  1. The content doesn't contain the pattern")
+            console.print("  2. The regex needs adjustment")
+            console.print("  3. The pattern is working correctly (negative test)")
+
+    except Exception as e:
+        console.print(f"[red]Error: {e}[/red]")
+        raise typer.Exit(code=1)
+
+
+@patterns_app.command("template")
+def patterns_template(
+    format: str = typer.Option(
+        "json", "--format", "-f",
+        help="Output format: json or yaml."
+    ),
+    output: Optional[Path] = typer.Option(
+        None, "--output", "-o",
+        help="Save template to file instead of printing."
+    ),
+):
+    """
+    Get a template for creating new patterns.
+
+    The template shows the structure and all available fields for defining
+    a custom bug pattern.
+
+    Example print to console:
+        python -m src.analyzer.cli bug-finder patterns template
+
+    Example save to file:
+        python -m src.analyzer.cli bug-finder patterns template \\
+            --output my_pattern_template.json
+
+    Example with YAML:
+        python -m src.analyzer.cli bug-finder patterns template \\
+            --format yaml \\
+            --output my_pattern_template.yaml
+    """
+    from src.analyzer.pattern_library import PatternLibrary
+    import json
+
+    try:
+        library = PatternLibrary()
+        template = library.get_pattern_template()
+
+        if format == "yaml":
+            try:
+                import yaml
+                content = yaml.dump(template, default_flow_style=False, sort_keys=False)
+            except ImportError:
+                console.print("[red]Error: PyYAML not installed. Use --format json instead.[/red]")
+                raise typer.Exit(code=1)
+        else:
+            content = json.dumps(template, indent=2, ensure_ascii=False)
+
+        if output:
+            output.write_text(content, encoding="utf-8")
+            console.print(f"[green]✓ Template saved to: {output}[/green]")
+            console.print()
+            console.print("[cyan]To use this template:[/cyan]")
+            console.print(f"1. Edit {output}")
+            console.print(f"2. Run: python -m src.analyzer.cli bug-finder patterns add --file {output}")
+        else:
+            console.print(f"[bold cyan]Pattern Template ({format.upper()})[/bold cyan]")
+            console.print()
+            console.print(content)
+            console.print()
+            console.print("[dim]Save this template with: --output filename.json[/dim]")
+
+    except Exception as e:
+        console.print(f"[red]Error: {e}[/red]")
+        raise typer.Exit(code=1)
+
+
+# New usability enhancement commands
+@bug_finder_app.command("list-scans")
+def bug_finder_list_scans(
+    limit: int = typer.Option(
+        20, "--limit", "-l",
+        help="Maximum number of scans to display."
+    ),
+    status: Optional[str] = typer.Option(
+        None, "--status", "-s",
+        help="Filter by status: running, completed, completed_clean, or error."
+    ),
+):
+    """
+    List recent bug-finder scans and their status.
+
+    Shows a table of your recent scans including:
+    - Scan ID (for use with --resume)
+    - Site scanned
+    - Number of pages
+    - Status (running, completed, error, etc.)
+    - When it was started
+    - Duration or completion time
+
+    Examples:
+        python -m src.analyzer.cli bug-finder list-scans
+        python -m src.analyzer.cli bug-finder list-scans --limit 10
+        python -m src.analyzer.cli bug-finder list-scans --status error
+        python -m src.analyzer.cli bug-finder list-scans --status completed
+    """
+    try:
+        scans = ScanManager.list_scans(limit=limit)
+
+        if not scans:
+            console.print("[yellow]No scans found. Start your first scan with:[/yellow]")
+            console.print()
+            console.print("  python -m src.analyzer.cli bug-finder scan \\")
+            console.print("    --example-url <archived_page> \\")
+            console.print("    --site <your_website>")
+            return
+
+        # Filter by status if provided
+        if status:
+            scans = [s for s in scans if s["status"] == status]
+
+            if not scans:
+                console.print(f"[yellow]No scans with status '{status}'[/yellow]")
+                return
+
+        console.print(f"[bold cyan]Recent Bug Finder Scans ({len(scans)})[/bold cyan]")
+        console.print()
+
+        table = Table(title="Scan History")
+        table.add_column("Scan ID", style="cyan", overflow="fold")
+        table.add_column("Site", style="green")
+        table.add_column("Pages", justify="right")
+        table.add_column("Status", style="yellow")
+        table.add_column("Started", style="dim")
+        table.add_column("Duration", justify="right")
+
+        for scan in scans:
+            # Calculate duration
+            try:
+                started = datetime.fromisoformat(scan["started_at"])
+                if scan["completed_at"]:
+                    completed = datetime.fromisoformat(scan["completed_at"])
+                    duration = completed - started
+                    duration_str = f"{duration.total_seconds():.0f}s"
+                else:
+                    # Still running
+                    duration = datetime.now() - started
+                    duration_str = f"{duration.total_seconds():.0f}s (running)"
+            except Exception:
+                duration_str = "-"
+
+            # Status color
+            status_color = {
+                "completed": "green",
+                "completed_clean": "blue",
+                "error": "red",
+                "running": "yellow",
+            }.get(scan["status"], "white")
+
+            # Extract domain from URL
+            from urllib.parse import urlparse
+            domain = urlparse(scan["site_url"]).netloc.replace("www.", "")
+
+            table.add_row(
+                scan["id"][:20] + "...",
+                domain,
+                str(scan["max_pages"]),
+                f"[{status_color}]{scan['status']}[/{status_color}]",
+                scan["started_at"].split("T")[0],
+                duration_str,
+            )
+
+        console.print(table)
+        console.print()
+        console.print("[cyan]Tips:[/cyan]")
+        console.print("  - Use scan ID with: bug-finder scan --resume <scan_id>")
+        console.print("  - Compare scans with: bug-finder compare --scan1 <id1> --scan2 <id2>")
+        console.print("  - Filter by status: --status completed")
+
+    except Exception as e:
+        console.print(f"[red]Error loading scans: {e}[/red]")
+        raise typer.Exit(code=1)
+
+
+@bug_finder_app.command("doctor")
+def bug_finder_doctor():
+    """
+    Check your environment setup for Bug Finder.
+
+    Verifies:
+    - Python version (3.11+)
+    - Required dependencies (crawl4ai, typer, rich, etc.)
+    - Playwright/Chromium installation
+    - File permissions and disk space
+
+    Run this if you're having issues with Bug Finder or after updating.
+
+    Example:
+        python -m src.analyzer.cli bug-finder doctor
+    """
+    console.print("[bold cyan]Bug Finder Environment Check[/bold cyan]")
+    console.print()
+
+    # Run all checks
+    checks = EnvironmentChecker.run_all_checks()
+
+    # Display results
+    table = Table(title="Environment Status")
+    table.add_column("Component", style="cyan")
+    table.add_column("Status", style="green")
+    table.add_column("Details", style="white")
+
+    all_ok = True
+    for check in checks:
+        status = check.get("status", "unknown")
+        status_color = {
+            "ok": "green",
+            "missing": "red",
+            "error": "red",
+            "warning": "yellow",
+        }.get(status, "white")
+
+        status_str = f"[{status_color}]{status.upper()}[/{status_color}]"
+
+        details = ""
+        if status == "ok":
+            if "version" in check:
+                details = f"v{check['version']}"
+            elif "message" in check:
+                details = check["message"]
+        elif "message" in check:
+            details = check["message"]
+            all_ok = False
+        else:
+            all_ok = False
+
+        table.add_row(check["name"], status_str, details)
+
+    console.print(table)
+    console.print()
+
+    if all_ok:
+        console.print("[bold green]All systems ready![/bold green]")
+        console.print()
+        console.print("You can start using Bug Finder:")
+        console.print("  python -m src.analyzer.cli bug-finder scan \\")
+        console.print("    --example-url <url> \\")
+        console.print("    --site <website>")
+    else:
+        console.print("[bold yellow]Some components need attention[/bold yellow]")
+        console.print()
+        console.print("Follow the instructions above to install missing dependencies.")
+        console.print()
+        console.print("Common fix:")
+        console.print("  pip install crawl4ai")
+        console.print("  python -m playwright install chromium")
+        raise typer.Exit(code=1)
+
+
+@bug_finder_app.command("compare")
+def bug_finder_compare(
+    scan1: Optional[str] = typer.Option(
+        None, "--scan1", "-a",
+        help="First scan ID to compare (or use most recent)."
+    ),
+    scan2: Optional[str] = typer.Option(
+        None, "--scan2", "-b",
+        help="Second scan ID to compare."
+    ),
+    file1: Optional[Path] = typer.Option(
+        None, "--file1", "-f",
+        help="Path to first results file (alternative to scan ID)."
+    ),
+    file2: Optional[Path] = typer.Option(
+        None, "--file2", "-g",
+        help="Path to second results file (alternative to scan ID)."
+    ),
+):
+    """
+    Compare results between two scans.
+
+    Shows:
+    - New bugs (in scan2 but not in scan1)
+    - Fixed bugs (in scan1 but not in scan2)
+    - Unchanged bugs (in both)
+    - URLs that changed status
+
+    Examples:
+        python -m src.analyzer.cli bug-finder compare
+        python -m src.analyzer.cli bug-finder compare --scan1 scan_001 --scan2 scan_002
+        python -m src.analyzer.cli bug-finder compare --file1 results1.json --file2 results2.json
+    """
+    try:
+        # Determine which scans to compare
+        if file1 and file2:
+            # Load from files
+            console.print(f"[cyan]Loading results from files...[/cyan]")
+            with open(file1, 'r', encoding='utf-8') as f:
+                data1 = json.load(f)
+            with open(file2, 'r', encoding='utf-8') as f:
+                data2 = json.load(f)
+
+            results1 = data1.get('results', [])
+            results2 = data2.get('results', [])
+            metadata1 = data1.get('metadata', {})
+            metadata2 = data2.get('metadata', {})
+
+        else:
+            # Load from scan IDs
+            scans = ScanManager.list_scans(limit=100)
+
+            if not scans or len(scans) < 2:
+                console.print("[yellow]Not enough scans to compare. Need at least 2 completed scans.[/yellow]")
+                raise typer.Exit(code=1)
+
+            # Use provided IDs or most recent two
+            if not scan1:
+                scan1_data = scans[0]
+            else:
+                scan1_data = ScanManager.get_scan(scan1)
+                if not scan1_data:
+                    console.print(f"[red]Scan '{scan1}' not found[/red]")
+                    raise typer.Exit(code=1)
+
+            if not scan2:
+                scan2_data = scans[1]
+            else:
+                scan2_data = ScanManager.get_scan(scan2)
+                if not scan2_data:
+                    console.print(f"[red]Scan '{scan2}' not found[/red]")
+                    raise typer.Exit(code=1)
+
+            # Load results from files
+            if not scan1_data.get("output_file") or not scan2_data.get("output_file"):
+                console.print("[red]Error: Scans don't have output files recorded[/red]")
+                raise typer.Exit(code=1)
+
+            # Try loading JSON results
+            try:
+                file1_path = Path(scan1_data["output_file"] + ".json")
+                file2_path = Path(scan2_data["output_file"] + ".json")
+
+                with open(file1_path, 'r', encoding='utf-8') as f:
+                    data1 = json.load(f)
+                with open(file2_path, 'r', encoding='utf-8') as f:
+                    data2 = json.load(f)
+
+                results1 = data1.get('results', [])
+                results2 = data2.get('results', [])
+                metadata1 = data1.get('metadata', {})
+                metadata2 = data2.get('metadata', {})
+
+            except FileNotFoundError as e:
+                console.print(f"[red]Error: Results file not found: {e}[/red]")
+                raise typer.Exit(code=1)
+
+        # Extract URLs from results
+        urls1 = {r['url'] for r in results1}
+        urls2 = {r['url'] for r in results2}
+
+        # Calculate differences
+        new_bugs = urls2 - urls1
+        fixed_bugs = urls1 - urls2
+        unchanged = urls1 & urls2
+
+        # Display comparison
+        console.print("[bold cyan]Scan Comparison Report[/bold cyan]")
+        console.print()
+
+        console.print("[cyan]Scan 1 (older):[/cyan]")
+        console.print(f"  Date: {metadata1.get('scan_date', 'Unknown')}")
+        console.print(f"  Site: {metadata1.get('site_scanned', 'Unknown')}")
+        console.print(f"  Results: {len(results1)} pages with bugs")
+        console.print()
+
+        console.print("[cyan]Scan 2 (newer):[/cyan]")
+        console.print(f"  Date: {metadata2.get('scan_date', 'Unknown')}")
+        console.print(f"  Site: {metadata2.get('site_scanned', 'Unknown')}")
+        console.print(f"  Results: {len(results2)} pages with bugs")
+        console.print()
+
+        # Summary
+        table = Table(title="Comparison Summary")
+        table.add_column("Category", style="cyan")
+        table.add_column("Count", justify="right", style="yellow")
+        table.add_column("Change", justify="right")
+
+        table.add_row("New bugs", str(len(new_bugs)), f"[green]+{len(new_bugs)}[/green]")
+        table.add_row("Fixed bugs", str(len(fixed_bugs)), f"[red]-{len(fixed_bugs)}[/red]")
+        table.add_row("Unchanged", str(len(unchanged)), "[blue]=" + str(len(unchanged)) + "[/blue]")
+
+        console.print(table)
+        console.print()
+
+        # Show details if not too many
+        if new_bugs:
+            console.print("[bold green]New Bugs Found:[/bold green]")
+            for i, url in enumerate(sorted(new_bugs)[:10], 1):
+                console.print(f"  {i}. {url}")
+            if len(new_bugs) > 10:
+                console.print(f"  ... and {len(new_bugs) - 10} more")
+            console.print()
+
+        if fixed_bugs:
+            console.print("[bold blue]Bugs Fixed:[/bold blue]")
+            for i, url in enumerate(sorted(fixed_bugs)[:10], 1):
+                console.print(f"  {i}. {url}")
+            if len(fixed_bugs) > 10:
+                console.print(f"  ... and {len(fixed_bugs) - 10} more")
+            console.print()
+
+        if not new_bugs and not fixed_bugs:
+            console.print("[green]No changes detected between scans.[/green]")
+
+    except json.JSONDecodeError as e:
+        console.print(f"[red]Error parsing results file: {e}[/red]")
+        raise typer.Exit(code=1)
+    except Exception as e:
+        console.print(f"[red]Error: {e}[/red]")
         raise typer.Exit(code=1)
 
 
