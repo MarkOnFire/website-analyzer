@@ -1,0 +1,5724 @@
+Bug Scan Results for https://www.wpr.org
+Example URL: https://web.archive.org/web/20250706050739/https://www.wpr.org/food/who-are-tom-and-jerry-and-why-are-they-cocktail
+Pages scanned: 50000
+Bugs found: 1906
+======================================================================
+
+https://www.wpr.org/history/homeownership-gap-people-color-wisconsin-wide-communities-nonprofits-try-close-it
+  Matches: 12
+
+https://www.wpr.org/social-issues/weve-got-get-gaming-out-our-blood-pandemic-shock-pushes-wisconsin-tribes-diversify-economy
+  Matches: 18
+
+https://www.wpr.org/shows/openandshut/two-decades-after-high-profile-murder-trial-questions-remain-prosecution-ken-hudson
+  Matches: 12
+
+https://www.wpr.org/shows/openandshut/wisconsin-prosecutor-campaigned-his-record-some-high-profile-cases-had-hidden-flaws
+  Matches: 30
+
+https://www.wpr.org/shows/beta/episode-216-allow-me-to-reconstruct-this
+  Matches: 6
+
+https://www.wpr.org/republicans-bypass-governors-special-session-gun-laws
+  Matches: 6
+
+https://www.wpr.org/health/it-doesnt-have-be-way-how-expanding-paid-leave-could-ease-working-parent-woes-labor-crunch
+  Matches: 6
+
+https://www.wpr.org/sports/photos-bucks-fans-jubilant-after-game-4-victory
+  Matches: 12
+
+https://www.wpr.org/music/iowas-hinterland-festival-announces-2020-lineup
+  Matches: 12
+
+https://www.wpr.org/music/hinterland-music-festivals-5th-year-biggest-yet
+  Matches: 12
+
+https://www.wpr.org/advocates-rally-capitol-nonpartisan-redistricting-plan
+  Matches: 12
+
+https://www.wpr.org/what-youre-doing-immoral-hundreds-gather-capitol-push-back-gop-redistricting-plan
+  Matches: 18
+
+https://www.wpr.org/politics/president-trump-made-campaign-stops-wisconsin-thursday
+  Matches: 6
+
+https://www.wpr.org/health/ahead-gun-deer-season-wisconsinites-make-plans-keep-hunting-parties-covid-19-safe
+  Matches: 12
+
+https://www.wpr.org/proposed-reroute-oil-pipeline-northern-wisconsin-sows-division
+  Matches: 12
+
+https://www.wpr.org/history/conflicts-disasters/elroy-sparta-state-trail-reopens-after-years-post-flooding-repairs
+  Matches: 6
+
+https://www.wpr.org/animals/study-second-wolf-hunt-would-have-driven-wisconsins-wolf-population-undesirably-low-levels
+  Matches: 6
+
+https://www.wpr.org/shows/openandshut/rise-and-fall-winnebago-county-district-attorney-joe-paulus-reveals-immense-power-prosecutors
+  Matches: 12
+
+https://www.wpr.org/openandshut/wisconsin-prosecutor-campaigned-his-record-some-high-profile-cases-had-hidden-flaws
+  Matches: 30
+
+https://www.wpr.org/openandshut/two-decades-after-high-profile-murder-trial-questions-remain-prosecution-ken-hudson
+  Matches: 12
+
+https://www.wpr.org/history/conflicts-disasters/military/edward-anderson-wwii-veteran-who-spent-months-prisoner-war-dies-covid-19-97
+  Matches: 24
+
+https://www.wpr.org/history/conflicts-disasters/chicago-billionaire-pritzker-bringing-cold-war-campus-wisconsin
+  Matches: 11
+
+https://www.wpr.org/wisconsin-had-315-homicides-last-year-thats-70-percent-increase-2019
+  Matches: 6
+
+https://www.wpr.org/weather/first-wisconsin-tornado-2022-strikes-community-hit-17-years
+  Matches: 6
+
+https://www.wpr.org/health/state-supreme-court-considers-whether-dane-county-overstepped-authority-local-pandemic-restrictions
+  Matches: 6
+
+https://www.wpr.org/economy/manufacturing/stevens-point-nonprofits-3d-printers-now-make-protective-gear-health-workers
+  Matches: 6
+
+https://www.wpr.org/firefighting-foam-manufacturer-refuses-regulators-demands-test-more-wells-pfas
+  Matches: 6
+
+https://www.wpr.org/town-peshtigo-residents-have-lived-pfas-pollution-years-theyre-still-waiting-permanent-source-safe
+  Matches: 6
+
+https://www.wpr.org/community-wants-justice-after-wauwatosa-cop-fatally-shoots-3-people-5-years
+  Matches: 12
+
+https://www.wpr.org/history/conflicts-disasters/wisconsin-police-departments-were-already-struggling-draw-and-keep-officers-calls-accountability
+  Matches: 24
+
+https://www.wpr.org/badgers-missed-opportunities-taint-opening-day-camp-randall
+  Matches: 24
+
+https://www.wpr.org/we-are-thankful-we-are-all-together-waukesha-unites-wake-tragedy-holiday-parade
+  Matches: 6
+
+https://www.wpr.org/environment/one-tough-rock-central-wisconsins-rib-mountain-survived-volcanoes-erosion-and-glaciers
+  Matches: 6
+
+https://www.wpr.org/hinterland-music-festivals-5th-year-biggest-yet
+  Matches: 12
+
+https://www.wpr.org/wausau-mall-would-be-razed-public-market-retail-development-under-plan
+  Matches: 6
+
+https://www.wpr.org/art/manitowocs-evergleam-history-display-holiday-season
+  Matches: 12
+
+https://www.wpr.org/new-lawsuit-asks-state-supreme-court-toss-nov-3-election-results
+  Matches: 6
+
+https://www.wpr.org/governor-uses-state-state-speech-call-special-legislative-session-wisconsins-dairy-crisis
+  Matches: 12
+
+https://www.wpr.org/jill-karofsky-wins-wisconsin-supreme-court-race-defeating-conservative-incumbent
+  Matches: 6
+
+https://www.wpr.org/health/wisconsin-residents-turn-outdoors-amid-covid-19-lockdown
+  Matches: 6
+
+http://www.wpr.org/whats-canoe-you-1-200-year-old-dugout-canoe-begins-long-paddle-preservation
+  Matches: 6
+
+https://www.wpr.org/culture/whats-canoe-you-1-200-year-old-dugout-canoe-begins-long-paddle-preservation
+  Matches: 6
+
+https://www.wpr.org/culture/lizard-mound-will-be-wisconsins-newest-state-park
+  Matches: 6
+
+https://www.wpr.org/sports/nascar-cup-returns-wisconsin-july-4-race
+  Matches: 12
+
+https://www.wpr.org/economy/nation-reckons-race-mother-awaits-unemployment-aid-and-wisconsin-officials-lack-research
+  Matches: 12
+
+https://www.wpr.org/history/state-capitol-wisconsinites-celebrate-40th-annual-tribute-martin-luther-king-jr
+  Matches: 7
+
+https://www.wpr.org/thats-27-family-members-we-lost-wisconsinites-share-ways-covid-19-has-changed-their-lives
+  Matches: 12
+
+https://www.wpr.org/rosemary-kraemer-beloved-mother-grandmother-and-gg-dies-covid-19-74
+  Matches: 6
+
+https://www.wpr.org/edward-anderson-wwii-veteran-who-spent-months-prisoner-war-dies-covid-19-97
+  Matches: 24
+
+https://www.wpr.org/economy/we-arent-bunch-lazy-people-rejoining-workforce-isnt-easy-some-who-lost-jobs-covid-19
+  Matches: 24
+
+https://www.wpr.org/agriculture/wprs-10-most-read-stories-2019
+  Matches: 60
+
+https://www.wpr.org/comedian-hari-kondabolu-speaks-truth-power
+  Matches: 6
+
+https://www.wpr.org/shows/beta/episode-403-sasquatch-richard-thompson-rachel-kushner
+  Matches: 6
+
+https://www.wpr.org/3-times-more-likely-die-coronavirus-ravages-milwaukees-african-american-community
+  Matches: 12
+
+https://www.wpr.org/afghans-fort-mccoy-are-eager-resettle-new-communities-housing-and-language-barriers-are-slowing
+  Matches: 6
+
+https://www.wpr.org/history/conflicts-disasters/weekend-roundup-3-months-after-holiday-parade-tragedy-community-works-toward-waukesha-strong-family
+  Matches: 12
+
+https://www.wpr.org/history/conflicts-disasters/war/living-wisconsin-hmong-people-are-truly-american-if-not-more-american-most-americans
+  Matches: 6
+
+https://www.wpr.org/history/conflicts-disasters/weekend-roundup-look-how-many-ukrainian-refugees-have-resettled-wisconsin-over-past-decade
+  Matches: 6
+
+https://www.wpr.org/duane-bark-beloved-educator-and-football-coach-who-painted-daughters-nails-dies-covid-19-61
+  Matches: 12
+
+https://www.wpr.org/history/conflicts-disasters/we-just-want-be-safe-faculty-students-wisconsin-affiliated-university-kyiv-describe-intensifying
+  Matches: 12
+
+https://www.wpr.org/animals/uw-researchers-look-sharks-new-covid-19-treatment
+  Matches: 6
+
+https://www.wpr.org/mom-i-can-smell-your-coffee-after-vaccinations-some-covid-19-long-haulers-see-improvements
+  Matches: 6
+
+https://www.wpr.org/kyle-rittenhouse-found-not-guilty-all-charges-tied-fatal-kenosha-shootings-last-year
+  Matches: 12
+
+https://www.wpr.org/wprs-top-stories-2020
+  Matches: 6
+
+https://www.wpr.org/sports/wisconsin-athletes-competing-2022-winter-olympics-beijing
+  Matches: 6
+
+https://www.wpr.org/history/conflicts-disasters/wisconsin-national-guard-identifies-pilot-killed-f-16-crash
+  Matches: 6
+
+https://www.wpr.org/history/conflicts-disasters/maritime-disasters/evers-announces-more-46m-support-small-businesses
+  Matches: 6
+
+https://www.wpr.org/politics/daniel-kelly-jill-karofsky-emerge-state-supreme-court-primary
+  Matches: 6
+
+https://www.wpr.org/tiffany-johnson-align-presidents-efforts-overturn-biden-victory
+  Matches: 6
+
+https://www.wpr.org/wisconsin-republicans-call-tougher-abortion-laws-return-grassroots-annual-convention
+  Matches: 18
+
+https://www.wpr.org/economy/weekend-roundup-public-officials-health-care-system-respond-covid-19-cases-surge-wisconsin
+  Matches: 12
+
+https://www.wpr.org/health/new-peer-run-respite-home-veterans-opens-pewaukee
+  Matches: 6
+
+https://www.wpr.org/what-role-did-camp-randall-play-civil-war
+  Matches: 6
+
+https://www.wpr.org/books/farm-girl-remembers-rural-family-life-wisconsin-during-great-depression
+  Matches: 6
+
+https://www.wpr.org/books/new-book-chronicles-history-foxconn-and-similar-failed-business-ventures
+  Matches: 6
+
+https://www.wpr.org/suicide-prevention-program-veterans-started-wisconsin-gun-shop-owner-expanding
+  Matches: 18
+
+https://www.wpr.org/great-lakes-freighters-may-have-treat-ballast-water-curb-invasives
+  Matches: 6
+
+https://www.wpr.org/economy/failed-partnerships-and-vacant-buildings-foxconns-wisconsin-commitment-remains-standstill
+  Matches: 6
+
+https://www.wpr.org/waukesha-county-judge-sides-wmc-case-challenging-states-authority-over-pfas-cleanups
+  Matches: 12
+
+https://www.wpr.org/agriculture/dairy/welcome-cheese-olympics
+  Matches: 12
+
+https://www.wpr.org/diversity-and-inclusion/passing-puck-olympians-local-hockey-advocates-create-pathways-girls-join-sport
+  Matches: 12
+
+https://www.wpr.org/wisconsin-manufacturers-increase-production-keep-coronavirus-demand
+  Matches: 6
+
+https://www.wpr.org/justice/wisconsin-had-315-homicides-last-year-thats-70-percent-increase-2019
+  Matches: 6
+
+https://www.wpr.org/fourth-graders-green-bay-schools-ask-professor-about-environment-renewable-energy
+  Matches: 6
+
+https://www.wpr.org/after-county-votes-down-diversity-resolution-wausau-mayor-declares-city-community-all
+  Matches: 6
+
+https://www.wpr.org/health/i-was-such-little-kid-wisconsin-catholic-clergy-accused-sexual-abuse-grows-trauma-lingers
+  Matches: 24
+
+https://www.wpr.org/report-outdoor-recreation-worth-7-8b-wisconsin-economy
+  Matches: 6
+
+https://www.wpr.org/health/jill-karofsky-wins-wisconsin-supreme-court-race-defeating-conservative-incumbent
+  Matches: 6
+
+https://www.wpr.org/news/weekend-roundup-kenosha-members-seeing-change-can-happen
+  Matches: 6
+
+https://www.wpr.org/news/weekend-roundup-state-capitol-set-reopen-monday
+  Matches: 6
+
+https://www.wpr.org/history/conflicts-disasters/evers-declares-state-emergency-following-kenosha-police-shooting-protests
+  Matches: 6
+
+https://www.wpr.org/wisconsins-fall-wolf-hunt-hold-several-lawsuits-could-affect-whether-it-moves-forward
+  Matches: 6
+
+https://www.wpr.org/former-lt-gov-rebecca-kleefisch-announces-bid-governor
+  Matches: 6
+
+https://www.wpr.org/lake-superior-tribes-ancestors-were-removed-their-home-now-they-want-their-burial-lands-back
+  Matches: 18
+
+https://www.wpr.org/agriculture/inflation-puts-pressure-wisconsin-food-banks
+  Matches: 6
+
+https://www.wpr.org/elroy-sparta-state-trail-reopens-after-years-post-flooding-repairs
+  Matches: 6
+
+https://www.wpr.org/wisconsin-capitol-statue-civil-rights-political-icon-vel-phillips-moves-forward
+  Matches: 6
+
+https://www.wpr.org/education/carthage-college-teams-nasa-solve-50-year-old-problem
+  Matches: 6
+
+https://www.wpr.org/school-meals-have-been-free-all-students-during-pandemic-some-want-see-continue-past-covid-19
+  Matches: 6
+
+https://www.wpr.org/agriculture/whos-behind-shawano-county-barn-quilts
+  Matches: 6
+
+https://www.wpr.org/more-1m-wisconsin-vote-mail-full-election-turnout-still-unclear
+  Matches: 6
+
+https://www.wpr.org/agriculture/wprs-top-stories-2020
+  Matches: 6
+
+https://www.wpr.org/health/live-joe-biden-wins-wisconsin-presidential-race
+  Matches: 6
+
+https://www.wpr.org/politics/president-biden-touts-infrastructure-public-transit-la-crosse
+  Matches: 6
+
+https://www.wpr.org/history/conflicts-disasters/why-doesnt-wisconsin-see-large-intense-wildfires-out-west
+  Matches: 12
+
+https://www.wpr.org/lake-superior-has-seen-half-dozen-blue-green-algae-blooms-year
+  Matches: 6
+
+https://www.wpr.org/fish-consumption-advisory-issued-due-pfas-contamination-yahara-chain-lakes
+  Matches: 6
+
+https://www.wpr.org/failed-partnerships-and-vacant-buildings-foxconns-wisconsin-commitment-remains-standstill
+  Matches: 6
+
+https://www.wpr.org/whats-canoe-you-1-200-year-old-dugout-canoe-begins-long-paddle-preservation
+  Matches: 6
+
+https://www.wpr.org/carved-powder-horn-owned-19th-century-stockbridge-munsee-leader-returned-tribe
+  Matches: 6
+
+https://www.wpr.org/small-town-protests-organizers-see-thrilling-signs-change
+  Matches: 30
+
+https://www.wpr.org/protesters-want-officers-live-city-limits-state-law-makes-difficult
+  Matches: 6
+
+https://www.wpr.org/were-forgotten-report-draws-long-overdue-attention-missing-and-murdered-indigenous-women-girls
+  Matches: 12
+
+https://www.wpr.org/one-tough-rock-central-wisconsins-rib-mountain-survived-volcanoes-erosion-and-glaciers
+  Matches: 6
+
+https://www.wpr.org/covid-19-ravaging-wisconsin-and-wisconsinites-still-arent-staying-home
+  Matches: 30
+
+https://www.wpr.org/resigning-sauk-county-health-officer-says-leaders-rejected-science-undermined-pandemic-response
+  Matches: 6
+
+https://www.wpr.org/farm-aid-concert-coming-wisconsin-raise-awareness-money-struggling-dairy-farmers
+  Matches: 6
+
+https://www.wpr.org/environment/waukesha-county-judge-sides-wmc-case-challenging-states-authority-over-pfas-cleanups
+  Matches: 12
+
+https://www.wpr.org/health/midlife-miracle-51-year-old-stoughton-man-survives-rare-stroke
+  Matches: 12
+
+https://www.wpr.org/education/despite-fears-teacher-retirements-were-down-last-year-wisconsin
+  Matches: 6
+
+https://www.wpr.org/outbreak-wisconsin-covid-19-long-hauler-wonders-if-loss-breath-sense-smell-are-his-new-normal
+  Matches: 12
+
+https://www.wpr.org/those-chronic-health-conditions-feel-ignored-wisconsin-covid-19-vaccine-effort
+  Matches: 6
+
+https://www.wpr.org/wprs-10-most-read-stories-2019
+  Matches: 60
+
+https://www.wpr.org/culture/apostle-islands-national-lakeshore-marks-50th-anniversary
+  Matches: 42
+
+https://www.wpr.org/1b-infrastructure-plan-speeds-work-restore-polluted-sites-across-wisconsin-great-lakes
+  Matches: 6
+
+https://www.wpr.org/evers-seeks-fresh-faces-natural-resources-board-current-chair-isnt-stepping-down-yet
+  Matches: 12
+
+https://www.wpr.org/presidential-recount-begins-wisconsin-trump-campaign-immediately-lodges-complaints
+  Matches: 18
+
+https://www.wpr.org/wisconsin-supreme-court-candidates-debate-role-politics-precedent
+  Matches: 6
+
+https://www.wpr.org/wisconsin-presidential-recount-continues-after-weekend-conflict-between-officials-observers
+  Matches: 18
+
+https://www.wpr.org/wisconsin-marks-juneteenth-rallies-flags-and-virtual-events
+  Matches: 6
+
+https://www.wpr.org/jails-and-prisons-have-always-struggled-find-and-keep-workers-covid-19-and-nationwide-labor-shortage
+  Matches: 6
+
+https://www.wpr.org/wisconsin-imprisons-1-36-black-adults-no-state-has-higher-rate
+  Matches: 6
+
+https://www.wpr.org/wisconsin-athletes-competing-2022-winter-olympics-beijing
+  Matches: 6
+
+https://www.wpr.org/politics/cavalier-johnson-becomes-milwaukees-first-elected-black-mayor
+  Matches: 6
+
+https://www.wpr.org/politics/wisconsin-traffic-transit-ridership-still-down-2-years-after-start-pandemic
+  Matches: 6
+
+https://www.wpr.org/milwaukee-launches-public-awareness-campaign-curb-reckless-driving
+  Matches: 12
+
+https://www.wpr.org/uw-whitewater-chancellor-resigns-following-cancer-diagnosis
+  Matches: 6
+
+https://www.wpr.org/wausau-heated-school-board-race-centers-last-falls-reopening-debate
+  Matches: 12
+
+https://www.wpr.org/history/conflicts-disasters/i-dont-know-what-will-happen-after-months-fort-mccoy-afghan-family-resettled-separate-states
+  Matches: 18
+
+https://www.wpr.org/history/conflicts-disasters/afghan-families-face-culture-shock-uncertainty-about-immigration-status-they-resettle-wisconsin
+  Matches: 18
+
+https://www.wpr.org/people-living-pfas-contamination-say-state-standards-are-long-overdue-protect-public-health
+  Matches: 18
+
+https://www.wpr.org/research-finds-rising-radium-levels-wisconsin-groundwater
+  Matches: 6
+
+https://www.wpr.org/welcome-cheese-olympics
+  Matches: 12
+
+https://www.wpr.org/state-veterinarian-wild-birds-are-source-bird-flu-detections-wisconsin-egg-farm-backyard-flock
+  Matches: 12
+
+https://www.wpr.org/health/uw-madison-testing-covid-19-vaccine-children-6-months-4-years-old
+  Matches: 6
+
+https://www.wpr.org/hospitals-lawmakers-state-health-officials-prepare-more-covid-19-cases-wisconsin
+  Matches: 6
+
+https://www.wpr.org/families-those-killed-wisconsin-police-officers-hope-body-camera-footage-brings-justice
+  Matches: 6
+
+https://www.wpr.org/marathon-county-community-all-diversity-resolution-becomes-debate-flashpoint
+  Matches: 12
+
+https://www.wpr.org/health/some-parishioners-upset-over-pandemic-protections-have-left-other-congregations
+  Matches: 6
+
+https://www.wpr.org/evers-declares-state-emergency-following-kenosha-police-shooting-protests
+  Matches: 6
+
+https://www.wpr.org/shots-fired-inside-waukesha-south-high-school
+  Matches: 6
+
+https://www.wpr.org/history/conflicts-disasters/we-are-thankful-we-are-all-together-waukesha-unites-wake-tragedy-holiday-parade
+  Matches: 6
+
+https://www.wpr.org/coming-together-dairy-farmers-debate-plans-overseeing-us-milk-supply
+  Matches: 6
+
+https://www.wpr.org/when-someone-calls-911-theres-no-guarantee-help-will-come-several-northern-wisconsin-towns
+  Matches: 12
+
+https://www.wpr.org/how-get-covid-19-shot-wisconsin-vaccine-hunters-share-tips
+  Matches: 6
+
+https://www.wpr.org/push-mark-indian-burial-ground-uw-stevens-point-gets-community-support
+  Matches: 6
+
+https://www.wpr.org/animals/uw-milwaukee-researcher-looking-zebrafish-keys-fixing-optic-nerve-damage
+  Matches: 6
+
+https://www.wpr.org/politics-slow-wisconsins-legislature-unlikely-respond-black-lives-matter-movement-until-2021
+  Matches: 6
+
+https://www.wpr.org/justice/kyle-rittenhouse-found-not-guilty-all-charges-tied-fatal-kenosha-shootings-last-year
+  Matches: 12
+
+https://www.wpr.org/returned-sender-postal-officials-investigating-wisconsin-absentee-ballots-were-never-delivered
+  Matches: 6
+
+https://www.wpr.org/large-concrete-slab-falls-uw-madison-building-uw-system-grapples-aging-facilities
+  Matches: 6
+
+https://www.wpr.org/northeast-wisconsins-critical-shortage-affordable-housing-has-deep-roots
+  Matches: 24
+
+https://www.wpr.org/sen-patrick-testin-faces-democratic-challenger-paul-piotrowski-24th-senate-district-race
+  Matches: 6
+
+https://www.wpr.org/police-5-people-gunman-dead-after-shooting-molson-coors-campus-milwaukee
+  Matches: 12
+
+https://www.wpr.org/wisconsin-traffic-transit-ridership-still-down-2-years-after-start-pandemic
+  Matches: 6
+
+https://www.wpr.org/trump-moves-planned-la-crosse-rally-janesville-doctors-mayors-call-stop-large-gatherings
+  Matches: 6
+
+https://www.wpr.org/dominant-packers-prepare-monday-night-football-empty-lambeau-field
+  Matches: 6
+
+https://www.wpr.org/district-attorney-releases-milwaukee-community-activist-vaun-mayes
+  Matches: 6
+
+https://www.wpr.org/agriculture/state-veterinarian-wild-birds-are-source-bird-flu-detections-wisconsin-egg-farm-backyard-flock
+  Matches: 12
+
+https://www.wpr.org/diversity-and-inclusion/were-not-given-option-get-vaccinated-advocates-work-narrow-racial-ethnic-disparities-wisconsin
+  Matches: 6
+
+https://www.wpr.org/economy/i-got-nothing-left-wisconsins-jobless-pushed-brink-ideas-swirl-mending-torn-safety-net
+  Matches: 18
+
+https://www.wpr.org/health/outbreak-wisconsin-im-really-happy-happening
+  Matches: 6
+
+https://www.wpr.org/health/i-just-kind-panicked-patients-confused-wisconsin-hospitals-file-liens-recoup-costs-treating-injured
+  Matches: 12
+
+https://www.wpr.org/health/how-get-covid-19-shot-wisconsin-vaccine-hunters-share-tips
+  Matches: 6
+
+https://www.wpr.org/coon-valley-residents-look-solutions-flooding-becomes-more-frequent-driftless-area
+  Matches: 24
+
+https://www.wpr.org/tommy-thompson-resigning-post-interim-president-uw-system
+  Matches: 6
+
+https://www.wpr.org/why-didnt-he-ask-help-questions-haunt-parents-pandemic-fentanyl-drive-spike-opioid-deaths
+  Matches: 6
+
+https://www.wpr.org/hundreds-participate-hearing-enbridges-proposed-oil-and-gas-pipeline-project
+  Matches: 24
+
+https://www.wpr.org/trump-janesville-we-win-wisconsin-we-win-whole-ballgame
+  Matches: 18
+
+https://www.wpr.org/trump-announces-aid-farmers-mosinee-rally
+  Matches: 18
+
+https://www.wpr.org/challenging-tourism-season-wisconsin-dells-workers-try-stay-safe
+  Matches: 30
+
+https://www.wpr.org/us-rep-gwen-moore-calls-federal-investigation-reports-inadequate-care-afghan-refugees-fort-mccoy
+  Matches: 6
+
+https://www.wpr.org/afghan-families-face-culture-shock-uncertainty-about-immigration-status-they-resettle-wisconsin
+  Matches: 18
+
+https://www.wpr.org/report-there-are-more-teaching-jobs-southeast-wisconsin-grads-fill-them
+  Matches: 6
+
+https://www.wpr.org/coronavirus-outbreak-takes-toll-recovering-milk-prices
+  Matches: 6
+
+https://www.wpr.org/gop-men-are-most-likely-say-theyll-refuse-covid-19-vaccine
+  Matches: 6
+
+https://www.wpr.org/rittenhouse-juror-dismissed-after-making-joke-about-jacob-blake
+  Matches: 6
+
+https://www.wpr.org/ideas-wisconsinites-who-want-help-during-covid-19-pandemic
+  Matches: 18
+
+https://www.wpr.org/great-american-outdoors-act-sets-aside-6-5b-address-maintenance-backlog-within-national-parks
+  Matches: 12
+
+https://www.wpr.org/under-threat-high-water-great-lakes-cities-property-owners-strive-become-more-resilient
+  Matches: 12
+
+https://www.wpr.org/it-doesnt-have-be-way-how-expanding-paid-leave-could-ease-working-parent-woes-labor-crunch
+  Matches: 6
+
+https://www.wpr.org/gop-bill-would-make-it-illegal-sports-venues-skip-national-anthem
+  Matches: 6
+
+https://www.wpr.org/some-wisconsin-mayors-urge-postponing-april-7-election
+  Matches: 6
+
+https://www.wpr.org/wisconsins-congressional-delegation-condemns-violent-mob-us-capitol
+  Matches: 6
+
+https://www.wpr.org/apostle-islands-national-lakeshore-marks-50th-anniversary
+  Matches: 42
+
+https://www.wpr.org/wisconsin-lags-nation-education-spending-covid-19-fallout-portends-tough-choices
+  Matches: 6
+
+https://www.wpr.org/wisconsins-vaccine-rollout-has-scored-well-experts-say-mass-sites-clear-messages-can-help-next-phase
+  Matches: 12
+
+https://www.wpr.org/news/great-lakes-freighters-may-have-treat-ballast-water-curb-invasives
+  Matches: 6
+
+https://www.wpr.org/how-bidens-climate-goals-could-play-big-role-shaping-wisconsins-energy-future
+  Matches: 12
+
+https://www.wpr.org/voters-will-weigh-school-board-call-dissolve-palmyra-eagle-area-school-district
+  Matches: 6
+
+https://www.wpr.org/wausau-schools-will-start-virtual-classes-districts-around-state-face-hard-choices
+  Matches: 6
+
+https://www.wpr.org/wisconsin-recall-efforts-add-pressure-school-boards-wake-covid-19
+  Matches: 6
+
+https://www.wpr.org/they-deserve-be-saved-former-interpreter-says-his-family-was-left-behind-us-withdrawal-afghanistan
+  Matches: 6
+
+https://www.wpr.org/plan-permit-legal-sports-betting-wisconsin-may-not-bring-much-economic-boost
+  Matches: 6
+
+https://www.wpr.org/wisconsin-volleyball-will-face-baylor-national-semifinal-matchup
+  Matches: 6
+
+https://www.wpr.org/health/exciting-development-crispr-lets-uw-madison-researchers-edit-genes
+  Matches: 6
+
+https://www.wpr.org/education/wisconsin-schools-drop-mask-mandates-students-are-excited-and-worried
+  Matches: 6
+
+https://www.wpr.org/its-our-mission-now-help-nonprofits-work-meet-needs-nearly-13k-afghan-refugees-fort-mccoy
+  Matches: 12
+
+https://www.wpr.org/overdoses-record-highs-naloxone-made-available-boxes-statewide
+  Matches: 6
+
+https://www.wpr.org/justice/jury-selection-begins-kyle-rittenhouse-who-shot-and-killed-2-protesters
+  Matches: 6
+
+https://www.wpr.org/hank-aaron-baseball-slugger-close-ties-milwaukee-dies-86
+  Matches: 12
+
+https://www.wpr.org/police-federal-agents-use-unmarked-vehicles-arrests-kenosha-protesters
+  Matches: 6
+
+https://www.wpr.org/more-thousand-stay-home-protesters-converge-wisconsin-capitol
+  Matches: 30
+
+https://www.wpr.org/after-2018-challenges-wisconsin-farmers-weigh-risk-industrial-hemp
+  Matches: 12
+
+https://www.wpr.org/hmong-leaders-rally-against-trump-administrations-deportation-push
+  Matches: 6
+
+https://www.wpr.org/xenophobic-attacks-increase-wisconsin-officials-and-advocates-respond
+  Matches: 6
+
+https://www.wpr.org/george-floyd-protesters-block-beltline-madison-milwaukee-protesters-march-wauwatosa
+  Matches: 6
+
+https://www.wpr.org/wake-mass-shootings-wisconsin-leaders-remain-divided-over-gun-laws
+  Matches: 6
+
+https://www.wpr.org/after-string-police-shootings-2019-will-see-increase-wisconsin-fatalities
+  Matches: 6
+
+https://www.wpr.org/fires-madison-power-substations-leave-thousands-without-power
+  Matches: 6
+
+https://www.wpr.org/demonstrators-gather-milwaukee-protest-george-floyd-joel-acevedo-killings
+  Matches: 18
+
+http://www.wpr.org/police-5-people-gunman-dead-after-shooting-molson-coors-campus-milwaukee
+  Matches: 12
+
+https://www.wpr.org/health/doctors-debate-patients-suffer-fight-over-chronic-lyme-disease-wisconsin
+  Matches: 12
+
+https://www.wpr.org/education/stories-flood-aims-lift-spirits-flood-victims
+  Matches: 6
+
+https://www.wpr.org/thompson-rallies-uw-eau-claire-students-reach-80-percent-covid-19-vaccination-rate
+  Matches: 12
+
+http://www.wpr.org/uw-regent-longtime-utilities-executive-jose-delgado-dies
+  Matches: 12
+
+https://www.wpr.org/uw-regent-longtime-utilities-executive-jose-delgado-dies
+  Matches: 12
+
+https://www.wpr.org/justice/wisconsin-debates-cash-bail-changes-wake-waukesha-parade-tragedy-some-states-ditch-system-entirely
+  Matches: 6
+
+https://www.wpr.org/justice/wisconsin-imprisons-1-36-black-adults-no-state-has-higher-rate
+  Matches: 6
+
+https://www.wpr.org/uw-milwaukee-takes-precautions-after-employee-tested-coronavirus
+  Matches: 6
+
+https://www.wpr.org/joe-biden-visits-kenosha-urges-optimism-and-unity-wake-unrest
+  Matches: 6
+
+https://www.wpr.org/president-trump-made-campaign-stops-wisconsin-thursday
+  Matches: 6
+
+https://www.wpr.org/wisconsin-there-are-barriers-teacher-diversity-every-level-report-finds
+  Matches: 6
+
+https://www.wpr.org/despite-gains-states-share-teachers-color-lags-far-behind-share-nonwhite-students
+  Matches: 6
+
+https://www.wpr.org/even-those-teaching-person-school-year-long-way-normal
+  Matches: 6
+
+https://www.wpr.org/wisconsin-holds-another-pandemic-election-time-added-confusion-over-mask-rules
+  Matches: 6
+
+https://www.wpr.org/uw-madison-testing-covid-19-vaccine-children-6-months-4-years-old
+  Matches: 6
+
+https://www.wpr.org/jury-selection-begins-kyle-rittenhouse-who-shot-and-killed-2-protesters
+  Matches: 6
+
+https://www.wpr.org/justice/volunteers-clean-officials-react-after-violent-evening
+  Matches: 12
+
+https://www.wpr.org/economy/wisconsin-dells-sees-chance-record-tourism-season-people-plan-post-vaccination-vacations
+  Matches: 42
+
+https://www.wpr.org/northern-wisconsin-voters-head-polls-second-election-amid-pandemic
+  Matches: 12
+
+https://www.wpr.org/milwaukee-public-museum-narrows-new-location-4-downtown-sites
+  Matches: 6
+
+https://www.wpr.org/wisconsin-assembly-fails-again-block-additional-federal-unemployment-aid
+  Matches: 6
+
+https://www.wpr.org/attorney-sun-prairie-school-district-should-fire-teachers-who-asked-6th-graders-how-they-would
+  Matches: 6
+
+https://www.wpr.org/president-biden-touts-infrastructure-public-transit-la-crosse
+  Matches: 6
+
+https://www.wpr.org/pandemic-taking-toll-kids-mental-health-school-psychologists-are-worried
+  Matches: 6
+
+https://www.wpr.org/most-friendly-debate-cream-puffs-vs-kringle-2-states-most-popular-delicacies
+  Matches: 6
+
+https://www.wpr.org/news/weekend-roundup-tribal-state-officials-warn-against-harassment-northern-wisconsin-starts
+  Matches: 6
+
+https://www.wpr.org/gop-lawmakers-release-details-plan-support-wisconsin-farmers
+  Matches: 6
+
+https://www.wpr.org/lawmakers-propose-9-11-memorial-highway-outside-kewaskum
+  Matches: 6
+
+https://www.wpr.org/health/returned-sender-postal-officials-investigating-wisconsin-absentee-ballots-were-never-delivered
+  Matches: 6
+
+https://www.wpr.org/social-issues/northeast-wisconsins-critical-shortage-affordable-housing-has-deep-roots
+  Matches: 24
+
+https://www.wpr.org/memorial-600-milwaukeeans-dead-covid-19-organizers-urge-action
+  Matches: 6
+
+https://www.wpr.org/trump-draws-thousands-rally-wisconsin-sees-record-high-covid-19-cases-deaths
+  Matches: 12
+
+https://www.wpr.org/politics/sen-patrick-testin-faces-democratic-challenger-paul-piotrowski-24th-senate-district-race
+  Matches: 6
+
+https://www.wpr.org/all-lives-dont-matter-until-black-lives-matter-protests-expand-across-wisconsin-saturday
+  Matches: 12
+
+https://www.wpr.org/demonstrators-continue-honor-floyds-memory-day-10-statewide-protests
+  Matches: 18
+
+https://www.wpr.org/violence-erupts-madison-after-demonstrators-gather-across-wisconsin-demanding-justice-george-floyd
+  Matches: 6
+
+https://www.wpr.org/doj-man-fatally-shot-deputy-arpin-grabbed-knife-stabbed-deputy
+  Matches: 6
+
+https://www.wpr.org/agriculture/wisconsins-fall-wolf-hunt-hold-several-lawsuits-could-affect-whether-it-moves-forward
+  Matches: 6
+
+https://www.wpr.org/coronavirus-vaccines-what-we-know-so-far
+  Matches: 12
+
+https://www.wpr.org/diversity-and-inclusion/froedtert-hospital-one-few-nation-screen-trauma-patients-ptsd
+  Matches: 6
+
+https://www.wpr.org/sites/default/files/20180405161255401.pdf
+  Matches: 1
+
+https://www.wpr.org/sites/default/files/Alexander%20to%20Meteor%20Hardship%20Letter.pdf
+  Matches: 1
+
+https://www.wpr.org/sites/default/files/20180405161213119_0.pdf
+  Matches: 1
+
+https://www.wpr.org/uw-regents-take-controversial-tenure-policies
+  Matches: 1
+
+https://www.wpr.org/rising-inmate-population-wisconsin-strains-local-jails
+  Matches: 12
+
+https://www.wpr.org/gop-lawmakers-resurrect-uw-campus-free-speech-bill
+  Matches: 1
+
+https://www.wpr.org/person/april-dembosky
+  Matches: 1
+
+https://www.wpr.org/news/best-tv-early-2024-heres-what-watch-january
+  Matches: 1
+
+https://www.wpr.org/increase-catalytic-converter-theft-leads-new-legislation
+  Matches: 6
+
+https://www.wpr.org/fake-pain-pills-containing-fentanyl-lead-staggering-number-potentially-lethal-overdoses%20****
+  Matches: 1
+
+https://www.wpr.org/politics/cash-bail-public-benefits-april-4-election-referendums
+  Matches: 1
+
+http://www.wpr.org/tony-robinsons-mother-says-lack-information-released-about-case-has-been-distressing
+  Matches: 1
+
+https://www.wpr.org/music/1457-may-28-2022-live-broadcast
+  Matches: 1
+
+https://www.wpr.org/music/1399-april-17-2021-live-broadcast
+  Matches: 1
+
+https://www.wpr.org/music/1479-october-29-2022-broadcast
+  Matches: 1
+
+http://www.wpr.org/sites/default/files/2017-03-02%2003_28_32-0018_shared_revenue_program_informational_paper_18.pdf%20-%20Adobe%20Acrobat%20Reader%20DC.jpg
+  Matches: 1
+
+http://www.wpr.org/despite-road-damage-wisconsin-has-welcomed-heavy-trucks
+  Matches: 1
+
+https://www.wpr.org/health/milwaukee-county-working-nonprofit-eliminate-residents-medical-debt
+  Matches: 1
+
+https://www.wpr.org/agriculture/farm-animals/wiscontext-revolving-door-disease-between-humans-and-animals-0
+  Matches: 1
+
+https://www.wpr.org/news/trial-for-former-milwaukee-election-official-charged-with-election-fraud-expected-to-conclude-wednesday
+  Matches: 1
+
+http://www.wpr.org/series/proposed-bayfield-cafo
+  Matches: 1
+
+https://www.wpr.org/study-second-wolf-hunt-would-have-driven-wisconsins-wolf-population-undesirably-low-levels
+  Matches: 6
+
+https://www.wpr.org/sites/default/files/milroy_retirement_04.14.22_1.pdf
+  Matches: 1
+
+https://www.wpr.org/conflicts-disasters/evers-calls-increased-funding-flood-response-mitigation-during-visit-western-wisconsin
+  Matches: 6
+
+http://www.wpr.org/congress-considering-new-rules-va-hospitals-after-death-wisconsin-veteran
+  Matches: 1
+
+https://www.wpr.org/we-are-part-storm-virtual-schooling-takes-toll-children-and-families
+  Matches: 6
+
+https://www.wpr.org/experts-highlight-issues-ahead-next-state-superintendent
+  Matches: 1
+
+https://www.wpr.org/sites/default/files/what_we_know_about_federal_vaccine_mandate_0.pdf
+  Matches: 1
+
+https://www.wpr.org/expert-public-health-measures-hand-washing-social-distancing-hold-key-college-sports-return
+  Matches: 1
+
+http://www.wpr.org/demonstrators-gather-milwaukee-protest-george-floyd-joel-acevedo-killings
+  Matches: 18
+
+https://www.wpr.org/news/reckless-driving-crashes-milwaukee-county-damage-buses
+  Matches: 1
+
+https://www.wpr.org/books/essays-after-eighty-donald-hall
+  Matches: 1
+
+https://www.wpr.org/wisconsin-child-care-providers-already-battered-pandemic-see-more-closures-cases-current-surge
+  Matches: 1
+
+https://www.wpr.org/wisconsin-voters-could-scrap-treasurers-office-april-election
+  Matches: 1
+
+https://www.wpr.org/trump-ally-tom-tiffany-fought-gop-causes-legislature-now-hes-set-his-sights-congress
+  Matches: 18
+
+https://www.wpr.org/tricia-zunker-would-make-history-special-election-win-can-democrat-flip-deep-red-congressional
+  Matches: 24
+
+https://www.wpr.org/sites/default/files/sw21-5788_1.pdf
+  Matches: 1
+
+https://www.wpr.org/sites/default/files/sw21-5789_1.pdf
+  Matches: 1
+
+https://www.wpr.org/task-force-recommends-demolishing-milwaukee-domes
+  Matches: 1
+
+https://www.wpr.org/foresters-push-back-walker-pushes-property-tax-cuts
+  Matches: 1
+
+https://www.wpr.org/sites/default/files/Sen.%20Shilling%20Release%20-%20Gov.%20Walker%E2%80%99s%20hollow%20campaign%20gimmick%201.4.18.pdf
+  Matches: 1
+
+https://www.wpr.org/congress-certifies-biden-victory-trump-pledges-orderly-transition-jan-20
+  Matches: 1
+
+https://www.wpr.org/social-issues/former-badgers-football-players-vibez-golf-club
+  Matches: 1
+
+https://www.wpr.org/said%20at%20an%20Alabama%20political%20rally
+  Matches: 1
+
+https://www.wpr.org/wisconsin-assembly-backs-national-constitutional-convention
+  Matches: 1
+
+https://www.wpr.org/diversity-and-inclusion/drivers-licenses-immigrants-documentation-farmers-driving-work
+  Matches: 1
+
+https://www.wpr.org/wisconsin-lawmakers-governor-considering-legislative-action-response-covid-19-pandemic
+  Matches: 1
+
+https://www.wpr.org/gov-tony-evers-answers-your-questions-wisconsins-covid-19-response
+  Matches: 1
+
+https://www.wpr.org/sites/default/files/lfb.memo_.asm_.gop_.covid_.proposals.pdf
+  Matches: 1
+
+https://www.wpr.org/bill-protecting-pre-existing-conditions-moves-forward-legislature
+  Matches: 1
+
+https://www.wpr.org/listen/1392421
+  Matches: 1
+
+https://www.wpr.org/legislatures-budget-committee-approves-federal-funding-i-94-local-roads
+  Matches: 1
+
+https://www.wpr.org/foxconn-style-incentives-shape-economic-development-debate-governor%E2%80%99s-race
+  Matches: 1
+
+https://www.wpr.org/sites/default/files/viewdoc_0.pdf
+  Matches: 1
+
+https://www.wpr.org/sites/default/files/conley_decision.pdf
+  Matches: 1
+
+https://www.wpr.org/sites/default/files/sondy_pope.pdf
+  Matches: 1
+
+https://www.wpr.org/sites/default/files/kelda_roys.pdf
+  Matches: 1
+
+https://www.wpr.org/we-need-some-help-farmers-look-officials-community-mental-health-resources
+  Matches: 19
+
+https://www.wpr.org/wisconsin-assembly-approves-bill-allowing-go-cocktails
+  Matches: 1
+
+https://www.wpr.org/economy/oscar-mayer-plant-madison-close
+  Matches: 1
+
+https://www.wpr.org/health/dna-blood-samples-could-help-early-cancer-detection-wisconsin-researchers-say
+  Matches: 1
+
+https://www.wpr.org/sites/default/files/ivermectinstudy.pdf
+  Matches: 1
+
+https://www.wpr.org/voters-some-wisconsin-cities-will-weigh-abortion-ban-fall-election-referendums
+  Matches: 1
+
+https://www.wpr.org/events/category/community/page/4?tribe-bar-date=2025-12-09
+  Matches: 1
+
+https://www.wpr.org/page/4?post_type=tribe_events&eventDisplay=day&tribe_events_cat=community&eventDate=2025-12-13
+  Matches: 1
+
+https://www.wpr.org/page/2?post_type=tribe_events&eventDisplay=day&tribe_events_cat=community&eventDate=2025-12-06
+  Matches: 1
+
+https://www.wpr.org/events/category/community/page/4?tribe-bar-date=2025-12-20
+  Matches: 1
+
+https://www.wpr.org/events/category/community/page/4?tribe-bar-date=2025-12-05
+  Matches: 1
+
+https://www.wpr.org?post_type=tribe_events&eventDisplay=day&tribe_events_cat=community&paged=3&eventDate=2026-01-01
+  Matches: 1
+
+https://www.wpr.org/events/category/community/page/3?tribe-bar-date=2026-01-01&eventDisplay=past
+  Matches: 1
+
+https://www.wpr.org/events/category/community/page/4?tribe-bar-date=2025-12-01
+  Matches: 1
+
+https://www.wpr.org?post_type=tribe_events&eventDisplay=day&tribe_events_cat=community&paged=3&eventDate=2025-12-15
+  Matches: 1
+
+https://www.wpr.org/page/2?post_type=tribe_events&eventDisplay=day&tribe_events_cat=community&eventDate=2025-12-26
+  Matches: 1
+
+https://www.wpr.org/events/category/community/page/4?tribe-bar-date=2026-01-03
+  Matches: 1
+
+https://www.wpr.org?post_type=tribe_events&eventDisplay=day&tribe_events_cat=community&paged=3&eventDate=2026-01-03
+  Matches: 1
+
+https://www.wpr.org?post_type=tribe_events&eventDisplay=day&tribe_events_cat=community&paged=2&eventDate=2026-01-04
+  Matches: 1
+
+https://www.wpr.org/events/category/community/page/3?tribe-bar-date=2026-01-04
+  Matches: 1
+
+https://www.wpr.org/events/category/community/page/3?tribe-bar-date=2025-12-08&eventDisplay=past
+  Matches: 1
+
+https://www.wpr.org/events/category/community/page/3?tribe-bar-date=2025-12-16&eventDisplay=past
+  Matches: 1
+
+https://www.wpr.org/events/category/community/page/2?tribe-bar-date=2025-11-06&eventDisplay=past
+  Matches: 1
+
+https://www.wpr.org/events/category/community/page/3?tribe-bar-date=2025-11-06
+  Matches: 1
+
+https://www.wpr.org/events/category/community/page/2?tribe-bar-date=2025-11-24&eventDisplay=past
+  Matches: 1
+
+https://www.wpr.org?post_type=tribe_events&eventDisplay=day&tribe_events_cat=community&paged=2&eventDate=2025-11-24
+  Matches: 1
+
+https://www.wpr.org/events/category/community/page/3?tribe-bar-date=2025-11-24
+  Matches: 1
+
+https://www.wpr.org/events/category/community/page/2?tribe-bar-date=2025-11-18&eventDisplay=past
+  Matches: 1
+
+https://www.wpr.org/events/category/community/page/2?tribe-bar-date=2025-10-19
+  Matches: 1
+
+https://www.wpr.org/events/category/community/day/2025-10-20
+  Matches: 1
+
+https://www.wpr.org?post_type=tribe_events&eventDisplay=day&tribe_events_cat=community&paged=2&eventDate=2025-11-11
+  Matches: 1
+
+https://www.wpr.org/events/category/community/page/2?tribe-bar-date=2025-10-25
+  Matches: 1
+
+https://www.wpr.org/events/category/community/page/3?tribe-bar-date=2025-10-26
+  Matches: 1
+
+https://www.wpr.org/events/category/community/page/3?tribe-bar-date=2025-10-30
+  Matches: 1
+
+https://www.wpr.org/events/category/community/page/3?tribe-bar-date=2025-11-01&eventDisplay=past
+  Matches: 1
+
+https://www.wpr.org/events/category/community/list?tribe-bar-date=2025-10-28&eventDisplay=past
+  Matches: 1
+
+https://www.wpr.org/events/category/community/page/2?tribe-bar-date=2025-10-29&eventDisplay=past
+  Matches: 1
+
+https://www.wpr.org?post_type=tribe_events&eventDisplay=day&tribe_events_cat=community&paged=2&eventDate=2025-10-29
+  Matches: 1
+
+https://www.wpr.org/events/category/community/page/3?tribe-bar-date=2025-11-13
+  Matches: 1
+
+https://www.wpr.org/events/category/community/page/2?tribe-bar-date=2025-11-13&eventDisplay=past
+  Matches: 1
+
+https://www.wpr.org/events/category/community/list?tribe-bar-date=2025-10-16&eventDisplay=past
+  Matches: 1
+
+https://www.wpr.org/events/category/community/page/2?tribe-bar-date=2025-10-02
+  Matches: 1
+
+https://www.wpr.org/events/category/community/list?tribe-bar-date=2025-10-02&eventDisplay=past
+  Matches: 1
+
+https://www.wpr.org/events/category/community/page/2?tribe-bar-date=2025-10-01&eventDisplay=past
+  Matches: 1
+
+https://www.wpr.org/events/category/community/page/2?tribe-bar-date=2025-10-04
+  Matches: 1
+
+https://www.wpr.org/events/category/community/page/2?tribe-bar-date=2025-10-09
+  Matches: 1
+
+https://www.wpr.org/events/category/community/week/2025-09-14
+  Matches: 1
+
+https://www.wpr.org/events/category/community/list?tribe-bar-date=2025-09-21
+  Matches: 1
+
+https://www.wpr.org/events/category/community/list?tribe-bar-date=2025-10-18&eventDisplay=past
+  Matches: 1
+
+https://www.wpr.org/events/category/community/list?tribe-bar-date=2025-09-11
+  Matches: 1
+
+https://www.wpr.org/events/category/community/week/2025-09-11
+  Matches: 1
+
+https://www.wpr.org/events/category/community/list?tribe-bar-date=2025-09-02
+  Matches: 1
+
+https://www.wpr.org/events/category/community/week/2025-09-04
+  Matches: 1
+
+https://www.wpr.org/events/category/community/list?tribe-bar-date=2025-09-17
+  Matches: 1
+
+https://www.wpr.org/events/category/community/week/2025-09-19
+  Matches: 1
+
+https://www.wpr.org/events/category/community/week/2025-09-23
+  Matches: 1
+
+https://www.wpr.org/events/category/community/list?tribe-bar-date=2025-09-13
+  Matches: 1
+
+https://www.wpr.org/events/category/community/week/2025-08-24
+  Matches: 1
+
+https://www.wpr.org/events/category/community/2025-07
+  Matches: 1
+
+https://www.wpr.org/events/category/community/day/2025-08-24
+  Matches: 1
+
+https://www.wpr.org/events/category/community/day/2025-08-10
+  Matches: 1
+
+https://www.wpr.org/events/category/community/day/2025-08-09
+  Matches: 1
+
+https://www.wpr.org/events/category/community/day/2025-08-08
+  Matches: 1
+
+https://www.wpr.org/events/category/community/day/2025-08-15
+  Matches: 1
+
+https://www.wpr.org/events/category/community/day/2025-08-04
+  Matches: 1
+
+https://www.wpr.org/events/category/community/list?tribe-bar-date=2025-09-12
+  Matches: 1
+
+https://www.wpr.org/events/category/community/page/2?tribe-bar-date=2025-09-29
+  Matches: 1
+
+https://www.wpr.org/events/category/community/page/2?tribe-bar-date=2025-10-22
+  Matches: 1
+
+https://www.wpr.org/events/category/community/page/3?tribe-bar-date=2025-11-21
+  Matches: 1
+
+https://www.wpr.org?post_type=tribe_events&eventDisplay=day&tribe_events_cat=community&paged=2&eventDate=2025-11-21
+  Matches: 1
+
+https://www.wpr.org?post_type=tribe_events&eventDisplay=day&tribe_events_cat=community&paged=2&eventDate=2025-11-28
+  Matches: 1
+
+https://www.wpr.org?post_type=tribe_events&eventDisplay=day&tribe_events_cat=community&paged=2&eventDate=2025-11-07
+  Matches: 1
+
+https://www.wpr.org/events/category/community/page/2?tribe-bar-date=2025-11-05&eventDisplay=past
+  Matches: 1
+
+https://www.wpr.org/events/category/community/page/3?tribe-bar-date=2025-11-20
+  Matches: 1
+
+https://www.wpr.org/events/category/community/page/2?tribe-bar-date=2025-11-23&eventDisplay=past
+  Matches: 1
+
+https://www.wpr.org/events/category/community/page/2?tribe-bar-date=2025-11-09&eventDisplay=past
+  Matches: 1
+
+https://www.wpr.org/events/category/community/page/2?tribe-bar-date=2025-11-29&eventDisplay=past
+  Matches: 1
+
+https://www.wpr.org?post_type=tribe_events&eventDisplay=day&tribe_events_cat=community&paged=2&eventDate=2025-11-22
+  Matches: 1
+
+https://www.wpr.org/events/category/community/page/3?tribe-bar-date=2025-11-16
+  Matches: 1
+
+https://www.wpr.org/events/category/community/page/2?tribe-bar-date=2025-11-16&eventDisplay=past
+  Matches: 1
+
+https://www.wpr.org/events/category/community/page/3?tribe-bar-date=2025-11-19
+  Matches: 1
+
+https://www.wpr.org?post_type=tribe_events&eventDisplay=day&tribe_events_cat=community&paged=2&eventDate=2025-11-26
+  Matches: 1
+
+https://www.wpr.org/events/category/community/page/3?tribe-bar-date=2025-11-26
+  Matches: 1
+
+https://www.wpr.org/events/category/community/page/4?tribe-bar-date=2025-12-21
+  Matches: 1
+
+https://www.wpr.org/events/category/community/page/4?tribe-bar-date=2025-12-23
+  Matches: 1
+
+https://www.wpr.org?post_type=tribe_events&eventDisplay=day&tribe_events_cat=community&paged=3&eventDate=2025-12-14
+  Matches: 1
+
+https://www.wpr.org/events/category/community/page/4?tribe-bar-date=2025-12-25
+  Matches: 1
+
+https://www.wpr.org?post_type=tribe_events&eventDisplay=day&tribe_events_cat=community&paged=3&eventDate=2025-12-25
+  Matches: 1
+
+https://www.wpr.org?post_type=tribe_events&eventDisplay=day&tribe_events_cat=community&paged=3&eventDate=2025-12-07
+  Matches: 1
+
+https://www.wpr.org/events/category/community/page/3?tribe-bar-date=2025-12-28&eventDisplay=past
+  Matches: 1
+
+https://www.wpr.org?post_type=tribe_events&eventDisplay=day&tribe_events_cat=community&paged=3&eventDate=2025-12-28
+  Matches: 1
+
+https://www.wpr.org/events/category/community/page/3?tribe-bar-date=2025-12-29&eventDisplay=past
+  Matches: 1
+
+https://www.wpr.org?post_type=tribe_events&eventDisplay=day&tribe_events_cat=community&paged=2&eventDate=2026-01-15
+  Matches: 1
+
+https://www.wpr.org/events/category/community/page/3?tribe-bar-date=2026-01-15
+  Matches: 1
+
+https://www.wpr.org/events/category/community/week/2026-03-11
+  Matches: 1
+
+https://www.wpr.org/events/category/community/day/2026-04-06
+  Matches: 1
+
+https://www.wpr.org/events/category/community/day/2026-04-22
+  Matches: 1
+
+https://www.wpr.org/events/category/community/day/2026-04-08
+  Matches: 1
+
+https://www.wpr.org/events/category/community/day/2026-05-01
+  Matches: 1
+
+https://www.wpr.org/events/category/community/day/2026-04-16
+  Matches: 1
+
+https://www.wpr.org/events/category/community/day/2026-04-18
+  Matches: 1
+
+https://www.wpr.org/events/category/community/day/2026-04-29
+  Matches: 1
+
+https://www.wpr.org/events/category/community/day/2026-05-02
+  Matches: 1
+
+https://www.wpr.org/events/category/community/week/2026-04-01
+  Matches: 1
+
+https://www.wpr.org/events/category/community/day/2026-04-20
+  Matches: 1
+
+https://www.wpr.org/events/category/community/day/2026-04-30
+  Matches: 1
+
+https://www.wpr.org/events/category/community/list?tribe-bar-date=2026-03-28
+  Matches: 1
+
+https://www.wpr.org/events/category/community/week/2026-03-24
+  Matches: 1
+
+https://www.wpr.org/events/category/community/week/2026-03-12
+  Matches: 1
+
+https://www.wpr.org/events/category/community/week/2026-03-07
+  Matches: 1
+
+https://www.wpr.org/events/category/community/list?tribe-bar-date=2026-03-17
+  Matches: 1
+
+https://www.wpr.org/events/category/community/week/2026-03-09
+  Matches: 1
+
+https://www.wpr.org/events/category/community/list?tribe-bar-date=2026-03-31
+  Matches: 1
+
+https://www.wpr.org/events/category/community/week/2026-03-27
+  Matches: 1
+
+https://www.wpr.org/events/category/community/list?tribe-bar-date=2026-03-03
+  Matches: 1
+
+https://www.wpr.org/events/category/community/week/2026-03-03
+  Matches: 1
+
+https://www.wpr.org/events/category/community/list?tribe-bar-date=2026-03-29
+  Matches: 1
+
+https://www.wpr.org/events/category/community/week/2026-03-29
+  Matches: 1
+
+https://www.wpr.org/events/category/community/week/2026-03-04
+  Matches: 1
+
+https://www.wpr.org/events/category/community/week/2026-03-05
+  Matches: 1
+
+https://www.wpr.org/events/category/community/week/2026-04-04
+  Matches: 1
+
+https://www.wpr.org/events/category/community/page/2?tribe-bar-date=2026-02-14
+  Matches: 1
+
+https://www.wpr.org/events/category/community/page/2?tribe-bar-date=2026-02-28
+  Matches: 1
+
+https://www.wpr.org/events/category/community/list?tribe-bar-date=2026-02-28&eventDisplay=past
+  Matches: 1
+
+https://www.wpr.org/events/category/community/page/2?tribe-bar-date=2026-02-08
+  Matches: 1
+
+https://www.wpr.org/events/category/community/page/2?tribe-bar-date=2026-02-09
+  Matches: 1
+
+https://www.wpr.org/events/category/community/list?tribe-bar-date=2026-02-18&eventDisplay=past
+  Matches: 1
+
+https://www.wpr.org/events/category/community/list?tribe-bar-date=2026-02-27&eventDisplay=past
+  Matches: 1
+
+https://www.wpr.org/events/category/community/list?tribe-bar-date=2026-02-20&eventDisplay=past
+  Matches: 1
+
+https://www.wpr.org/events/category/community/page/2?tribe-bar-date=2026-02-22
+  Matches: 1
+
+https://www.wpr.org/events/category/community/list?tribe-bar-date=2026-02-22&eventDisplay=past
+  Matches: 1
+
+https://www.wpr.org/events/category/community/page/2?tribe-bar-date=2026-02-26
+  Matches: 1
+
+https://www.wpr.org/events/category/community/list?tribe-bar-date=2026-02-26&eventDisplay=past
+  Matches: 1
+
+https://www.wpr.org/events/category/community/page/2?tribe-bar-date=2026-02-10
+  Matches: 1
+
+https://www.wpr.org/events/category/community/list?tribe-bar-date=2026-02-10&eventDisplay=past
+  Matches: 1
+
+https://www.wpr.org/events/category/community/page/3?tribe-bar-date=2026-01-17
+  Matches: 1
+
+https://www.wpr.org/events/category/community/page/3?tribe-bar-date=2026-01-12
+  Matches: 1
+
+https://www.wpr.org?post_type=tribe_events&eventDisplay=day&tribe_events_cat=community&paged=2&eventDate=2026-01-12
+  Matches: 1
+
+https://www.wpr.org/events/category/community/page/2?tribe-bar-date=2026-01-19&eventDisplay=past
+  Matches: 1
+
+https://www.wpr.org?post_type=tribe_events&eventDisplay=day&tribe_events_cat=community&paged=2&eventDate=2026-01-19
+  Matches: 1
+
+https://www.wpr.org/events/category/community/page/3?tribe-bar-date=2026-01-31
+  Matches: 1
+
+https://www.wpr.org/events/category/community/page/3?tribe-bar-date=2026-01-13
+  Matches: 1
+
+https://www.wpr.org/events/category/community/page/2?tribe-bar-date=2026-01-11&eventDisplay=past
+  Matches: 1
+
+https://www.wpr.org/events/category/community/page/2?tribe-bar-date=2026-01-28&eventDisplay=past
+  Matches: 1
+
+https://www.wpr.org?post_type=tribe_events&eventDisplay=day&tribe_events_cat=community&paged=2&eventDate=2026-01-28
+  Matches: 1
+
+https://www.wpr.org/events/category/community/page/2?tribe-bar-date=2026-01-18&eventDisplay=past
+  Matches: 1
+
+https://www.wpr.org?post_type=tribe_events&eventDisplay=day&tribe_events_cat=community&paged=2&eventDate=2026-01-25
+  Matches: 1
+
+https://www.wpr.org/events/category/community/page/3?tribe-bar-date=2026-01-27
+  Matches: 1
+
+https://www.wpr.org/events/category/community/page/2?tribe-bar-date=2026-01-06&eventDisplay=past
+  Matches: 1
+
+https://www.wpr.org/events/category/community/page/3?tribe-bar-date=2026-01-24
+  Matches: 1
+
+https://www.wpr.org?post_type=tribe_events&eventDisplay=day&tribe_events_cat=community&paged=2&eventDate=2026-01-24
+  Matches: 1
+
+https://www.wpr.org/events/category/community/page/3?tribe-bar-date=2025-12-09&eventDisplay=past
+  Matches: 1
+
+https://www.wpr.org/events/category/community/page/3?tribe-bar-date=2025-12-12&eventDisplay=past
+  Matches: 1
+
+https://www.wpr.org/schools-facing-staff-shortages
+  Matches: 1
+
+https://www.wpr.org?post_type=tribe_events&eventDisplay=day&tribe_events_cat=music&paged=3&eventDate=2025-12-12
+  Matches: 1
+
+https://www.wpr.org/page/3?post_type=tribe_events&eventDisplay=day&tribe_events_cat=music&eventDate=2025-12-08
+  Matches: 1
+
+https://www.wpr.org?post_type=tribe_events&eventDisplay=day&tribe_events_cat=music&paged=3&eventDate=2025-12-10
+  Matches: 1
+
+https://www.wpr.org/page/2?post_type=tribe_events&eventDisplay=day&tribe_events_cat=music&eventDate=2025-12-14
+  Matches: 1
+
+https://www.wpr.org/events/category/music/page/6?eventDisplay=past
+  Matches: 1
+
+https://www.wpr.org?post_type=tribe_events&eventDisplay=day&tribe_events_cat=music&paged=2&eventDate=2026-01-04
+  Matches: 1
+
+https://www.wpr.org/events/category/music/page/3?tribe-bar-date=2026-01-04
+  Matches: 1
+
+https://www.wpr.org/events/category/music/page/3?tribe-bar-date=2026-01-03&eventDisplay=past
+  Matches: 1
+
+https://www.wpr.org?post_type=tribe_events&eventDisplay=day&tribe_events_cat=music&paged=3&eventDate=2025-12-21
+  Matches: 1
+
+https://www.wpr.org/events/category/music/page/4?tribe-bar-date=2025-12-21
+  Matches: 1
+
+https://www.wpr.org/events/category/music/page/4?tribe-bar-date=2025-12-01
+  Matches: 1
+
+https://www.wpr.org?post_type=tribe_events&eventDisplay=day&tribe_events_cat=music&paged=3&eventDate=2025-12-23
+  Matches: 1
+
+https://www.wpr.org/page/2?post_type=tribe_events&eventDisplay=day&tribe_events_cat=music&eventDate=2025-12-19
+  Matches: 1
+
+https://www.wpr.org/page/2?post_type=tribe_events&eventDisplay=day&tribe_events_cat=music&eventDate=2025-12-18
+  Matches: 1
+
+https://www.wpr.org/events/category/music/page/3?tribe-bar-date=2026-01-01&eventDisplay=past
+  Matches: 1
+
+https://www.wpr.org/page/2?post_type=tribe_events&eventDisplay=day&tribe_events_cat=music&eventDate=2025-12-29
+  Matches: 1
+
+https://www.wpr.org/events/category/music/page/3?tribe-bar-date=2026-01-07
+  Matches: 1
+
+https://www.wpr.org/events/category/music/page/2?tribe-bar-date=2026-01-25&eventDisplay=past
+  Matches: 1
+
+https://www.wpr.org?post_type=tribe_events&eventDisplay=day&tribe_events_cat=music&paged=2&eventDate=2026-01-20
+  Matches: 1
+
+https://www.wpr.org?post_type=tribe_events&eventDisplay=day&tribe_events_cat=music&paged=2&eventDate=2026-01-18
+  Matches: 1
+
+https://www.wpr.org/events/category/music/page/2?tribe-bar-date=2026-01-23&eventDisplay=past
+  Matches: 1
+
+https://www.wpr.org/events/category/music/list?tribe-bar-date=2026-02-16&eventDisplay=past
+  Matches: 1
+
+https://www.wpr.org/events/category/music/page/2?tribe-bar-date=2026-02-16
+  Matches: 1
+
+https://www.wpr.org/events/category/music/page/2?tribe-bar-date=2026-02-19
+  Matches: 1
+
+https://www.wpr.org/events/category/music/page/2?tribe-bar-date=2026-02-01&eventDisplay=past
+  Matches: 1
+
+https://www.wpr.org?post_type=tribe_events&eventDisplay=day&tribe_events_cat=music&paged=2&eventDate=2026-02-01
+  Matches: 1
+
+https://www.wpr.org/events/category/music/page/2?tribe-bar-date=2026-02-27
+  Matches: 1
+
+https://www.wpr.org/events/category/music/list?tribe-bar-date=2026-02-26
+  Matches: 1
+
+https://www.wpr.org/events/category/music/day/2026-02-25
+  Matches: 1
+
+https://www.wpr.org/events/category/music/day/2026-02-24
+  Matches: 1
+
+https://www.wpr.org/events/category/music/list?tribe-bar-date=2026-02-10&eventDisplay=past
+  Matches: 1
+
+https://www.wpr.org/events/category/music/week/2026-03-07
+  Matches: 1
+
+https://www.wpr.org/events/category/music/day/2026-03-09
+  Matches: 1
+
+https://www.wpr.org/events/category/music/list?tribe-bar-date=2026-03-08
+  Matches: 1
+
+https://www.wpr.org/events/category/music/week/2026-03-08
+  Matches: 1
+
+https://www.wpr.org/events/category/music/list?tribe-bar-date=2026-03-22
+  Matches: 1
+
+https://www.wpr.org/events/category/music/week/2026-03-22
+  Matches: 1
+
+https://www.wpr.org/events/category/music/list?tribe-bar-date=2026-03-15
+  Matches: 1
+
+https://www.wpr.org/events/category/music/week/2026-03-15
+  Matches: 1
+
+https://www.wpr.org/events/category/music/day/2026-04-14
+  Matches: 1
+
+https://www.wpr.org/events/category/music/day/2026-04-26
+  Matches: 1
+
+https://www.wpr.org/events/category/music/day/2026-04-01
+  Matches: 1
+
+https://www.wpr.org/events/category/music/day/2026-04-21
+  Matches: 1
+
+https://www.wpr.org/events/category/music/day/2026-04-23
+  Matches: 1
+
+https://www.wpr.org/events/category/music/day/2026-05-02
+  Matches: 1
+
+https://www.wpr.org/events/category/music/day/2026-04-06
+  Matches: 1
+
+https://www.wpr.org/events/category/music/list?tribe-bar-date=2026-04-04
+  Matches: 1
+
+https://www.wpr.org/events/category/music/day/2026-03-02
+  Matches: 1
+
+https://www.wpr.org/events/category/music/day/2026-03-28
+  Matches: 1
+
+https://www.wpr.org/events/category/music/week/2026-03-29
+  Matches: 1
+
+https://www.wpr.org/events/category/music/day/2026-03-30
+  Matches: 1
+
+https://www.wpr.org/events/category/music/week/2026-04-03
+  Matches: 1
+
+https://www.wpr.org/events/category/music/list?tribe-bar-date=2026-02-05&eventDisplay=past
+  Matches: 1
+
+https://www.wpr.org/events/category/music/page/2?tribe-bar-date=2026-02-11
+  Matches: 1
+
+https://www.wpr.org/events/category/music/list?tribe-bar-date=2026-02-11&eventDisplay=past
+  Matches: 1
+
+https://www.wpr.org/events/category/music/list?tribe-bar-date=2026-02-09&eventDisplay=past
+  Matches: 1
+
+https://www.wpr.org/events/category/music/page/3?tribe-bar-date=2026-01-08
+  Matches: 1
+
+https://www.wpr.org?post_type=tribe_events&eventDisplay=day&tribe_events_cat=music&paged=2&eventDate=2026-01-14
+  Matches: 1
+
+https://www.wpr.org/events/category/music/page/3?tribe-bar-date=2026-01-14
+  Matches: 1
+
+https://www.wpr.org?post_type=tribe_events&eventDisplay=day&tribe_events_cat=music&paged=2&eventDate=2026-01-13
+  Matches: 1
+
+https://www.wpr.org/events/category/music/page/2?tribe-bar-date=2026-01-12&eventDisplay=past
+  Matches: 1
+
+https://www.wpr.org?post_type=tribe_events&eventDisplay=day&tribe_events_cat=music&paged=2&eventDate=2026-01-17
+  Matches: 1
+
+https://www.wpr.org/events/category/music/page/3?tribe-bar-date=2026-01-21
+  Matches: 1
+
+https://www.wpr.org/events/category/music/page/3?tribe-bar-date=2026-01-26
+  Matches: 1
+
+https://www.wpr.org/events/category/music/page/3?tribe-bar-date=2026-01-28
+  Matches: 1
+
+https://www.wpr.org/events/category/music/page/2?tribe-bar-date=2026-01-28&eventDisplay=past
+  Matches: 1
+
+https://www.wpr.org?post_type=tribe_events&eventDisplay=day&tribe_events_cat=music&paged=3&eventDate=2025-12-17
+  Matches: 1
+
+https://www.wpr.org/events/category/music/page/4?tribe-bar-date=2025-12-07
+  Matches: 1
+
+https://www.wpr.org/events/category/music/page/3?tribe-bar-date=2025-10-27
+  Matches: 1
+
+https://www.wpr.org/events/category/music/page/2?tribe-bar-date=2025-11-21&eventDisplay=past
+  Matches: 1
+
+https://www.wpr.org?post_type=tribe_events&eventDisplay=day&tribe_events_cat=music&paged=2&eventDate=2025-11-06
+  Matches: 1
+
+https://www.wpr.org/events/category/music/page/2?tribe-bar-date=2025-11-05&eventDisplay=past
+  Matches: 1
+
+https://www.wpr.org/events/category/music/list?tribe-bar-date=2025-10-25&eventDisplay=past
+  Matches: 1
+
+https://www.wpr.org?post_type=tribe_events&eventDisplay=day&tribe_events_cat=music&paged=2&eventDate=2025-11-29
+  Matches: 1
+
+https://www.wpr.org/events/category/music/page/2?tribe-bar-date=2025-11-29&eventDisplay=past
+  Matches: 1
+
+https://www.wpr.org?post_type=tribe_events&eventDisplay=day&tribe_events_cat=music&paged=2&eventDate=2025-11-16
+  Matches: 1
+
+https://www.wpr.org/events/category/music/page/2?tribe-bar-date=2025-11-25&eventDisplay=past
+  Matches: 1
+
+https://www.wpr.org?post_type=tribe_events&eventDisplay=day&tribe_events_cat=music&paged=2&eventDate=2025-11-25
+  Matches: 1
+
+https://www.wpr.org/events/category/music/page/2?tribe-bar-date=2025-10-31&eventDisplay=past
+  Matches: 1
+
+https://www.wpr.org/events/category/music/page/2?tribe-bar-date=2025-11-02&eventDisplay=past
+  Matches: 1
+
+https://www.wpr.org/events/category/music/page/2?tribe-bar-date=2025-11-07&eventDisplay=past
+  Matches: 1
+
+https://www.wpr.org/events/category/music/page/2?tribe-bar-date=2025-09-29
+  Matches: 1
+
+https://www.wpr.org/events/category/music/page/2?tribe-bar-date=2025-10-17
+  Matches: 1
+
+https://www.wpr.org/events/category/music/list?tribe-bar-date=2025-10-11&eventDisplay=past
+  Matches: 1
+
+https://www.wpr.org/events/category/music/page/2?tribe-bar-date=2025-10-11
+  Matches: 1
+
+https://www.wpr.org/events/category/music/page/2?tribe-bar-date=2025-10-07
+  Matches: 1
+
+https://www.wpr.org/events/category/music/list?tribe-bar-date=2025-10-06
+  Matches: 1
+
+https://www.wpr.org/events/category/music/page/2?tribe-bar-date=2025-10-05
+  Matches: 1
+
+https://www.wpr.org/events/category/music/list?tribe-bar-date=2025-10-05&eventDisplay=past
+  Matches: 1
+
+https://www.wpr.org/events/category/music/list?tribe-bar-date=2025-10-18&eventDisplay=past
+  Matches: 1
+
+https://www.wpr.org/events/category/music/list?tribe-bar-date=2025-09-10
+  Matches: 1
+
+https://www.wpr.org/events/category/music/week/2025-09-27
+  Matches: 1
+
+https://www.wpr.org/events/category/music/week/2025-09-05
+  Matches: 1
+
+https://www.wpr.org/events/category/music/list?tribe-bar-date=2025-09-26
+  Matches: 1
+
+https://www.wpr.org/events/category/music/list?tribe-bar-date=2025-09-06
+  Matches: 1
+
+https://www.wpr.org/events/category/music/list?tribe-bar-date=2025-09-15
+  Matches: 1
+
+https://www.wpr.org/events/category/music/list?tribe-bar-date=2025-09-18
+  Matches: 1
+
+https://www.wpr.org/events/category/music/week/2025-08-24
+  Matches: 1
+
+https://www.wpr.org/events/category/music/week/2025-09-08
+  Matches: 1
+
+https://www.wpr.org/events/category/music/week/2025-09-13
+  Matches: 1
+
+https://www.wpr.org/events/category/music/week/2025-09-04
+  Matches: 1
+
+https://www.wpr.org/events/category/music/day/2025-09-03
+  Matches: 1
+
+https://www.wpr.org/events/category/music/list?tribe-bar-date=2025-08-31
+  Matches: 1
+
+https://www.wpr.org/events/category/music/day/2025-09-22
+  Matches: 1
+
+https://www.wpr.org/events/category/music/week/2025-09-25
+  Matches: 1
+
+https://www.wpr.org/events/category/music/list?tribe-bar-date=2025-09-25
+  Matches: 1
+
+https://www.wpr.org/events/category/music/list?tribe-bar-date=2025-09-14
+  Matches: 1
+
+https://www.wpr.org/events/category/music/day/2025-08-12
+  Matches: 1
+
+https://www.wpr.org/events/category/music/day/2025-08-27
+  Matches: 1
+
+https://www.wpr.org/events/category/music/day/2025-07-28
+  Matches: 1
+
+https://www.wpr.org/events/category/music/day/2025-07-30
+  Matches: 1
+
+https://www.wpr.org/events/category/music/day/2025-08-24
+  Matches: 1
+
+https://www.wpr.org/events/category/music/day/2025-07-31
+  Matches: 1
+
+https://www.wpr.org/events/category/music/day/2025-08-15
+  Matches: 1
+
+https://www.wpr.org/events/category/music/day/2025-08-03
+  Matches: 1
+
+https://www.wpr.org/events/category/music/week/2025-08-01
+  Matches: 1
+
+https://www.wpr.org/events/category/music/day/2025-07-29
+  Matches: 1
+
+https://www.wpr.org/events/category/music/page/2?tribe-bar-date=2025-10-23
+  Matches: 1
+
+https://www.wpr.org/events/category/music/list?tribe-bar-date=2025-10-09&eventDisplay=past
+  Matches: 1
+
+https://www.wpr.org/events/category/music/page/2?tribe-bar-date=2025-10-09
+  Matches: 1
+
+https://www.wpr.org/events/category/music/list?tribe-bar-date=2025-10-03&eventDisplay=past
+  Matches: 1
+
+https://www.wpr.org/events/category/music/page/2?tribe-bar-date=2025-10-10
+  Matches: 1
+
+https://www.wpr.org/events/category/music/list?tribe-bar-date=2025-09-28&eventDisplay=past
+  Matches: 1
+
+https://www.wpr.org/events/category/music/page/3?tribe-bar-date=2025-11-19
+  Matches: 1
+
+https://www.wpr.org/events/category/music/page/3?tribe-bar-date=2025-11-04
+  Matches: 1
+
+https://www.wpr.org?post_type=tribe_events&eventDisplay=day&tribe_events_cat=music&paged=2&eventDate=2025-11-26
+  Matches: 1
+
+https://www.wpr.org/events/category/music/list?tribe-bar-date=2025-11-10&eventDisplay=past
+  Matches: 1
+
+https://www.wpr.org/events/category/music/page/2?tribe-bar-date=2025-11-09&eventDisplay=past
+  Matches: 1
+
+https://www.wpr.org?post_type=tribe_events&eventDisplay=day&tribe_events_cat=music&paged=2&eventDate=2025-11-09
+  Matches: 1
+
+https://www.wpr.org/events/category/music/page/3?tribe-bar-date=2025-11-09
+  Matches: 1
+
+https://www.wpr.org?post_type=tribe_events&eventDisplay=day&tribe_events_cat=music&paged=3&eventDate=2025-11-01
+  Matches: 1
+
+https://www.wpr.org/page/2?post_type=tribe_events&eventDisplay=day&tribe_events_cat=music&eventDate=2025-10-31
+  Matches: 1
+
+https://www.wpr.org?post_type=tribe_events&eventDisplay=day&tribe_events_cat=music&paged=2&eventDate=2025-11-12
+  Matches: 1
+
+https://www.wpr.org/events/category/music/page/3?tribe-bar-date=2025-11-11
+  Matches: 1
+
+https://www.wpr.org/events/category/music/page/3?tribe-bar-date=2025-11-08
+  Matches: 1
+
+https://www.wpr.org?post_type=tribe_events&eventDisplay=day&tribe_events_cat=music&paged=2&eventDate=2025-11-08
+  Matches: 1
+
+https://www.wpr.org/events/category/music/page/2?tribe-bar-date=2025-11-13&eventDisplay=past
+  Matches: 1
+
+https://www.wpr.org/events/category/music/page/3?tribe-bar-date=2025-12-11&eventDisplay=past
+  Matches: 1
+
+https://www.wpr.org/events/category/music/page/3?tribe-bar-date=2025-12-04&eventDisplay=past
+  Matches: 1
+
+https://www.wpr.org/events/category/music/page/4?tribe-bar-date=2025-12-04
+  Matches: 1
+
+https://www.wpr.org/page/2?post_type=tribe_events&eventDisplay=day&tribe_events_cat=music&eventDate=2025-12-05
+  Matches: 1
+
+https://www.wpr.org?post_type=tribe_events&eventDisplay=day&tribe_events_cat=music&paged=3&eventDate=2025-12-14
+  Matches: 1
+
+https://www.wpr.org/events/category/music/page/4?tribe-bar-date=2025-12-14
+  Matches: 1
+
+https://www.wpr.org/page/2?post_type=tribe_events&eventDisplay=day&tribe_events_cat=music&eventDate=2025-12-15
+  Matches: 1
+
+https://www.wpr.org?post_type=tribe_events&eventDisplay=day&tribe_events_cat=music&paged=3&eventDate=2025-12-26
+  Matches: 1
+
+https://www.wpr.org/events/category/music/page/4?tribe-bar-date=2025-12-26
+  Matches: 1
+
+https://www.wpr.org/page/2?post_type=tribe_events&eventDisplay=day&tribe_events_cat=music&eventDate=2025-12-27
+  Matches: 1
+
+https://www.wpr.org/events/category/music/page/3?tribe-bar-date=2025-12-26&eventDisplay=past
+  Matches: 1
+
+https://www.wpr.org/events/category/music/page/3?tribe-bar-date=2025-12-06&eventDisplay=past
+  Matches: 1
+
+https://www.wpr.org/events/category/music/page/4?tribe-bar-date=2025-12-06
+  Matches: 1
+
+https://www.wpr.org?post_type=tribe_events&eventDisplay=day&tribe_events_cat=music&paged=3&eventDate=2025-12-06
+  Matches: 1
+
+https://www.wpr.org?post_type=tribe_events&eventDisplay=day&tribe_events_cat=music&paged=3&eventDate=2025-12-24
+  Matches: 1
+
+https://www.wpr.org/events/category/music/page/3?tribe-bar-date=2025-12-25&eventDisplay=past
+  Matches: 1
+
+https://www.wpr.org/events/category/music/page/4?tribe-bar-date=2025-12-25
+  Matches: 1
+
+https://www.wpr.org/page/2?post_type=tribe_events&eventDisplay=day&tribe_events_cat=music&eventDate=2025-11-29
+  Matches: 1
+
+https://www.wpr.org?post_type=tribe_events&eventDisplay=day&tribe_events_cat=music&paged=3&eventDate=2025-12-15
+  Matches: 1
+
+https://www.wpr.org?post_type=tribe_events&eventDisplay=day&tribe_events_cat=music&paged=3&eventDate=2025-12-28
+  Matches: 1
+
+https://www.wpr.org/events/category/music/page/4?tribe-bar-date=2025-12-28
+  Matches: 1
+
+https://www.wpr.org/events/category/music/page/3?tribe-bar-date=2025-12-19&eventDisplay=past
+  Matches: 1
+
+https://www.wpr.org/events/category/music/page/4?tribe-bar-date=2025-12-19
+  Matches: 1
+
+https://www.wpr.org/events/category/music/page/4?tribe-bar-date=2025-12-22
+  Matches: 1
+
+https://www.wpr.org/events/category/music/page/3?tribe-bar-date=2025-12-05&eventDisplay=past
+  Matches: 1
+
+https://www.wpr.org?post_type=tribe_events&eventDisplay=day&tribe_events_cat=music&paged=3&eventDate=2025-12-05
+  Matches: 1
+
+https://www.wpr.org?post_type=tribe_events&eventDisplay=day&tribe_events_cat=music&paged=3&eventDate=2025-12-20
+  Matches: 1
+
+https://www.wpr.org/events/category/regions/central/page/2?tribe-bar-date=2025-12-01&eventDisplay=past
+  Matches: 1
+
+https://www.wpr.org/events/category/regions/central/day/2025-12-03
+  Matches: 1
+
+https://www.wpr.org/events/category/regions/central/week/2025-12-02
+  Matches: 1
+
+https://www.wpr.org/events/category/regions/central/page/3?tribe-bar-date=2025-12-13&eventDisplay=past
+  Matches: 1
+
+https://www.wpr.org/events/category/regions/central/list?tribe-bar-date=2026-02-15
+  Matches: 1
+
+https://www.wpr.org/events/category/regions/central/week/2026-02-11
+  Matches: 1
+
+https://www.wpr.org/events/category/regions/central/list?tribe-bar-date=2026-02-11
+  Matches: 1
+
+https://www.wpr.org/events/category/regions/central/week/2026-04-11
+  Matches: 1
+
+https://www.wpr.org/events/category/regions/central/page/2?tribe-bar-date=2025-12-15
+  Matches: 1
+
+https://www.wpr.org/events/category/regions/central/list?tribe-bar-date=2025-12-18
+  Matches: 1
+
+https://www.wpr.org/events/category/regions/central/day/2025-12-19
+  Matches: 1
+
+https://www.wpr.org/events/category/regions/central/page/2?tribe-bar-date=2025-12-14
+  Matches: 1
+
+https://www.wpr.org?post_type=tribe_events&eventDisplay=day&tribe_events_cat=central&paged=2&eventDate=2025-12-14
+  Matches: 1
+
+https://www.wpr.org/events/category/regions/central/list?tribe-bar-date=2026-02-02
+  Matches: 1
+
+https://www.wpr.org/events/category/regions/central/week/2026-02-02
+  Matches: 1
+
+https://www.wpr.org/events/category/regions/central/day/2026-02-28
+  Matches: 1
+
+https://www.wpr.org/events/category/regions/central/day/2026-03-02
+  Matches: 1
+
+https://www.wpr.org/events/category/regions/central/list?tribe-bar-date=2026-04-01
+  Matches: 1
+
+https://www.wpr.org/events/category/regions/central/2026-05
+  Matches: 1
+
+https://www.wpr.org/events/category/regions/central/week/2026-03-08
+  Matches: 1
+
+https://www.wpr.org/events/category/regions/central/day/2026-02-08
+  Matches: 1
+
+https://www.wpr.org/events/category/regions/central/week/2026-01-18
+  Matches: 1
+
+https://www.wpr.org/events/category/regions/central/list?tribe-bar-date=2026-01-25
+  Matches: 1
+
+https://www.wpr.org/events/category/regions/central/list?tribe-bar-date=2026-01-04&eventDisplay=past
+  Matches: 1
+
+https://www.wpr.org?post_type=tribe_events&eventDisplay=day&tribe_events_cat=central&paged=2&eventDate=2026-01-01
+  Matches: 1
+
+https://www.wpr.org/events/category/regions/central/day/2025-12-29
+  Matches: 1
+
+https://www.wpr.org/events/category/regions/central/list?tribe-bar-date=2025-12-30
+  Matches: 1
+
+https://www.wpr.org/events/category/regions/central/list?tribe-bar-date=2026-01-02&eventDisplay=past
+  Matches: 1
+
+https://www.wpr.org/events/category/regions/central/day/2025-10-26
+  Matches: 1
+
+https://www.wpr.org/events/category/regions/central/list?tribe-bar-date=2025-10-26
+  Matches: 1
+
+https://www.wpr.org/events/category/regions/central/day/2025-11-09
+  Matches: 1
+
+https://www.wpr.org/events/category/regions/central/list?tribe-bar-date=2025-10-12
+  Matches: 1
+
+https://www.wpr.org/events/category/regions/central/list?tribe-bar-date=2025-10-19&eventDisplay=past
+  Matches: 1
+
+https://www.wpr.org/events/category/regions/central/week/2025-10-30
+  Matches: 1
+
+https://www.wpr.org/events/category/regions/central/list?tribe-bar-date=2025-10-31&eventDisplay=past
+  Matches: 1
+
+https://www.wpr.org/events/category/regions/central/list?tribe-bar-date=2025-11-03
+  Matches: 1
+
+https://www.wpr.org?post_type=tribe_events&eventDisplay=day&tribe_events_cat=central&paged=2&eventDate=2025-11-01
+  Matches: 1
+
+https://www.wpr.org/events/category/regions/central/day/2025-11-18
+  Matches: 1
+
+https://www.wpr.org/events/category/regions/central/list?tribe-bar-date=2025-11-17
+  Matches: 1
+
+https://www.wpr.org/events/category/regions/central/list?tribe-bar-date=2025-11-16&eventDisplay=past
+  Matches: 1
+
+https://www.wpr.org/events/category/regions/central/day/2025-09-29
+  Matches: 1
+
+https://www.wpr.org/events/category/regions/central/week/2025-09-30
+  Matches: 1
+
+https://www.wpr.org/events/category/regions/central/list?tribe-bar-date=2025-09-30
+  Matches: 1
+
+https://www.wpr.org/events/category/regions/central/list?tribe-bar-date=2025-10-02
+  Matches: 1
+
+https://www.wpr.org/events/category/regions/central/day/2025-09-02
+  Matches: 1
+
+https://www.wpr.org/events/category/regions/central/day/2025-08-31
+  Matches: 1
+
+https://www.wpr.org/events/category/regions/central/page/2?tribe-bar-date=2025-09-01
+  Matches: 1
+
+https://www.wpr.org/events/category/regions/central/week/2025-09-07
+  Matches: 1
+
+https://www.wpr.org/events/category/regions/central/week/2025-09-25
+  Matches: 1
+
+https://www.wpr.org/events/category/regions/central/list?tribe-bar-date=2025-09-27
+  Matches: 1
+
+https://www.wpr.org/events/category/regions/central/list?tribe-bar-date=2025-09-26
+  Matches: 1
+
+https://www.wpr.org/events/category/regions/central/week/2025-09-26
+  Matches: 1
+
+https://www.wpr.org/events/category/regions/central/day/2025-08-09
+  Matches: 1
+
+https://www.wpr.org/events/category/regions/central/day/2025-08-07
+  Matches: 1
+
+https://www.wpr.org/events/category/regions/central/day/2025-08-14
+  Matches: 1
+
+https://www.wpr.org/events/category/regions/central/list?tribe-bar-date=2025-08-01
+  Matches: 1
+
+https://www.wpr.org/events/category/regions/central/day/2025-08-02
+  Matches: 1
+
+https://www.wpr.org/events/category/regions/central/day/2025-08-01
+  Matches: 1
+
+https://www.wpr.org/events/category/regions/central/week/2025-08-01
+  Matches: 1
+
+https://www.wpr.org/events/category/regions/central/day/2025-07-31
+  Matches: 1
+
+https://www.wpr.org/events/category/regions/central/day/2025-08-03
+  Matches: 1
+
+https://www.wpr.org/events/category/regions/central/day/2025-08-22
+  Matches: 1
+
+https://www.wpr.org/events/category/regions/central/day/2025-08-21
+  Matches: 1
+
+https://www.wpr.org/events/category/regions/central/list?tribe-bar-date=2025-09-25
+  Matches: 1
+
+https://www.wpr.org/events/category/regions/central/day/2025-10-05
+  Matches: 1
+
+https://www.wpr.org/events/category/regions/central/day/2025-09-21
+  Matches: 1
+
+https://www.wpr.org/events/category/regions/central/week/2025-09-14
+  Matches: 1
+
+https://www.wpr.org/events/category/regions/central/day/2025-10-09
+  Matches: 1
+
+https://www.wpr.org/events/category/regions/central/page/2?tribe-bar-date=2025-10-01&eventDisplay=past
+  Matches: 1
+
+https://www.wpr.org/events/category/regions/central/page/2?tribe-bar-date=2025-11-13&eventDisplay=past
+  Matches: 1
+
+https://www.wpr.org/events/category/regions/central/day/2025-11-10
+  Matches: 1
+
+https://www.wpr.org/events/category/regions/central/week/2025-11-11
+  Matches: 1
+
+https://www.wpr.org/events/category/regions/central/list?tribe-bar-date=2025-11-11
+  Matches: 1
+
+https://www.wpr.org/events/tag/matthew-selenske/list?tribe-bar-date=2025-12-07
+  Matches: 1
+
+https://www.wpr.org/events/tag/matthew-selenske/day/2025-12-07
+  Matches: 1
+
+https://www.wpr.org/events/tag/matthew-selenske/week/2025-12-28
+  Matches: 1
+
+https://www.wpr.org/events/tag/matthew-selenske/day/2025-12-21
+  Matches: 1
+
+https://www.wpr.org/events/tag/matthew-selenske/day/2025-11-29
+  Matches: 1
+
+https://www.wpr.org/events/tag/matthew-selenske/day/2025-12-08
+  Matches: 1
+
+https://www.wpr.org/events/tag/matthew-selenske/week/2025-12-09
+  Matches: 1
+
+https://www.wpr.org/events/tag/matthew-selenske/day/2025-11-02
+  Matches: 1
+
+https://www.wpr.org/events/tag/matthew-selenske/2025-09
+  Matches: 1
+
+https://www.wpr.org/events/tag/matthew-selenske/day/2025-10-01
+  Matches: 1
+
+https://www.wpr.org/events/tag/matthew-selenske/week/2025-10-19
+  Matches: 1
+
+https://www.wpr.org/events/tag/matthew-selenske/week/2025-11-02
+  Matches: 1
+
+https://www.wpr.org/events/tag/matthew-selenske/week/2026-01-04
+  Matches: 1
+
+https://www.wpr.org/events/tag/matthew-selenske/day/2025-12-31
+  Matches: 1
+
+https://www.wpr.org/events/tag/matthew-selenske/day/2026-02-01
+  Matches: 1
+
+https://www.wpr.org/events/tag/matthew-selenske/week/2026-02-01
+  Matches: 1
+
+https://www.wpr.org/events/tag/prokofiev/week/2025-12-09
+  Matches: 1
+
+https://www.wpr.org/events/tag/prokofiev/day/2025-10-01
+  Matches: 1
+
+https://www.wpr.org/events/tag/prokofiev/week/2025-10-01
+  Matches: 1
+
+https://www.wpr.org/events/tag/prokofiev/list?tribe-bar-date=2025-10-01
+  Matches: 1
+
+https://www.wpr.org/events/tag/prokofiev/2025-09
+  Matches: 1
+
+https://www.wpr.org/events/tag/prokofiev/week/2025-10-19
+  Matches: 1
+
+https://www.wpr.org/events/tag/prokofiev/day/2025-10-31
+  Matches: 1
+
+https://www.wpr.org/events/tag/prokofiev/day/2025-11-02
+  Matches: 1
+
+https://www.wpr.org/events/tag/prokofiev/day/2025-12-02
+  Matches: 1
+
+https://www.wpr.org/events/tag/prokofiev/2026-03
+  Matches: 1
+
+https://www.wpr.org/events/tag/prokofiev/list?tribe-bar-date=2026-02-01
+  Matches: 1
+
+https://www.wpr.org/events/tag/prokofiev/week/2026-02-01
+  Matches: 1
+
+https://www.wpr.org/events/tag/prokofiev/day/2026-01-02
+  Matches: 1
+
+https://www.wpr.org/events/tag/prokofiev/day/2025-12-21
+  Matches: 1
+
+https://www.wpr.org/events/tag/prokofiev/day/2025-11-29
+  Matches: 1
+
+https://www.wpr.org/events/tag/prokofiev/week/2025-11-16
+  Matches: 1
+
+https://www.wpr.org/events/tag/prokofiev/day/2025-11-23
+  Matches: 1
+
+https://www.wpr.org/events/tag/central-wisconsin-symphony-orchestra/day/2025-10-11
+  Matches: 1
+
+https://www.wpr.org/events/tag/central-wisconsin-symphony-orchestra/day/2025-10-01
+  Matches: 1
+
+https://www.wpr.org/events/tag/central-wisconsin-symphony-orchestra/list?tribe-bar-date=2025-11-01&eventDisplay=past
+  Matches: 1
+
+https://www.wpr.org/events/tag/central-wisconsin-symphony-orchestra/day/2025-10-31
+  Matches: 1
+
+https://www.wpr.org/events/tag/central-wisconsin-symphony-orchestra/week/2025-11-02
+  Matches: 1
+
+https://www.wpr.org/events/tag/central-wisconsin-symphony-orchestra/week/2025-10-19
+  Matches: 1
+
+https://www.wpr.org/events/tag/central-wisconsin-symphony-orchestra/week/2026-01-04
+  Matches: 1
+
+https://www.wpr.org/events/tag/central-wisconsin-symphony-orchestra/day/2026-02-01
+  Matches: 1
+
+https://www.wpr.org/events/tag/central-wisconsin-symphony-orchestra/day/2026-02-14
+  Matches: 1
+
+https://www.wpr.org/events/tag/central-wisconsin-symphony-orchestra/list?tribe-bar-date=2025-12-07
+  Matches: 1
+
+https://www.wpr.org/events/tag/central-wisconsin-symphony-orchestra/list?tribe-bar-date=2025-12-21
+  Matches: 1
+
+https://www.wpr.org/events/tag/central-wisconsin-symphony-orchestra/week/2025-12-28
+  Matches: 1
+
+https://www.wpr.org/events/tag/central-wisconsin-symphony-orchestra/day/2025-12-15
+  Matches: 1
+
+https://www.wpr.org/events/tag/central-wisconsin-symphony-orchestra/list?tribe-bar-date=2025-11-23
+  Matches: 1
+
+https://www.wpr.org/events/tag/central-wisconsin-symphony-orchestra/day/2025-11-29
+  Matches: 1
+
+https://www.wpr.org/events/tag/central-wisconsin-symphony-orchestra/list?tribe-bar-date=2025-12-10&eventDisplay=past
+  Matches: 1
+
+https://www.wpr.org/events/tag/beethoven/week/2025-11-02
+  Matches: 1
+
+https://www.wpr.org/events/tag/beethoven/week/2025-10-19
+  Matches: 1
+
+https://www.wpr.org/events/tag/beethoven/day/2025-12-31
+  Matches: 1
+
+https://www.wpr.org/events/tag/beethoven/day/2026-01-02
+  Matches: 1
+
+https://www.wpr.org/events/tag/beethoven/week/2026-02-01
+  Matches: 1
+
+https://www.wpr.org/events/tag/beethoven/week/2026-01-04
+  Matches: 1
+
+https://www.wpr.org/events/tag/beethoven/day/2025-12-02
+  Matches: 1
+
+https://www.wpr.org/events/tag/beethoven/list?tribe-bar-date=2025-12-09
+  Matches: 1
+
+https://www.wpr.org/events/tag/beethoven/week/2025-12-09
+  Matches: 1
+
+https://www.wpr.org/events/tag/beethoven/week/2025-12-13
+  Matches: 1
+
+https://www.wpr.org/events/tag/beethoven/day/2025-11-23
+  Matches: 1
+
+https://www.wpr.org/events/tag/beethoven/day/2025-12-15
+  Matches: 1
+
+https://www.wpr.org/events/tag/cwso/list?tribe-bar-date=2025-12-10&eventDisplay=past
+  Matches: 1
+
+https://www.wpr.org/events/tag/cwso/list?tribe-bar-date=2025-12-09
+  Matches: 1
+
+https://www.wpr.org/events/tag/cwso/list?tribe-bar-date=2025-12-11&eventDisplay=past
+  Matches: 1
+
+https://www.wpr.org/events/tag/cwso/day/2025-12-31
+  Matches: 1
+
+https://www.wpr.org/events/tag/cwso/list?tribe-bar-date=2026-01-01&eventDisplay=past
+  Matches: 1
+
+https://www.wpr.org/events/tag/cwso/day/2026-02-14
+  Matches: 1
+
+https://www.wpr.org/events/tag/cwso/day/2025-11-02
+  Matches: 1
+
+https://www.wpr.org/events/tag/cwso/list?tribe-bar-date=2025-11-01&eventDisplay=past
+  Matches: 1
+
+https://www.wpr.org/events/tag/cwso/week/2025-10-19
+  Matches: 1
+
+https://www.wpr.org/events/tag/cwso/week/2025-11-02
+  Matches: 1
+
+https://www.wpr.org/events/tag/cwso/2025-09
+  Matches: 1
+
+https://www.wpr.org/events/tag/cwso/day/2025-10-11
+  Matches: 1
+
+https://www.wpr.org/events/tag/cwso/day/2025-12-02
+  Matches: 1
+
+https://www.wpr.org/events/tag/cwso/list?tribe-bar-date=2025-12-14&eventDisplay=past
+  Matches: 1
+
+https://www.wpr.org/events/tag/cwso/list?tribe-bar-date=2025-12-21
+  Matches: 1
+
+https://www.wpr.org/events/tag/cwso/list?tribe-bar-date=2025-11-30&eventDisplay=past
+  Matches: 1
+
+https://www.wpr.org/events/tag/cwso/day/2025-11-23
+  Matches: 1
+
+https://www.wpr.org/events/tag/cwso/week/2025-11-16
+  Matches: 1
+
+https://www.wpr.org/events/tag/cwso/day/2025-11-29
+  Matches: 1
+
+https://www.wpr.org/news/as-us-senate-votes-down-aca-subsidy-extension-baldwin-says-premiums-will-skyrocket
+  Matches: 1
+
+https://www.wpr.org/events/tag/summer-concert-series/list?eventDisplay=past
+  Matches: 1
+
+https://www.wpr.org/events/tag/summer-concert-series/today
+  Matches: 1
+
+https://www.wpr.org/events/tag/stevens-point/week
+  Matches: 1
+
+https://www.wpr.org/events/tag/stevens-point/list
+  Matches: 1
+
+https://www.wpr.org/events/tag/stevens-point/today
+  Matches: 1
+
+https://www.wpr.org/events/tag/schmeeckle-reserve/month
+  Matches: 1
+
+https://www.wpr.org/events/tag/schmeeckle-reserve/list
+  Matches: 1
+
+https://www.wpr.org/events/tag/summer-chamber-concert/today
+  Matches: 1
+
+https://www.wpr.org/events/tag/summer-chamber-concert/list
+  Matches: 1
+
+https://www.wpr.org/events/tag/french-horn/week
+  Matches: 1
+
+https://www.wpr.org/events/tag/wisconsin-rapids/month
+  Matches: 1
+
+https://www.wpr.org/events/tag/wisconsin-rapids/list
+  Matches: 1
+
+https://www.wpr.org/events/tag/wisconsin-rapids/week
+  Matches: 1
+
+https://www.wpr.org/events/tag/veterans-memorial-park/month
+  Matches: 1
+
+https://www.wpr.org/events/tag/veterans-memorial-park/list?eventDisplay=past
+  Matches: 1
+
+https://www.wpr.org/events/tag/central-wsiconsin-symphony-orchestra/today
+  Matches: 1
+
+https://www.wpr.org/events/tag/central-wsiconsin-symphony-orchestra/list
+  Matches: 1
+
+https://www.wpr.org/events/tag/central-wsiconsin-symphony-orchestra/month
+  Matches: 1
+
+https://www.wpr.org/events/tag/premiere/list?tribe-bar-date=2025-10-01
+  Matches: 1
+
+https://www.wpr.org/events/tag/premiere/2025-09
+  Matches: 1
+
+https://www.wpr.org/events/tag/premiere/week/2025-11-02
+  Matches: 1
+
+https://www.wpr.org/events/tag/premiere/day/2025-11-02
+  Matches: 1
+
+https://www.wpr.org/events/tag/premiere/list?tribe-bar-date=2026-02-01
+  Matches: 1
+
+https://www.wpr.org/events/tag/premiere/week/2026-01-04
+  Matches: 1
+
+https://www.wpr.org/events/tag/premiere/day/2025-12-02
+  Matches: 1
+
+https://www.wpr.org/events/tag/premiere/list?tribe-bar-date=2025-12-07
+  Matches: 1
+
+https://www.wpr.org/events/tag/premiere/day/2025-11-23
+  Matches: 1
+
+https://www.wpr.org/events/tag/premiere/week/2025-12-09
+  Matches: 1
+
+https://www.wpr.org/events/tag/premiere/list?tribe-bar-date=2025-12-09
+  Matches: 1
+
+https://www.wpr.org/events/tag/premiere/list?tribe-bar-date=2025-12-13
+  Matches: 1
+
+https://www.wpr.org/events/tag/musical-storytelling/day/2025-12-02
+  Matches: 1
+
+https://www.wpr.org/events/tag/musical-storytelling/2025-09
+  Matches: 1
+
+https://www.wpr.org/events/tag/musical-storytelling/list?tribe-bar-date=2025-10-01
+  Matches: 1
+
+https://www.wpr.org/events/tag/musical-storytelling/day/2025-10-31
+  Matches: 1
+
+https://www.wpr.org/events/tag/musical-storytelling/week/2025-11-02
+  Matches: 1
+
+https://www.wpr.org/events/tag/musical-storytelling/week/2025-10-19
+  Matches: 1
+
+https://www.wpr.org/events/tag/musical-storytelling/day/2026-01-02
+  Matches: 1
+
+https://www.wpr.org/events/tag/musical-storytelling/day/2025-12-31
+  Matches: 1
+
+https://www.wpr.org/events/tag/musical-storytelling/2026-03
+  Matches: 1
+
+https://www.wpr.org/events/tag/musical-storytelling/list?tribe-bar-date=2025-12-21
+  Matches: 1
+
+https://www.wpr.org/events/tag/musical-storytelling/week/2025-12-28
+  Matches: 1
+
+https://www.wpr.org/events/tag/peter-and-the-wolf/week/2025-10-19
+  Matches: 1
+
+https://www.wpr.org/events/tag/peter-and-the-wolf/week/2025-11-02
+  Matches: 1
+
+https://www.wpr.org/events/tag/peter-and-the-wolf/2025-09
+  Matches: 1
+
+https://www.wpr.org/events/tag/peter-and-the-wolf/day/2025-12-31
+  Matches: 1
+
+https://www.wpr.org/events/tag/peter-and-the-wolf/2026-03
+  Matches: 1
+
+https://www.wpr.org/events/tag/peter-and-the-wolf/list?tribe-bar-date=2026-02-01
+  Matches: 1
+
+https://www.wpr.org/events/tag/peter-and-the-wolf/day/2025-12-02
+  Matches: 1
+
+https://www.wpr.org/events/tag/peter-and-the-wolf/list?tribe-bar-date=2025-12-13
+  Matches: 1
+
+https://www.wpr.org/events/tag/peter-and-the-wolf/day/2025-12-07
+  Matches: 1
+
+https://www.wpr.org/events/tag/peter-and-the-wolf/list?tribe-bar-date=2025-12-07
+  Matches: 1
+
+https://www.wpr.org/events/tag/peter-and-the-wolf/week/2025-11-16
+  Matches: 1
+
+https://www.wpr.org/events/tag/peter-and-the-wolf/day/2025-12-21
+  Matches: 1
+
+https://www.wpr.org/events/tag/peter-and-the-wolf/list?tribe-bar-date=2025-12-21
+  Matches: 1
+
+https://www.wpr.org/events/tag/orchestra/day/2025-11-02
+  Matches: 1
+
+https://www.wpr.org/events/tag/orchestra/2025-09
+  Matches: 1
+
+https://www.wpr.org/events/tag/orchestra/day/2025-10-01
+  Matches: 1
+
+https://www.wpr.org/events/tag/orchestra/week/2025-11-02
+  Matches: 1
+
+https://www.wpr.org/events/tag/orchestra/day/2025-12-02
+  Matches: 1
+
+https://www.wpr.org/events/tag/orchestra/day/2025-12-31
+  Matches: 1
+
+https://www.wpr.org/events/tag/orchestra/day/2026-01-02
+  Matches: 1
+
+https://www.wpr.org/events/tag/orchestra/week/2026-01-04
+  Matches: 1
+
+https://www.wpr.org/events/tag/orchestra/day/2026-02-14
+  Matches: 1
+
+https://www.wpr.org/events/tag/orchestra/week/2025-12-09
+  Matches: 1
+
+https://www.wpr.org/events/tag/orchestra/list?tribe-bar-date=2025-12-09
+  Matches: 1
+
+https://www.wpr.org/events/tag/orchestra/day/2025-12-07
+  Matches: 1
+
+https://www.wpr.org/events/tag/orchestra/day/2025-11-23
+  Matches: 1
+
+https://www.wpr.org/events/tag/orchestra/week/2025-12-28
+  Matches: 1
+
+https://www.wpr.org/events/tag/valentine/day/2025-11-02
+  Matches: 1
+
+https://www.wpr.org/events/tag/valentine/2025-09
+  Matches: 1
+
+https://www.wpr.org/events/tag/valentine/list?tribe-bar-date=2025-10-01
+  Matches: 1
+
+https://www.wpr.org/events/tag/valentine/day/2025-10-01
+  Matches: 1
+
+https://www.wpr.org/events/tag/valentine/list?tribe-bar-date=2026-02-01
+  Matches: 1
+
+https://www.wpr.org/events/tag/valentine/day/2026-02-14
+  Matches: 1
+
+https://www.wpr.org/events/tag/valentine/day/2026-01-02
+  Matches: 1
+
+https://www.wpr.org/events/tag/valentine/day/2025-12-31
+  Matches: 1
+
+https://www.wpr.org/events/tag/valentine/day/2025-12-07
+  Matches: 1
+
+https://www.wpr.org/events/tag/valentine/week/2025-12-28
+  Matches: 1
+
+https://www.wpr.org/events/tag/valentine/list?tribe-bar-date=2025-11-23
+  Matches: 1
+
+https://www.wpr.org/events/tag/valentine/list?tribe-bar-date=2025-12-13
+  Matches: 1
+
+https://www.wpr.org/events/tag/valentine/week/2025-12-13
+  Matches: 1
+
+https://www.wpr.org/events/tag/valentine/week/2025-12-09
+  Matches: 1
+
+https://www.wpr.org/events/tag/valentine/list?tribe-bar-date=2025-12-09
+  Matches: 1
+
+https://www.wpr.org/events/tag/romance/list?tribe-bar-date=2025-12-13
+  Matches: 1
+
+https://www.wpr.org/events/tag/romance/day/2025-12-08
+  Matches: 1
+
+https://www.wpr.org/events/tag/romance/week/2025-12-09
+  Matches: 1
+
+https://www.wpr.org/events/tag/romance/day/2025-12-15
+  Matches: 1
+
+https://www.wpr.org/events/tag/romance/list?tribe-bar-date=2025-12-21
+  Matches: 1
+
+https://www.wpr.org/events/tag/romance/day/2025-12-21
+  Matches: 1
+
+https://www.wpr.org/events/tag/romance/day/2025-11-29
+  Matches: 1
+
+https://www.wpr.org/events/tag/romance/day/2025-11-23
+  Matches: 1
+
+https://www.wpr.org/events/tag/romance/day/2025-10-31
+  Matches: 1
+
+https://www.wpr.org/events/tag/romance/2025-09
+  Matches: 1
+
+https://www.wpr.org/events/tag/romance/week/2025-10-01
+  Matches: 1
+
+https://www.wpr.org/events/tag/romance/week/2025-10-19
+  Matches: 1
+
+https://www.wpr.org/events/tag/romance/day/2025-12-31
+  Matches: 1
+
+https://www.wpr.org/events/tag/romance/day/2026-02-01
+  Matches: 1
+
+https://www.wpr.org/events/tag/romance/day/2025-12-02
+  Matches: 1
+
+https://www.wpr.org/events/tag/natalie-cummings/week/2025-10-19
+  Matches: 1
+
+https://www.wpr.org/events/tag/natalie-cummings/week/2025-11-02
+  Matches: 1
+
+https://www.wpr.org/events/tag/natalie-cummings/list?tribe-bar-date=2025-10-01
+  Matches: 1
+
+https://www.wpr.org/events/tag/natalie-cummings/day/2025-12-02
+  Matches: 1
+
+https://www.wpr.org/events/tag/natalie-cummings/day/2025-12-31
+  Matches: 1
+
+https://www.wpr.org/events/tag/natalie-cummings/week/2026-02-01
+  Matches: 1
+
+https://www.wpr.org/events/tag/natalie-cummings/day/2026-02-14
+  Matches: 1
+
+https://www.wpr.org/events/tag/natalie-cummings/list?tribe-bar-date=2026-02-01
+  Matches: 1
+
+https://www.wpr.org/events/tag/natalie-cummings/list?tribe-bar-date=2025-12-09
+  Matches: 1
+
+https://www.wpr.org/events/tag/natalie-cummings/day/2025-12-08
+  Matches: 1
+
+https://www.wpr.org/events/tag/natalie-cummings/week/2025-12-09
+  Matches: 1
+
+https://www.wpr.org/events/tag/natalie-cummings/week/2025-12-28
+  Matches: 1
+
+https://www.wpr.org/events/tag/natalie-cummings/day/2025-12-07
+  Matches: 1
+
+https://www.wpr.org/events/tag/natalie-cummings/list?tribe-bar-date=2025-12-07
+  Matches: 1
+
+https://www.wpr.org/events/tag/natalie-cummings/day/2025-11-23
+  Matches: 1
+
+https://www.wpr.org/events/tag/natalie-cummings/day/2025-11-29
+  Matches: 1
+
+https://www.wpr.org/events/tag/sentry-theater/week/2026-01-04
+  Matches: 1
+
+https://www.wpr.org/events/tag/sentry-theater/week/2026-02-01
+  Matches: 1
+
+https://www.wpr.org/events/tag/sentry-theater/list?tribe-bar-date=2026-02-01
+  Matches: 1
+
+https://www.wpr.org/events/tag/sentry-theater/2026-03
+  Matches: 1
+
+https://www.wpr.org/events/tag/sentry-theater/day/2025-11-02
+  Matches: 1
+
+https://www.wpr.org/events/tag/sentry-theater/day/2025-10-31
+  Matches: 1
+
+https://www.wpr.org/events/tag/sentry-theater/list?tribe-bar-date=2025-10-01
+  Matches: 1
+
+https://www.wpr.org/events/tag/sentry-theater/day/2025-10-01
+  Matches: 1
+
+https://www.wpr.org/events/tag/sentry-theater/2025-09
+  Matches: 1
+
+https://www.wpr.org/events/tag/sentry-theater/week/2025-11-16
+  Matches: 1
+
+https://www.wpr.org/events/tag/sentry-theater/list?tribe-bar-date=2025-11-23
+  Matches: 1
+
+https://www.wpr.org/events/tag/sentry-theater/day/2025-12-07
+  Matches: 1
+
+https://www.wpr.org/events/tag/sentry-theater/day/2025-12-15
+  Matches: 1
+
+https://www.wpr.org/events/tag/sentry-theater/week/2025-12-28
+  Matches: 1
+
+https://www.wpr.org/events/tag/sentry-theater/list?tribe-bar-date=2025-12-21
+  Matches: 1
+
+https://www.wpr.org/events/tag/sentry-theater/day/2025-12-21
+  Matches: 1
+
+https://www.wpr.org/events/tag/sentry-theater/list?tribe-bar-date=2025-12-13
+  Matches: 1
+
+https://www.wpr.org/events/tag/sentry-theater/week/2025-12-09
+  Matches: 1
+
+https://www.wpr.org/events/tag/sentry-theater/day/2025-12-08
+  Matches: 1
+
+https://www.wpr.org/events/tag/duet/list?tribe-bar-date=2025-12-13
+  Matches: 1
+
+https://www.wpr.org/events/tag/duet/week/2025-12-13
+  Matches: 1
+
+https://www.wpr.org/events/tag/duet/week/2025-12-09
+  Matches: 1
+
+https://www.wpr.org/events/tag/duet/list?tribe-bar-date=2025-12-09
+  Matches: 1
+
+https://www.wpr.org/events/tag/duet/list?tribe-bar-date=2025-11-23
+  Matches: 1
+
+https://www.wpr.org/events/tag/duet/day/2025-11-29
+  Matches: 1
+
+https://www.wpr.org/events/tag/duet/day/2025-12-15
+  Matches: 1
+
+https://www.wpr.org/events/tag/duet/day/2025-12-21
+  Matches: 1
+
+https://www.wpr.org/events/tag/duet/day/2025-12-02
+  Matches: 1
+
+https://www.wpr.org/events/tag/duet/2025-09
+  Matches: 1
+
+https://www.wpr.org/events/tag/duet/week/2025-10-01
+  Matches: 1
+
+https://www.wpr.org/events/tag/duet/day/2025-10-01
+  Matches: 1
+
+https://www.wpr.org/events/tag/duet/week/2025-10-19
+  Matches: 1
+
+https://www.wpr.org/events/tag/opera/day/2025-12-07
+  Matches: 1
+
+https://www.wpr.org/events/tag/opera/list?tribe-bar-date=2025-12-07
+  Matches: 1
+
+https://www.wpr.org/events/tag/opera/day/2025-11-29
+  Matches: 1
+
+https://www.wpr.org/events/tag/opera/week/2025-11-16
+  Matches: 1
+
+https://www.wpr.org/events/tag/opera/list?tribe-bar-date=2025-12-21
+  Matches: 1
+
+https://www.wpr.org/events/tag/opera/day/2026-01-02
+  Matches: 1
+
+https://www.wpr.org/events/tag/opera/list?tribe-bar-date=2026-02-01
+  Matches: 1
+
+https://www.wpr.org/events/tag/opera/day/2026-02-14
+  Matches: 1
+
+https://www.wpr.org/events/tag/opera/week/2025-11-02
+  Matches: 1
+
+https://www.wpr.org/events/tag/opera/list?tribe-bar-date=2025-10-01
+  Matches: 1
+
+https://www.wpr.org/events/tag/opera/day/2025-10-31
+  Matches: 1
+
+https://www.wpr.org/events/tag/austin-bradley/day/2025-12-15
+  Matches: 1
+
+https://www.wpr.org/events/tag/austin-bradley/week/2025-12-28
+  Matches: 1
+
+https://www.wpr.org/events/tag/austin-bradley/list?tribe-bar-date=2025-12-07
+  Matches: 1
+
+https://www.wpr.org/events/tag/austin-bradley/week/2025-11-16
+  Matches: 1
+
+https://www.wpr.org/events/tag/austin-bradley/day/2025-11-23
+  Matches: 1
+
+https://www.wpr.org/events/tag/austin-bradley/list?tribe-bar-date=2025-11-23
+  Matches: 1
+
+https://www.wpr.org/events/tag/austin-bradley/week/2025-11-02
+  Matches: 1
+
+https://www.wpr.org/events/tag/austin-bradley/day/2025-11-02
+  Matches: 1
+
+https://www.wpr.org/events/tag/austin-bradley/2025-09
+  Matches: 1
+
+https://www.wpr.org/events/tag/austin-bradley/week/2026-01-04
+  Matches: 1
+
+https://www.wpr.org/events/tag/austin-bradley/day/2026-01-02
+  Matches: 1
+
+https://www.wpr.org/events/tag/austin-bradley/2026-03
+  Matches: 1
+
+https://www.wpr.org/events/tag/austin-bradley/list?tribe-bar-date=2026-02-01
+  Matches: 1
+
+https://www.wpr.org/events/tag/austin-bradley/week/2026-02-01
+  Matches: 1
+
+https://www.wpr.org/events/tag/austin-bradley/day/2026-02-14
+  Matches: 1
+
+https://www.wpr.org/events/tag/austin-bradley/day/2026-02-01
+  Matches: 1
+
+https://www.wpr.org/events/tag/austin-bradley/list?tribe-bar-date=2025-12-13
+  Matches: 1
+
+https://www.wpr.org/events/category/regions/central/week/2025-12-06
+  Matches: 1
+
+https://www.wpr.org?post_type=tribe_events&eventDisplay=day&tribe_events_cat=central&paged=2&eventDate=2025-12-11
+  Matches: 1
+
+https://www.wpr.org/events/category/regions/central/page/3?tribe-bar-date=2025-12-11&eventDisplay=past
+  Matches: 1
+
+https://www.wpr.org/events/category/regions/central/day/2025-11-27
+  Matches: 1
+
+https://www.wpr.org?post_type=tribe_events&eventDisplay=day&tribe_events_cat=central&paged=2&eventDate=2025-11-30
+  Matches: 1
+
+https://www.wpr.org/events/category/regions/central/page/2?tribe-bar-date=2025-11-23&eventDisplay=past
+  Matches: 1
+
+https://www.wpr.org/events/category/regions/central/week/2025-11-24
+  Matches: 1
+
+https://www.wpr.org/events/category/regions/central/day/2025-11-25
+  Matches: 1
+
+https://www.wpr.org/events/category/regions/central/day/2025-11-21
+  Matches: 1
+
+https://www.wpr.org/events/category/regions/central/list?tribe-bar-date=2025-12-20
+  Matches: 1
+
+https://www.wpr.org/events/category/regions/central/week/2025-12-22
+  Matches: 1
+
+https://www.wpr.org/events/category/regions/central/page/2?tribe-bar-date=2025-12-21&eventDisplay=past
+  Matches: 1
+
+https://www.wpr.org/events/tag/high-school/day/2025-11-30
+  Matches: 1
+
+https://www.wpr.org/events/tag/high-school/week/2025-11-23
+  Matches: 1
+
+https://www.wpr.org/events/tag/high-school/day/2025-12-14
+  Matches: 1
+
+https://www.wpr.org/events/tag/high-school/list?tribe-bar-date=2025-12-14
+  Matches: 1
+
+https://www.wpr.org/events/tag/high-school/day/2025-12-13
+  Matches: 1
+
+https://www.wpr.org/events/tag/high-school/list?tribe-bar-date=2025-12-12
+  Matches: 1
+
+https://www.wpr.org/events/tag/high-school/list?tribe-bar-date=2025-12-10
+  Matches: 1
+
+https://www.wpr.org/events/tag/high-school/week/2025-12-10
+  Matches: 1
+
+https://www.wpr.org/events/tag/high-school/day/2025-12-09
+  Matches: 1
+
+https://www.wpr.org/events/tag/high-school/day/2025-11-01
+  Matches: 1
+
+https://www.wpr.org/events/tag/high-school/week/2025-11-01
+  Matches: 1
+
+https://www.wpr.org/events/tag/high-school/list?tribe-bar-date=2026-01-01
+  Matches: 1
+
+https://www.wpr.org/events/tag/high-school/week/2026-01-01
+  Matches: 1
+
+https://www.wpr.org/events/tag/public-schools/week/2025-12-07
+  Matches: 1
+
+https://www.wpr.org/events/tag/public-schools/list?tribe-bar-date=2025-12-14
+  Matches: 1
+
+https://www.wpr.org/events/tag/public-schools/list?tribe-bar-date=2025-11-01
+  Matches: 1
+
+https://www.wpr.org/events/tag/public-schools/2026-02
+  Matches: 1
+
+https://www.wpr.org/events/tag/public-schools/week/2026-01-01
+  Matches: 1
+
+https://www.wpr.org/events/tag/public-schools/list?tribe-bar-date=2025-12-12
+  Matches: 1
+
+https://www.wpr.org/events/tag/public-schools/week/2025-12-12
+  Matches: 1
+
+https://www.wpr.org/events/tag/public-schools/week/2025-12-10
+  Matches: 1
+
+https://www.wpr.org/events/tag/public-schools/list?tribe-bar-date=2025-12-10
+  Matches: 1
+
+https://www.wpr.org/events/tag/festival/2025-10
+  Matches: 1
+
+https://www.wpr.org/events/tag/festival/list?tribe-bar-date=2025-11-01
+  Matches: 1
+
+https://www.wpr.org/events/tag/festival/week/2025-11-01
+  Matches: 1
+
+https://www.wpr.org/events/tag/festival/day/2025-11-01
+  Matches: 1
+
+https://www.wpr.org/events/tag/festival/list?tribe-bar-date=2025-12-01
+  Matches: 1
+
+https://www.wpr.org/events/tag/festival/day/2025-12-01
+  Matches: 1
+
+https://www.wpr.org/events/tag/festival/week/2026-01-01
+  Matches: 1
+
+https://www.wpr.org/events/tag/festival/list?tribe-bar-date=2025-12-12
+  Matches: 1
+
+https://www.wpr.org/events/tag/festival/day/2025-12-13
+  Matches: 1
+
+https://www.wpr.org/events/tag/festival/list?tribe-bar-date=2025-12-11
+  Matches: 1
+
+https://www.wpr.org/events/tag/festival/week/2025-12-10
+  Matches: 1
+
+https://www.wpr.org/events/tag/festival/day/2025-12-09
+  Matches: 1
+
+https://www.wpr.org/events/tag/festival/list?tribe-bar-date=2025-11-30
+  Matches: 1
+
+https://www.wpr.org/events/tag/festival/week/2025-12-21
+  Matches: 1
+
+https://www.wpr.org/events/tag/festival/day/2025-12-14
+  Matches: 1
+
+https://www.wpr.org/events/tag/lincoln-portrait/day/2025-11-30
+  Matches: 1
+
+https://www.wpr.org/events/tag/lincoln-portrait/list?tribe-bar-date=2025-12-11
+  Matches: 1
+
+https://www.wpr.org/events/tag/lincoln-portrait/list?tribe-bar-date=2025-12-14
+  Matches: 1
+
+https://www.wpr.org/events/tag/lincoln-portrait/2026-02
+  Matches: 1
+
+https://www.wpr.org/events/tag/lincoln-portrait/list?tribe-bar-date=2025-12-01
+  Matches: 1
+
+https://www.wpr.org/events/tag/lincoln-portrait/2025-10
+  Matches: 1
+
+https://www.wpr.org/events/tag/lincoln-portrait/week/2025-11-01
+  Matches: 1
+
+https://www.wpr.org/events/tag/lincoln-portrait/list?tribe-bar-date=2025-12-12
+  Matches: 1
+
+https://www.wpr.org/events/tag/lincoln-portrait/day/2025-12-09
+  Matches: 1
+
+https://www.wpr.org/events/tag/violin/week/2025-12-12
+  Matches: 1
+
+https://www.wpr.org/events/tag/violin/day/2025-12-13
+  Matches: 1
+
+https://www.wpr.org/events/tag/violin/list?tribe-bar-date=2025-12-11
+  Matches: 1
+
+https://www.wpr.org/events/tag/violin/list?tribe-bar-date=2025-12-10
+  Matches: 1
+
+https://www.wpr.org/events/tag/violin/day/2025-11-30
+  Matches: 1
+
+https://www.wpr.org/events/tag/violin/list?tribe-bar-date=2025-11-30
+  Matches: 1
+
+https://www.wpr.org/events/tag/violin/list?tribe-bar-date=2025-12-14
+  Matches: 1
+
+https://www.wpr.org/events/tag/violin/list?tribe-bar-date=2025-11-01
+  Matches: 1
+
+https://www.wpr.org/events/tag/violin/2025-10
+  Matches: 1
+
+https://www.wpr.org/events/tag/violin/week/2025-11-01
+  Matches: 1
+
+https://www.wpr.org/events/tag/violin/2026-02
+  Matches: 1
+
+https://www.wpr.org/events/tag/violin/week/2025-12-01
+  Matches: 1
+
+https://www.wpr.org/events/tag/violin/list?tribe-bar-date=2025-12-01
+  Matches: 1
+
+https://www.wpr.org/events/category/concerts/bluegrass/list?tribe-bar-date=2025-12-14
+  Matches: 1
+
+https://www.wpr.org/events/category/concerts/bluegrass/day/2025-12-14
+  Matches: 1
+
+https://www.wpr.org/events/category/concerts/bluegrass/2025-12
+  Matches: 1
+
+https://www.wpr.org/events/category/concerts/bluegrass/day/2025-11-30
+  Matches: 1
+
+https://www.wpr.org/events/category/concerts/bluegrass/list?tribe-bar-date=2025-11-30
+  Matches: 1
+
+https://www.wpr.org/events/category/concerts/bluegrass/week/2025-12-10
+  Matches: 1
+
+https://www.wpr.org/events/category/concerts/bluegrass/week/2025-11-01
+  Matches: 1
+
+https://www.wpr.org/events/category/concerts/bluegrass/2026-02
+  Matches: 1
+
+https://www.wpr.org/event/wyso-harp-ensemble-opus-one-and-sinfonietta-orchestras
+  Matches: 1
+
+https://www.wpr.org/venue/pines-music-park
+  Matches: 1
+
+https://www.wpr.org/events/category/blues
+  Matches: 1
+
+https://www.wpr.org/events/category/festivals/page/3?eventDisplay=past
+  Matches: 1
+
+https://www.wpr.org/events/category/festivals/list?tribe-bar-date=2025-11-30
+  Matches: 1
+
+https://www.wpr.org/events/category/festivals/week/2025-12-10
+  Matches: 1
+
+https://www.wpr.org/events/category/festivals/list?tribe-bar-date=2025-12-10
+  Matches: 1
+
+https://www.wpr.org/events/category/festivals/week/2025-12-12
+  Matches: 1
+
+https://www.wpr.org/events/category/festivals/list?tribe-bar-date=2025-12-05
+  Matches: 1
+
+https://www.wpr.org/events/category/festivals/week/2025-12-05
+  Matches: 1
+
+https://www.wpr.org/events/category/festivals/day/2025-12-25
+  Matches: 1
+
+https://www.wpr.org/events/category/festivals/week/2025-12-24
+  Matches: 1
+
+https://www.wpr.org/events/category/festivals/week/2025-12-06
+  Matches: 1
+
+https://www.wpr.org/events/category/festivals/week/2025-12-26
+  Matches: 1
+
+https://www.wpr.org/events/category/festivals/list?tribe-bar-date=2025-12-26
+  Matches: 1
+
+https://www.wpr.org/events/category/festivals/day/2025-11-26
+  Matches: 1
+
+https://www.wpr.org/events/category/festivals/day/2025-10-31
+  Matches: 1
+
+https://www.wpr.org/events/category/festivals/day/2025-11-22
+  Matches: 1
+
+https://www.wpr.org/events/category/festivals/list?tribe-bar-date=2025-12-07
+  Matches: 1
+
+https://www.wpr.org/events/category/festivals/day/2025-12-16
+  Matches: 1
+
+https://www.wpr.org/events/category/festivals/week/2025-12-15
+  Matches: 1
+
+https://www.wpr.org/events/category/festivals/list?tribe-bar-date=2025-12-23
+  Matches: 1
+
+https://www.wpr.org/events/category/festivals/week/2025-12-13
+  Matches: 1
+
+https://www.wpr.org/events/category/festivals/week/2025-12-09
+  Matches: 1
+
+https://www.wpr.org/events/category/festivals/list?tribe-bar-date=2025-12-04
+  Matches: 1
+
+https://www.wpr.org/events/category/festivals/week/2025-12-04
+  Matches: 1
+
+https://www.wpr.org/events/category/festivals/week/2025-12-03
+  Matches: 1
+
+https://www.wpr.org/events/category/festivals/day/2025-12-02
+  Matches: 1
+
+https://www.wpr.org/events/category/festivals/week/2026-01-01
+  Matches: 1
+
+https://www.wpr.org/events/category/festivals/list?tribe-bar-date=2026-01-01
+  Matches: 1
+
+https://www.wpr.org/events/category/festivals/day/2026-01-01
+  Matches: 1
+
+https://www.wpr.org/events/category/festivals/list?tribe-bar-date=2025-12-11
+  Matches: 1
+
+https://www.wpr.org/events/category/festivals/list?tribe-bar-date=2025-12-19
+  Matches: 1
+
+https://www.wpr.org/events/category/festivals/list?tribe-bar-date=2025-12-21
+  Matches: 1
+
+https://www.wpr.org/events/category/festivals/list?tribe-bar-date=2025-12-17
+  Matches: 1
+
+https://www.wpr.org/events/category/festivals/week/2025-12-18
+  Matches: 1
+
+https://www.wpr.org/events/category/concerts/folk/week/2025-12-10
+  Matches: 1
+
+https://www.wpr.org/events/category/concerts/folk/day/2025-12-09
+  Matches: 1
+
+https://www.wpr.org/events/category/concerts/folk/2025-12
+  Matches: 1
+
+https://www.wpr.org/events/category/concerts/folk/day/2025-12-11
+  Matches: 1
+
+https://www.wpr.org/events/category/concerts/folk/list?tribe-bar-date=2025-12-10
+  Matches: 1
+
+https://www.wpr.org/events/category/concerts/folk/list?tribe-bar-date=2025-12-12
+  Matches: 1
+
+https://www.wpr.org/events/category/concerts/folk/week/2025-12-12
+  Matches: 1
+
+https://www.wpr.org/events/category/concerts/folk/day/2025-12-13
+  Matches: 1
+
+https://www.wpr.org?post_type=tribe_events&eventDisplay=day&tribe_events_cat=folk&paged=2
+  Matches: 1
+
+https://www.wpr.org/events/category/concerts/folk/week/2025-12-07
+  Matches: 1
+
+https://www.wpr.org/events/category/concerts/folk/list?tribe-bar-date=2025-12-14
+  Matches: 1
+
+https://www.wpr.org/events/category/concerts/folk/day/2025-12-14
+  Matches: 1
+
+https://www.wpr.org/events/category/concerts/folk/list?tribe-bar-date=2025-11-30
+  Matches: 1
+
+https://www.wpr.org/events/category/concerts/folk/day/2025-11-30
+  Matches: 1
+
+https://www.wpr.org/events/category/concerts/folk/day/2026-01-01
+  Matches: 1
+
+https://www.wpr.org/events/category/concerts/folk/2026-02
+  Matches: 1
+
+https://www.wpr.org/events/category/concerts/folk/week/2026-01-01
+  Matches: 1
+
+https://www.wpr.org/events/category/concerts/folk/day/2025-11-01
+  Matches: 1
+
+https://www.wpr.org/events/category/concerts/folk/week/2025-11-01
+  Matches: 1
+
+https://www.wpr.org/events/category/concerts/folk/list?tribe-bar-date=2025-11-01
+  Matches: 1
+
+https://www.wpr.org/events/tag/chamber-concert/list?tribe-bar-date=2025-12-01
+  Matches: 1
+
+https://www.wpr.org/events/tag/chamber-concert/week/2025-11-01
+  Matches: 1
+
+https://www.wpr.org/events/tag/chamber-concert/list?tribe-bar-date=2025-11-01
+  Matches: 1
+
+https://www.wpr.org/events/tag/chamber-concert/2026-02
+  Matches: 1
+
+https://www.wpr.org/events/tag/chamber-concert/list?tribe-bar-date=2025-12-12
+  Matches: 1
+
+https://www.wpr.org/events/tag/chamber-concert/week/2025-12-10
+  Matches: 1
+
+https://www.wpr.org/events/tag/chamber-concert/list?tribe-bar-date=2025-12-10
+  Matches: 1
+
+https://www.wpr.org/events/tag/chamber-concert/week/2025-12-07
+  Matches: 1
+
+https://www.wpr.org/events/tag/chamber-concert/day/2025-11-30
+  Matches: 1
+
+https://www.wpr.org/events/tag/chamber-concert/week/2025-11-23
+  Matches: 1
+
+https://www.wpr.org/events/tag/chamber-concert/day/2025-12-14
+  Matches: 1
+
+https://www.wpr.org/events/tag/chamber-concert/list?tribe-bar-date=2025-12-14
+  Matches: 1
+
+https://www.wpr.org/events/tag/wausau-conservatory-of-music/list?tribe-bar-date=2025-12-10
+  Matches: 1
+
+https://www.wpr.org/events/tag/wausau-conservatory-of-music/list?tribe-bar-date=2025-12-11
+  Matches: 1
+
+https://www.wpr.org/events/tag/wausau-conservatory-of-music/week/2025-12-12
+  Matches: 1
+
+https://www.wpr.org/events/tag/wausau-conservatory-of-music/day/2025-12-13
+  Matches: 1
+
+https://www.wpr.org/events/tag/wausau-conservatory-of-music/list?tribe-bar-date=2025-12-12
+  Matches: 1
+
+https://www.wpr.org/events/tag/wausau-conservatory-of-music/week/2025-12-01
+  Matches: 1
+
+https://www.wpr.org/events/tag/wausau-conservatory-of-music/day/2025-12-01
+  Matches: 1
+
+https://www.wpr.org/events/tag/wausau-conservatory-of-music/list?tribe-bar-date=2025-12-01
+  Matches: 1
+
+https://www.wpr.org/events/tag/wausau-conservatory-of-music/day/2025-11-01
+  Matches: 1
+
+https://www.wpr.org/events/tag/wausau-conservatory-of-music/list?tribe-bar-date=2026-01-01
+  Matches: 1
+
+https://www.wpr.org/events/tag/wausau-conservatory-of-music/2026-02
+  Matches: 1
+
+https://www.wpr.org/events/tag/wausau-conservatory-of-music/list?tribe-bar-date=2025-12-14
+  Matches: 1
+
+https://www.wpr.org/events/tag/wausau-conservatory-of-music/list?tribe-bar-date=2025-11-30
+  Matches: 1
+
+https://www.wpr.org/events/tag/wausau-conservatory-of-music/week/2025-11-23
+  Matches: 1
+
+https://www.wpr.org/events/tag/wausau-conservatory-of-music/day/2025-11-30
+  Matches: 1
+
+https://www.wpr.org/events/tag/ticketed-event/2025-10
+  Matches: 1
+
+https://www.wpr.org/events/tag/ticketed-event/list?tribe-bar-date=2025-11-01
+  Matches: 1
+
+https://www.wpr.org/events/tag/ticketed-event/list?tribe-bar-date=2025-12-01
+  Matches: 1
+
+https://www.wpr.org/events/tag/ticketed-event/2026-02
+  Matches: 1
+
+https://www.wpr.org/events/tag/ticketed-event/list?tribe-bar-date=2025-12-12
+  Matches: 1
+
+https://www.wpr.org/events/tag/ticketed-event/list?tribe-bar-date=2025-12-10
+  Matches: 1
+
+https://www.wpr.org/events/tag/ticketed-event/list?tribe-bar-date=2025-12-11
+  Matches: 1
+
+https://www.wpr.org/events/tag/ticketed-event/list?tribe-bar-date=2025-12-14
+  Matches: 1
+
+https://www.wpr.org/venue/macc-pavilion-river-park
+  Matches: 1
+
+https://www.wpr.org/organizer/community-center-of-hope
+  Matches: 1
+
+https://www.wpr.org/events/tag/village-gardens/day/2025-12-09
+  Matches: 1
+
+https://www.wpr.org/events/tag/village-gardens/list?tribe-bar-date=2025-12-10
+  Matches: 1
+
+https://www.wpr.org/events/tag/village-gardens/list?tribe-bar-date=2025-12-12
+  Matches: 1
+
+https://www.wpr.org/events/tag/village-gardens/week/2025-12-12
+  Matches: 1
+
+https://www.wpr.org/events/tag/village-gardens/list?tribe-bar-date=2025-11-30
+  Matches: 1
+
+https://www.wpr.org/events/tag/village-gardens/day/2025-11-30
+  Matches: 1
+
+https://www.wpr.org/events/tag/village-gardens/week/2025-11-23
+  Matches: 1
+
+https://www.wpr.org/events/tag/village-gardens/week/2025-12-21
+  Matches: 1
+
+https://www.wpr.org/events/tag/village-gardens/list?tribe-bar-date=2025-12-14
+  Matches: 1
+
+https://www.wpr.org/events/tag/village-gardens/day/2025-12-14
+  Matches: 1
+
+https://www.wpr.org/events/tag/village-gardens/list?tribe-bar-date=2025-11-01
+  Matches: 1
+
+https://www.wpr.org/events/tag/village-gardens/2025-10
+  Matches: 1
+
+https://www.wpr.org/events/tag/village-gardens/week/2025-11-01
+  Matches: 1
+
+https://www.wpr.org/events/tag/village-gardens/2026-02
+  Matches: 1
+
+https://www.wpr.org/events/tag/village-gardens/week/2026-01-01
+  Matches: 1
+
+https://www.wpr.org/events/tag/plover/day/2026-01-01
+  Matches: 1
+
+https://www.wpr.org/events/tag/plover/2026-02
+  Matches: 1
+
+https://www.wpr.org/events/tag/plover/week/2026-01-01
+  Matches: 1
+
+https://www.wpr.org/events/tag/plover/day/2025-12-01
+  Matches: 1
+
+https://www.wpr.org/events/tag/plover/day/2025-11-01
+  Matches: 1
+
+https://www.wpr.org/events/tag/plover/day/2025-12-14
+  Matches: 1
+
+https://www.wpr.org/events/tag/plover/week/2025-12-21
+  Matches: 1
+
+https://www.wpr.org/events/tag/plover/list?tribe-bar-date=2025-12-14
+  Matches: 1
+
+https://www.wpr.org/events/tag/plover/list?tribe-bar-date=2025-12-11
+  Matches: 1
+
+https://www.wpr.org/events/tag/plover/list?tribe-bar-date=2025-12-12
+  Matches: 1
+
+https://www.wpr.org/events/tag/plover/day/2025-12-13
+  Matches: 1
+
+https://www.wpr.org/events/tag/plover/week/2025-12-12
+  Matches: 1
+
+https://www.wpr.org/event/yoga-in-the-park/2025-06-28
+  Matches: 1
+
+https://www.wpr.org/events/category/other/yoga/page/2?eventDisplay=past
+  Matches: 1
+
+https://www.wpr.org/events/category/other/yoga/week/2025-11-30
+  Matches: 1
+
+https://www.wpr.org/events/category/concerts/world/page/3?eventDisplay=past
+  Matches: 1
+
+https://www.wpr.org?post_type=tribe_events&eventDisplay=day&tribe_events_cat=world&paged=2
+  Matches: 1
+
+https://www.wpr.org/events/category/concerts/world/week/2025-12-12
+  Matches: 1
+
+https://www.wpr.org/events/category/concerts/world/list?tribe-bar-date=2025-12-10
+  Matches: 1
+
+https://www.wpr.org/events/category/concerts/world/day/2026-01-01
+  Matches: 1
+
+https://www.wpr.org/events/category/concerts/world/2026-04
+  Matches: 1
+
+https://www.wpr.org/events/category/concerts/world/day/2026-03-01
+  Matches: 1
+
+https://www.wpr.org/events/category/concerts/world/week/2025-11-01
+  Matches: 1
+
+https://www.wpr.org/events/category/concerts/world/day/2025-11-20
+  Matches: 1
+
+https://www.wpr.org/events/category/concerts/world/list?tribe-bar-date=2025-11-01
+  Matches: 1
+
+https://www.wpr.org/events/category/concerts/world/2025-10
+  Matches: 1
+
+https://www.wpr.org/events/category/concerts/world/day/2025-11-13
+  Matches: 1
+
+https://www.wpr.org/events/category/concerts/world/day/2025-11-30
+  Matches: 1
+
+https://www.wpr.org/events/category/concerts/world/week/2025-11-23
+  Matches: 1
+
+https://www.wpr.org/events/category/concerts/world/list?tribe-bar-date=2025-11-30
+  Matches: 1
+
+https://www.wpr.org/events/category/concerts/world/list?tribe-bar-date=2025-12-14
+  Matches: 1
+
+https://www.wpr.org/events/category/concerts/world/week/2025-12-21
+  Matches: 1
+
+https://www.wpr.org/events/category/concerts/world/week/2026-03-08
+  Matches: 1
+
+https://www.wpr.org/events/category/festivals/film-festival/2025-11
+  Matches: 1
+
+https://www.wpr.org/events/category/festivals/film-festival/2026-01
+  Matches: 1
+
+https://www.wpr.org/events/category/festivals/film-festival/week/2025-11-30
+  Matches: 1
+
+https://www.wpr.org/events/category/festivals/film-festival/week/2025-12-14
+  Matches: 1
+
+https://www.wpr.org/events/tag/waupaca/week/2025-11-30
+  Matches: 1
+
+https://www.wpr.org/events/tag/waupaca/2026-01
+  Matches: 1
+
+https://www.wpr.org/events/tag/waupaca/2025-12
+  Matches: 1
+
+https://www.wpr.org/events/tag/waupaca/day/2025-12-11
+  Matches: 1
+
+https://www.wpr.org/events/tag/waupaca-arts-on-the-square/day/2025-12-10
+  Matches: 1
+
+https://www.wpr.org/events/tag/waupaca-arts-on-the-square/week/2025-11-30
+  Matches: 1
+
+https://www.wpr.org/events/tag/waupaca-arts-on-the-square/week/2025-12-14
+  Matches: 1
+
+https://www.wpr.org/events/tag/waupaca-arts-on-the-square/2026-01
+  Matches: 1
+
+https://www.wpr.org/event/shakespeare-in-the-park-presents-the-taming-of-the-shrew-and-much-ado-about-nothing-puppet-edition-8
+  Matches: 1
+
+https://www.wpr.org/event/as-american-as-apple-pie-pavilion-in-the-woods
+  Matches: 1
+
+https://www.wpr.org/events/category/regions/central/page/3?tribe-bar-date=2025-12-13
+  Matches: 1
+
+https://www.wpr.org/page/3?post_type=tribe_events&eventDisplay=day&tribe_events_cat=central&eventDate=2025-12-14
+  Matches: 1
+
+https://www.wpr.org/events/category/regions/central/page/3?tribe-bar-date=2025-12-12
+  Matches: 1
+
+https://www.wpr.org/event/candlelight-concert
+  Matches: 1
+
+https://www.wpr.org/event/chippewa-valley-concert-band-concert
+  Matches: 1
+
+https://www.wpr.org/event/wisconsin-jazz-orchestra-valentines-bash
+  Matches: 1
+
+https://www.wpr.org/event/wpr-music-bingo-at-the-grand-theater
+  Matches: 1
+
+https://www.wpr.org/events/category/regions/central/page/6?eventDisplay=past
+  Matches: 1
+
+https://www.wpr.org/event/u-s-labor-then-and-now
+  Matches: 1
+
+https://www.wpr.org/events/category/regions/central/page/5
+  Matches: 1
+
+https://www.wpr.org/page/4?post_type=tribe_events&eventDisplay=day&tribe_events_cat=central&eventDate=2025-12-10
+  Matches: 1
+
+https://www.wpr.org/page/4?post_type=tribe_events&eventDisplay=day&tribe_events_cat=central&eventDate=2025-12-12
+  Matches: 1
+
+https://www.wpr.org/event/behind-the-scenes-tour-villa-louis/2025-06-21
+  Matches: 1
+
+https://www.wpr.org/organizer/wisconsin-dnr
+  Matches: 1
+
+https://www.wpr.org/organizer/wausau-lyric-choir
+  Matches: 1
+
+https://www.wpr.org/event/andrew-white-david-bohn
+  Matches: 1
+
+https://www.wpr.org/organizer/central-wisconsin-musicians
+  Matches: 1
+
+https://www.wpr.org/event/slow-art-saturday-2
+  Matches: 1
+
+https://www.wpr.org/venue/the-1844-table-mash
+  Matches: 1
+
+https://www.wpr.org/organizer/the-1844-table-mash
+  Matches: 1
+
+https://www.wpr.org/page/2?post_type=tribe_events&eventDisplay=day&tribe_events_cat=central&eventDate=2025-12-15
+  Matches: 1
+
+https://www.wpr.org/page/2?post_type=tribe_events&eventDisplay=day&tribe_events_cat=central&eventDate=2025-12-08
+  Matches: 1
+
+https://www.wpr.org/events/category/concerts/blues-concerts/2025-11
+  Matches: 1
+
+https://www.wpr.org/events/category/concerts/blues-concerts/day/2025-12-12
+  Matches: 1
+
+https://www.wpr.org/event/blues-in-the-barn
+  Matches: 1
+
+https://www.wpr.org/venue/leigh-yawkey-woodson-art-museum
+  Matches: 1
+
+https://www.wpr.org/event/lawrence-chamber-music-festival-young-artist-concert-3
+  Matches: 1
+
+https://www.wpr.org/event/alice-in-wonderland-jr/2025-07-26/1
+  Matches: 1
+
+https://www.wpr.org/events/category/concerts/page/2?tribe-bar-date=2025-12-28
+  Matches: 1
+
+https://www.wpr.org/events/category/concerts/day/2025-12-27
+  Matches: 1
+
+https://www.wpr.org/page/2?post_type=tribe_events&eventDisplay=day&tribe_events_cat=concerts&eventDate=2025-12-14
+  Matches: 1
+
+https://www.wpr.org/events/category/concerts/page/4?tribe-bar-date=2025-12-14
+  Matches: 1
+
+https://www.wpr.org/events/category/concerts/page/3?tribe-bar-date=2025-12-14&eventDisplay=past
+  Matches: 1
+
+https://www.wpr.org?post_type=tribe_events&eventDisplay=day&tribe_events_cat=concerts&paged=2&eventDate=2025-11-23
+  Matches: 1
+
+https://www.wpr.org/page/2?post_type=tribe_events&eventDisplay=day&tribe_events_cat=concerts&eventDate=2025-11-30
+  Matches: 1
+
+https://www.wpr.org/events/category/concerts/page/2?tribe-bar-date=2025-12-10&eventDisplay=past
+  Matches: 1
+
+https://www.wpr.org/events/category/concerts/page/4?tribe-bar-date=2025-12-11
+  Matches: 1
+
+https://www.wpr.org/events/category/concerts/page/3?tribe-bar-date=2025-12-09&eventDisplay=past
+  Matches: 1
+
+https://www.wpr.org/events/category/concerts/page/4?tribe-bar-date=2025-12-09
+  Matches: 1
+
+https://www.wpr.org?post_type=tribe_events&eventDisplay=day&tribe_events_cat=concerts&paged=3&eventDate=2025-12-09
+  Matches: 1
+
+https://www.wpr.org/events/category/concerts/page/6?eventDisplay=past
+  Matches: 1
+
+https://www.wpr.org/events/category/concerts/page/4?tribe-bar-date=2025-12-10
+  Matches: 1
+
+https://www.wpr.org?post_type=tribe_events&eventDisplay=day&tribe_events_cat=concerts&paged=3&eventDate=2025-12-12
+  Matches: 1
+
+https://www.wpr.org/page/4?post_type=tribe_events&eventDisplay=day&tribe_events_cat=concerts&eventDate=2025-12-09
+  Matches: 1
+
+https://www.wpr.org/page/5?post_type=tribe_events&eventDisplay=day&tribe_events_cat=concerts&eventDate=2025-12-11
+  Matches: 1
+
+https://www.wpr.org/page/5?post_type=tribe_events&eventDisplay=day&tribe_events_cat=concerts&eventDate=2025-12-10
+  Matches: 1
+
+https://www.wpr.org/page/5?post_type=tribe_events&eventDisplay=day&tribe_events_cat=concerts&eventDate=2025-12-12
+  Matches: 1
+
+https://www.wpr.org?post_type=tribe_events&eventDisplay=day&tribe_events_cat=concerts&paged=6
+  Matches: 1
+
+https://www.wpr.org/page/2?post_type=tribe_events&eventDisplay=day&tribe_events_cat=concerts&eventDate=2025-12-18
+  Matches: 1
+
+https://www.wpr.org?post_type=tribe_events&eventDisplay=day&tribe_events_cat=concerts&paged=3&eventDate=2025-12-19
+  Matches: 1
+
+https://www.wpr.org/events/category/concerts/page/4?tribe-bar-date=2025-12-19
+  Matches: 1
+
+https://www.wpr.org?post_type=tribe_events&eventDisplay=day&tribe_events_cat=concerts&paged=2&eventDate=2025-12-16
+  Matches: 1
+
+https://www.wpr.org/events/category/concerts/page/4?tribe-bar-date=2025-12-15
+  Matches: 1
+
+https://www.wpr.org/page/2?post_type=tribe_events&eventDisplay=day&tribe_events_cat=concerts&eventDate=2025-12-16
+  Matches: 1
+
+https://www.wpr.org/events/category/concerts/page/3?tribe-bar-date=2025-12-15&eventDisplay=past
+  Matches: 1
+
+https://www.wpr.org/events/category/concerts/page/2?tribe-bar-date=2025-12-17&eventDisplay=past
+  Matches: 1
+
+https://www.wpr.org?post_type=tribe_events&eventDisplay=day&tribe_events_cat=concerts&paged=2&eventDate=2025-12-17
+  Matches: 1
+
+https://www.wpr.org/page/2?post_type=tribe_events&eventDisplay=day&tribe_events_cat=concerts&eventDate=2025-12-17
+  Matches: 1
+
+https://www.wpr.org/events/category/concerts/page/4?tribe-bar-date=2025-12-18
+  Matches: 1
+
+https://www.wpr.org?post_type=tribe_events&eventDisplay=day&tribe_events_cat=concerts&paged=3&eventDate=2025-12-08
+  Matches: 1
+
+https://www.wpr.org/events/category/concerts/page/4?tribe-bar-date=2025-12-08
+  Matches: 1
+
+https://www.wpr.org/events/category/concerts/page/3?tribe-bar-date=2025-12-08&eventDisplay=past
+  Matches: 1
+
+https://www.wpr.org/events/category/concerts/page/4?tribe-bar-date=2025-12-21
+  Matches: 1
+
+https://www.wpr.org/page/2?post_type=tribe_events&eventDisplay=day&tribe_events_cat=concerts&eventDate=2025-12-22
+  Matches: 1
+
+https://www.wpr.org/page/2?post_type=tribe_events&eventDisplay=day&tribe_events_cat=concerts&eventDate=2025-12-21
+  Matches: 1
+
+https://www.wpr.org?post_type=tribe_events&eventDisplay=day&tribe_events_cat=concerts&paged=2&eventDate=2025-12-22
+  Matches: 1
+
+https://www.wpr.org/events/category/concerts/page/2?tribe-bar-date=2025-12-22&eventDisplay=past
+  Matches: 1
+
+https://www.wpr.org/events/category/concerts/list?tribe-bar-date=2025-12-23&eventDisplay=past
+  Matches: 1
+
+https://www.wpr.org/events/category/concerts/day/2025-12-25
+  Matches: 1
+
+https://www.wpr.org/events/category/concerts/page/4?tribe-bar-date=2025-12-04
+  Matches: 1
+
+https://www.wpr.org?post_type=tribe_events&eventDisplay=day&tribe_events_cat=concerts&paged=2&eventDate=2026-01-08
+  Matches: 1
+
+https://www.wpr.org/events/category/concerts/list?tribe-bar-date=2026-01-07&eventDisplay=past
+  Matches: 1
+
+https://www.wpr.org/events/category/concerts/page/2?tribe-bar-date=2026-01-07
+  Matches: 1
+
+https://www.wpr.org/events/category/concerts/day/2026-01-05
+  Matches: 1
+
+https://www.wpr.org/events/category/concerts/list?tribe-bar-date=2026-01-10
+  Matches: 1
+
+https://www.wpr.org/events/category/concerts/page/2?tribe-bar-date=2026-01-17&eventDisplay=past
+  Matches: 1
+
+https://www.wpr.org/events/category/concerts/page/3?tribe-bar-date=2026-01-17
+  Matches: 1
+
+https://www.wpr.org?post_type=tribe_events&eventDisplay=day&tribe_events_cat=concerts&paged=2&eventDate=2026-01-17
+  Matches: 1
+
+https://www.wpr.org/events/category/concerts/list?tribe-bar-date=2026-01-18&eventDisplay=past
+  Matches: 1
+
+https://www.wpr.org/events/category/concerts/list?tribe-bar-date=2026-01-19
+  Matches: 1
+
+https://www.wpr.org/events/category/concerts/list?tribe-bar-date=2026-01-15
+  Matches: 1
+
+https://www.wpr.org/events/category/concerts/day/2026-01-14
+  Matches: 1
+
+https://www.wpr.org/events/category/concerts/week/2026-01-15
+  Matches: 1
+
+https://www.wpr.org/events/category/concerts/list?tribe-bar-date=2026-01-04&eventDisplay=past
+  Matches: 1
+
+https://www.wpr.org/events/category/concerts/page/2?tribe-bar-date=2026-01-04
+  Matches: 1
+
+https://www.wpr.org/events/category/concerts/page/2?tribe-bar-date=2026-01-26
+  Matches: 1
+
+https://www.wpr.org/events/category/concerts/page/3?tribe-bar-date=2026-01-25
+  Matches: 1
+
+https://www.wpr.org/events/category/concerts/page/3?tribe-bar-date=2026-02-01
+  Matches: 1
+
+https://www.wpr.org/events/category/concerts/day/2026-02-11
+  Matches: 1
+
+https://www.wpr.org/events/category/concerts/week/2026-02-12
+  Matches: 1
+
+https://www.wpr.org/events/category/concerts/list?tribe-bar-date=2026-02-12
+  Matches: 1
+
+https://www.wpr.org/events/category/concerts/day/2026-03-06
+  Matches: 1
+
+https://www.wpr.org/events/category/concerts/list?tribe-bar-date=2026-03-14
+  Matches: 1
+
+https://www.wpr.org/events/category/concerts/day/2026-03-15
+  Matches: 1
+
+https://www.wpr.org/events/category/concerts/page/2?tribe-bar-date=2026-03-01
+  Matches: 1
+
+https://www.wpr.org/events/category/concerts/week/2026-03-22
+  Matches: 1
+
+https://www.wpr.org/events/category/concerts/week/2026-03-21
+  Matches: 1
+
+https://www.wpr.org/events/category/concerts/day/2026-04-29
+  Matches: 1
+
+https://www.wpr.org/events/category/concerts/day/2026-04-18
+  Matches: 1
+
+https://www.wpr.org/events/category/concerts/list?tribe-bar-date=2026-04-01
+  Matches: 1
+
+https://www.wpr.org/events/category/concerts/day/2026-04-12
+  Matches: 1
+
+https://www.wpr.org/events/category/concerts/2026-05
+  Matches: 1
+
+https://www.wpr.org/events/category/concerts/day/2026-03-09
+  Matches: 1
+
+https://www.wpr.org/events/category/concerts/week/2026-02-02
+  Matches: 1
+
+https://www.wpr.org/events/category/concerts/list?tribe-bar-date=2026-02-02
+  Matches: 1
+
+https://www.wpr.org/events/category/concerts/list?tribe-bar-date=2026-01-31
+  Matches: 1
+
+https://www.wpr.org/events/category/concerts/day/2026-01-30
+  Matches: 1
+
+https://www.wpr.org/events/category/concerts/list?tribe-bar-date=2026-02-07&eventDisplay=past
+  Matches: 1
+
+https://www.wpr.org/events/category/concerts/day/2026-02-09
+  Matches: 1
+
+https://www.wpr.org/events/category/concerts/list?tribe-bar-date=2026-02-08
+  Matches: 1
+
+https://www.wpr.org/events/category/concerts/page/2?tribe-bar-date=2026-02-28
+  Matches: 1
+
+https://www.wpr.org/events/category/concerts/day/2026-02-26
+  Matches: 1
+
+https://www.wpr.org/events/category/concerts/week/2026-02-27
+  Matches: 1
+
+https://www.wpr.org/events/category/concerts/list?tribe-bar-date=2026-02-27
+  Matches: 1
+
+https://www.wpr.org/events/category/concerts/day/2026-02-17
+  Matches: 1
+
+https://www.wpr.org/events/category/concerts/week/2026-02-16
+  Matches: 1
+
+https://www.wpr.org/events/category/concerts/list?tribe-bar-date=2026-02-16
+  Matches: 1
+
+https://www.wpr.org/events/category/concerts/list?tribe-bar-date=2026-02-14&eventDisplay=past
+  Matches: 1
+
+https://www.wpr.org/events/category/concerts/list?tribe-bar-date=2026-02-05
+  Matches: 1
+
+https://www.wpr.org/events/category/concerts/week/2026-02-05
+  Matches: 1
+
+https://www.wpr.org/events/category/concerts/list?tribe-bar-date=2026-02-06&eventDisplay=past
+  Matches: 1
+
+https://www.wpr.org/events/category/concerts/page/3?tribe-bar-date=2026-01-24
+  Matches: 1
+
+https://www.wpr.org?post_type=tribe_events&eventDisplay=day&tribe_events_cat=concerts&paged=2&eventDate=2026-01-24
+  Matches: 1
+
+https://www.wpr.org/events/category/concerts/page/2?tribe-bar-date=2026-01-24&eventDisplay=past
+  Matches: 1
+
+https://www.wpr.org/events/category/concerts/week/2026-01-22
+  Matches: 1
+
+https://www.wpr.org/events/category/concerts/page/2?tribe-bar-date=2026-01-23
+  Matches: 1
+
+https://www.wpr.org/page/2?post_type=tribe_events&eventDisplay=day&tribe_events_cat=concerts&eventDate=2026-01-01
+  Matches: 1
+
+https://www.wpr.org/page/2?post_type=tribe_events&eventDisplay=day&tribe_events_cat=concerts&eventDate=2026-01-08
+  Matches: 1
+
+https://www.wpr.org/page/2?post_type=tribe_events&eventDisplay=day&tribe_events_cat=concerts&eventDate=2025-12-31
+  Matches: 1
+
+https://www.wpr.org/events/category/concerts/page/2?tribe-bar-date=2026-01-02
+  Matches: 1
+
+https://www.wpr.org/events/category/concerts/week/2026-01-03
+  Matches: 1
+
+https://www.wpr.org/events/category/concerts/list?tribe-bar-date=2025-12-31&eventDisplay=past
+  Matches: 1
+
+https://www.wpr.org/events/category/concerts/page/2?tribe-bar-date=2025-11-29&eventDisplay=past
+  Matches: 1
+
+https://www.wpr.org?post_type=tribe_events&eventDisplay=day&tribe_events_cat=concerts&paged=2&eventDate=2025-11-29
+  Matches: 1
+
+https://www.wpr.org?post_type=tribe_events&eventDisplay=day&tribe_events_cat=concerts&paged=3&eventDate=2025-12-06
+  Matches: 1
+
+https://www.wpr.org/events/category/concerts/page/3?tribe-bar-date=2025-12-20&eventDisplay=past
+  Matches: 1
+
+https://www.wpr.org/events/category/concerts/page/4?tribe-bar-date=2025-12-20
+  Matches: 1
+
+https://www.wpr.org/events/category/concerts/page/4?tribe-bar-date=2025-12-07
+  Matches: 1
+
+https://www.wpr.org?post_type=tribe_events&eventDisplay=day&tribe_events_cat=concerts&paged=2&eventDate=2025-11-16
+  Matches: 1
+
+https://www.wpr.org/events/category/concerts/page/3?tribe-bar-date=2025-11-16
+  Matches: 1
+
+https://www.wpr.org/events/category/concerts/page/2?tribe-bar-date=2025-11-16&eventDisplay=past
+  Matches: 1
+
+https://www.wpr.org/events/category/concerts/week/2025-11-18
+  Matches: 1
+
+https://www.wpr.org/events/category/concerts/list?tribe-bar-date=2025-11-18
+  Matches: 1
+
+https://www.wpr.org/events/category/concerts/list?tribe-bar-date=2025-11-08&eventDisplay=past
+  Matches: 1
+
+https://www.wpr.org/events/category/concerts/page/2?tribe-bar-date=2025-11-08
+  Matches: 1
+
+https://www.wpr.org/events/category/concerts/page/3?tribe-bar-date=2025-11-07
+  Matches: 1
+
+https://www.wpr.org/events/category/concerts/page/3?tribe-bar-date=2025-11-06
+  Matches: 1
+
+https://www.wpr.org/events/category/concerts/page/2?tribe-bar-date=2025-11-21
+  Matches: 1
+
+https://www.wpr.org?post_type=tribe_events&eventDisplay=day&tribe_events_cat=concerts&paged=2&eventDate=2025-11-02
+  Matches: 1
+
+https://www.wpr.org/events/category/concerts/page/3?tribe-bar-date=2025-11-02
+  Matches: 1
+
+https://www.wpr.org/events/category/concerts/page/2?tribe-bar-date=2025-11-02&eventDisplay=past
+  Matches: 1
+
+https://www.wpr.org/events/category/concerts/page/2?tribe-bar-date=2025-11-09&eventDisplay=past
+  Matches: 1
+
+https://www.wpr.org/events/category/concerts/week/2025-11-11
+  Matches: 1
+
+https://www.wpr.org/events/category/concerts/list?tribe-bar-date=2025-11-11
+  Matches: 1
+
+https://www.wpr.org/events/category/concerts/list?tribe-bar-date=2025-11-10&eventDisplay=past
+  Matches: 1
+
+https://www.wpr.org/events/category/concerts/page/3?tribe-bar-date=2025-11-13
+  Matches: 1
+
+https://www.wpr.org?post_type=tribe_events&eventDisplay=day&tribe_events_cat=concerts&paged=2&eventDate=2025-11-13
+  Matches: 1
+
+https://www.wpr.org/events/category/concerts/page/2?tribe-bar-date=2025-11-22&eventDisplay=past
+  Matches: 1
+
+https://www.wpr.org/events/category/concerts/page/3?tribe-bar-date=2025-11-22
+  Matches: 1
+
+https://www.wpr.org/events/category/concerts/page/2?tribe-bar-date=2025-10-28
+  Matches: 1
+
+https://www.wpr.org/events/category/concerts/list?tribe-bar-date=2025-10-28&eventDisplay=past
+  Matches: 1
+
+https://www.wpr.org/events/category/concerts/list?tribe-bar-date=2025-10-27
+  Matches: 1
+
+https://www.wpr.org?post_type=tribe_events&eventDisplay=day&tribe_events_cat=concerts&paged=2&eventDate=2025-10-29
+  Matches: 1
+
+https://www.wpr.org/events/category/concerts/page/3?tribe-bar-date=2025-10-29
+  Matches: 1
+
+https://www.wpr.org?post_type=tribe_events&eventDisplay=day&tribe_events_cat=concerts&paged=2&eventDate=2025-11-28
+  Matches: 1
+
+https://www.wpr.org/events/category/concerts/page/2?tribe-bar-date=2025-11-27
+  Matches: 1
+
+https://www.wpr.org/events/category/concerts/list?tribe-bar-date=2025-09-30
+  Matches: 1
+
+https://www.wpr.org/events/category/concerts/week/2025-09-30
+  Matches: 1
+
+https://www.wpr.org/events/category/concerts/list?tribe-bar-date=2025-10-04&eventDisplay=past
+  Matches: 1
+
+https://www.wpr.org/events/category/concerts/page/2?tribe-bar-date=2025-10-04
+  Matches: 1
+
+https://www.wpr.org/events/category/concerts/page/2?tribe-bar-date=2025-09-01
+  Matches: 1
+
+https://www.wpr.org/events/category/concerts/list?tribe-bar-date=2025-09-01&eventDisplay=past
+  Matches: 1
+
+https://www.wpr.org/events/category/concerts/day/2025-08-31
+  Matches: 1
+
+https://www.wpr.org/events/category/concerts/list?tribe-bar-date=2025-09-27
+  Matches: 1
+
+https://www.wpr.org/events/category/concerts/day/2025-09-26
+  Matches: 1
+
+https://www.wpr.org/events/category/concerts/day/2025-09-28
+  Matches: 1
+
+https://www.wpr.org/events/category/concerts/week/2025-08-24
+  Matches: 1
+
+https://www.wpr.org/events/category/concerts/week/2025-09-07
+  Matches: 1
+
+https://www.wpr.org/events/category/concerts/list?tribe-bar-date=2025-09-13
+  Matches: 1
+
+https://www.wpr.org/events/category/concerts/week/2025-09-13
+  Matches: 1
+
+https://www.wpr.org/events/category/concerts/list?tribe-bar-date=2025-09-20
+  Matches: 1
+
+https://www.wpr.org/events/category/concerts/day/2025-08-01
+  Matches: 1
+
+https://www.wpr.org/events/category/concerts/day/2025-08-05
+  Matches: 1
+
+https://www.wpr.org/events/category/concerts/day/2025-08-02
+  Matches: 1
+
+https://www.wpr.org/events/category/concerts/day/2025-08-26
+  Matches: 1
+
+https://www.wpr.org/events/category/concerts/day/2025-07-29
+  Matches: 1
+
+https://www.wpr.org/events/category/concerts/day/2025-08-24
+  Matches: 1
+
+https://www.wpr.org/events/category/concerts/week/2025-08-01
+  Matches: 1
+
+https://www.wpr.org/events/category/concerts/day/2025-08-22
+  Matches: 1
+
+https://www.wpr.org/events/category/concerts/day/2025-08-14
+  Matches: 1
+
+https://www.wpr.org/events/category/concerts/day/2025-08-30
+  Matches: 1
+
+https://www.wpr.org/events/category/concerts/day/2025-08-06
+  Matches: 1
+
+https://www.wpr.org/events/category/concerts/day/2025-07-27
+  Matches: 1
+
+https://www.wpr.org/events/category/concerts/day/2025-09-04
+  Matches: 1
+
+https://www.wpr.org/events/category/concerts/day/2025-09-06
+  Matches: 1
+
+https://www.wpr.org/events/category/concerts/week/2025-09-05
+  Matches: 1
+
+https://www.wpr.org/events/category/concerts/list?tribe-bar-date=2025-09-05
+  Matches: 1
+
+https://www.wpr.org/events/category/concerts/week/2025-09-28
+  Matches: 1
+
+https://www.wpr.org/events/category/concerts/week/2025-10-06
+  Matches: 1
+
+https://www.wpr.org/events/category/concerts/list?tribe-bar-date=2025-10-06
+  Matches: 1
+
+https://www.wpr.org/events/category/concerts/day/2025-10-07
+  Matches: 1
+
+https://www.wpr.org/events/category/concerts/page/2?tribe-bar-date=2025-10-05
+  Matches: 1
+
+https://www.wpr.org/events/category/concerts/list?tribe-bar-date=2025-10-18&eventDisplay=past
+  Matches: 1
+
+https://www.wpr.org/events/category/concerts/list?tribe-bar-date=2025-10-13
+  Matches: 1
+
+https://www.wpr.org/events/category/concerts/list?tribe-bar-date=2025-10-12&eventDisplay=past
+  Matches: 1
+
+https://www.wpr.org/events/category/concerts/list?tribe-bar-date=2025-10-10&eventDisplay=past
+  Matches: 1
+
+https://www.wpr.org/events/category/concerts/list?tribe-bar-date=2025-10-03&eventDisplay=past
+  Matches: 1
+
+https://www.wpr.org/events/category/concerts/page/2?tribe-bar-date=2025-10-22
+  Matches: 1
+
+https://www.wpr.org/events/category/concerts/page/2?tribe-bar-date=2025-10-19
+  Matches: 1
+
+https://www.wpr.org/events/category/concerts/list?tribe-bar-date=2025-10-15
+  Matches: 1
+
+https://www.wpr.org/events/category/concerts/page/2?tribe-bar-date=2025-10-16
+  Matches: 1
+
+https://www.wpr.org/events/category/concerts/week/2025-09-14
+  Matches: 1
+
+https://www.wpr.org/events/category/concerts/page/2?tribe-bar-date=2025-10-24
+  Matches: 1
+
+https://www.wpr.org/events/category/concerts/page/2?tribe-bar-date=2025-10-11
+  Matches: 1
+
+https://www.wpr.org/events/category/concerts/list?tribe-bar-date=2025-10-11&eventDisplay=past
+  Matches: 1
+
+https://www.wpr.org/events/category/concerts/page/2?tribe-bar-date=2025-10-20
+  Matches: 1
+
+https://www.wpr.org/events/category/concerts/page/2?tribe-bar-date=2025-10-25
+  Matches: 1
+
+https://www.wpr.org/events/category/concerts/page/3?tribe-bar-date=2025-10-01
+  Matches: 1
+
+https://www.wpr.org/events/category/concerts/page/2?tribe-bar-date=2025-10-09
+  Matches: 1
+
+https://www.wpr.org/events/category/concerts/page/2?tribe-bar-date=2025-11-05&eventDisplay=past
+  Matches: 1
+
+https://www.wpr.org/page/2?post_type=tribe_events&eventDisplay=day&tribe_events_cat=concerts&eventDate=2025-10-31
+  Matches: 1
+
+https://www.wpr.org/events/category/concerts/page/2?tribe-bar-date=2025-10-30&eventDisplay=past
+  Matches: 1
+
+https://www.wpr.org?post_type=tribe_events&eventDisplay=day&tribe_events_cat=concerts&paged=2&eventDate=2025-10-30
+  Matches: 1
+
+https://www.wpr.org?post_type=tribe_events&eventDisplay=day&tribe_events_cat=concerts&paged=2&eventDate=2025-10-31
+  Matches: 1
+
+https://www.wpr.org/events/category/concerts/page/2?tribe-bar-date=2025-11-14&eventDisplay=past
+  Matches: 1
+
+https://www.wpr.org/events/category/concerts/list?tribe-bar-date=2025-11-24&eventDisplay=past
+  Matches: 1
+
+https://www.wpr.org/events/category/concerts/page/2?tribe-bar-date=2025-11-24
+  Matches: 1
+
+https://www.wpr.org/events/category/concerts/list?tribe-bar-date=2025-11-25
+  Matches: 1
+
+https://www.wpr.org/events/category/concerts/week/2025-11-25
+  Matches: 1
+
+https://www.wpr.org?post_type=tribe_events&eventDisplay=day&tribe_events_cat=concerts&paged=2&eventDate=2025-11-15
+  Matches: 1
+
+https://www.wpr.org?post_type=tribe_events&eventDisplay=day&tribe_events_cat=concerts&paged=2&eventDate=2025-12-02
+  Matches: 1
+
+https://www.wpr.org?post_type=tribe_events&eventDisplay=day&tribe_events_cat=concerts&paged=3&eventDate=2025-12-03
+  Matches: 1
+
+https://www.wpr.org/events/category/concerts/page/3?tribe-bar-date=2025-12-05&eventDisplay=past
+  Matches: 1
+
+https://www.wpr.org/event/old-world-wisconsin-adult-flashback-fieldtrips/2025-05-09
+  Matches: 1
+
+https://www.wpr.org/events/tag/agriculture/month
+  Matches: 1
+
+https://www.wpr.org/events/tag/agriculture/week
+  Matches: 1
+
+https://www.wpr.org/events/tag/dj/list
+  Matches: 1
+
+https://www.wpr.org/events/tag/dj/month
+  Matches: 1
+
+https://www.wpr.org/events/tag/markets/month
+  Matches: 1
+
+https://www.wpr.org/events/tag/markets/today
+  Matches: 1
+
+https://www.wpr.org/events/tag/markets/list
+  Matches: 1
+
+https://www.wpr.org/events/tag/food/week
+  Matches: 1
+
+https://www.wpr.org/events/tag/food/month
+  Matches: 1
+
+https://www.wpr.org/events/tag/food/list?eventDisplay=past
+  Matches: 1
+
+https://www.wpr.org/events/tag/photography/week
+  Matches: 1
+
+https://www.wpr.org/events/tag/photography/month
+  Matches: 1
+
+https://www.wpr.org/events/tag/diy/list?eventDisplay=past
+  Matches: 1
+
+https://www.wpr.org/events/tag/diy/week
+  Matches: 1
+
+https://www.wpr.org/events/tag/diy/month
+  Matches: 1
+
+https://www.wpr.org/events/tag/holiday-shopping/list
+  Matches: 1
+
+https://www.wpr.org/events/tag/holiday-shopping/month
+  Matches: 1
+
+https://www.wpr.org/events/tag/shopping/list?eventDisplay=past
+  Matches: 1
+
+https://www.wpr.org/events/tag/shopping/today
+  Matches: 1
+
+https://www.wpr.org/events/tag/shopping/month
+  Matches: 1
+
+https://www.wpr.org/events/tag/shopping/week
+  Matches: 1
+
+https://www.wpr.org/events/tag/sun/week
+  Matches: 1
+
+https://www.wpr.org/events/tag/sun/month
+  Matches: 1
+
+https://www.wpr.org/events/tag/sun/list?eventDisplay=past
+  Matches: 1
+
+https://www.wpr.org/events/tag/monarch-butterflies/list?eventDisplay=past
+  Matches: 1
+
+https://www.wpr.org/events/tag/monarch-butterflies/week
+  Matches: 1
+
+https://www.wpr.org/events/tag/monarch-butterflies/today
+  Matches: 1
+
+https://www.wpr.org/events/tag/monarch-butterflies/month
+  Matches: 1
+
+https://www.wpr.org/event/yoga-at-the-museum/2025-01-04
+  Matches: 1
+
+https://www.wpr.org/events/tag/cheese/list
+  Matches: 1
+
+https://www.wpr.org/events/tag/holiday-season/today
+  Matches: 1
+
+https://www.wpr.org/event/winter-walk-at-pope-farm-conservancy
+  Matches: 1
+
+https://www.wpr.org/events/tag/comedy/today
+  Matches: 1
+
+https://www.wpr.org/events/tag/comedy/week
+  Matches: 1
+
+https://www.wpr.org/events/tag/comedy/list
+  Matches: 1
+
+https://www.wpr.org/events/tag/comedy/list?eventDisplay=past
+  Matches: 1
+
+https://www.wpr.org/event/love-of-the-rocks
+  Matches: 1
+
+https://www.wpr.org/event/bilingual-story-time-in-the-galleries-spanish-and-english
+  Matches: 1
+
+https://www.wpr.org/page/2?post_type=tribe_events&eventDisplay=day&tribe_events_cat=holiday&eventDate=2025-12-03
+  Matches: 1
+
+https://www.wpr.org?post_type=tribe_events&eventDisplay=day&tribe_events_cat=holiday&paged=3&eventDate=2025-12-04
+  Matches: 1
+
+https://www.wpr.org/events/category/festivals/holiday/page/2?tribe-bar-date=2025-12-01&eventDisplay=past
+  Matches: 1
+
+https://www.wpr.org/events/category/festivals/holiday/page/3?tribe-bar-date=2025-12-19&eventDisplay=past
+  Matches: 1
+
+https://www.wpr.org/page/2?post_type=tribe_events&eventDisplay=day&tribe_events_cat=holiday&eventDate=2025-12-20
+  Matches: 1
+
+https://www.wpr.org?post_type=tribe_events&eventDisplay=day&tribe_events_cat=holiday&paged=2&eventDate=2026-01-01
+  Matches: 1
+
+https://www.wpr.org/events/category/festivals/holiday/page/3?tribe-bar-date=2026-01-01&eventDisplay=past
+  Matches: 1
+
+https://www.wpr.org/events/category/festivals/holiday/list?tribe-bar-date=2026-01-11
+  Matches: 1
+
+https://www.wpr.org/events/category/festivals/holiday/week/2026-01-18
+  Matches: 1
+
+https://www.wpr.org/events/category/festivals/holiday/week/2026-02-22
+  Matches: 1
+
+https://www.wpr.org/events/category/festivals/holiday/week/2026-03-08
+  Matches: 1
+
+https://www.wpr.org/events/category/festivals/holiday/day/2026-04-01
+  Matches: 1
+
+https://www.wpr.org/events/category/festivals/holiday/page/2?tribe-bar-date=2026-02-01&eventDisplay=past
+  Matches: 1
+
+https://www.wpr.org/events/category/festivals/holiday/day/2026-02-03
+  Matches: 1
+
+https://www.wpr.org/events/category/festivals/holiday/day/2026-01-30
+  Matches: 1
+
+https://www.wpr.org/events/category/festivals/holiday/list?tribe-bar-date=2026-01-25
+  Matches: 1
+
+https://www.wpr.org/events/category/festivals/holiday/day/2026-01-25
+  Matches: 1
+
+https://www.wpr.org/events/category/festivals/holiday/list?tribe-bar-date=2026-02-08
+  Matches: 1
+
+https://www.wpr.org/events/category/festivals/holiday/list?tribe-bar-date=2026-01-02&eventDisplay=past
+  Matches: 1
+
+https://www.wpr.org/events/category/festivals/holiday/week/2026-01-03
+  Matches: 1
+
+https://www.wpr.org/events/category/festivals/holiday/list?tribe-bar-date=2026-01-03
+  Matches: 1
+
+https://www.wpr.org/events/category/festivals/holiday/list?tribe-bar-date=2025-12-30
+  Matches: 1
+
+https://www.wpr.org/events/category/festivals/holiday/list?tribe-bar-date=2025-12-31&eventDisplay=past
+  Matches: 1
+
+https://www.wpr.org?post_type=tribe_events&eventDisplay=day&tribe_events_cat=holiday&paged=3&eventDate=2025-11-30
+  Matches: 1
+
+https://www.wpr.org/events/category/festivals/holiday/page/3?tribe-bar-date=2025-11-29
+  Matches: 1
+
+https://www.wpr.org/events/category/festivals/holiday/list?tribe-bar-date=2025-12-28&eventDisplay=past
+  Matches: 1
+
+https://www.wpr.org/events/category/festivals/holiday/page/3?tribe-bar-date=2025-12-24&eventDisplay=past
+  Matches: 1
+
+https://www.wpr.org?post_type=tribe_events&eventDisplay=day&tribe_events_cat=holiday&paged=2&eventDate=2025-12-24
+  Matches: 1
+
+https://www.wpr.org/events/category/festivals/holiday/page/2?tribe-bar-date=2025-12-25&eventDisplay=past
+  Matches: 1
+
+https://www.wpr.org?post_type=tribe_events&eventDisplay=day&tribe_events_cat=holiday&paged=3&eventDate=2025-12-13
+  Matches: 1
+
+https://www.wpr.org/page/2?post_type=tribe_events&eventDisplay=day&tribe_events_cat=holiday&eventDate=2025-12-14
+  Matches: 1
+
+https://www.wpr.org?post_type=tribe_events&eventDisplay=day&tribe_events_cat=holiday&paged=2&eventDate=2025-12-22
+  Matches: 1
+
+https://www.wpr.org/events/category/festivals/holiday/page/3?tribe-bar-date=2025-12-22&eventDisplay=past
+  Matches: 1
+
+https://www.wpr.org/page/2?post_type=tribe_events&eventDisplay=day&tribe_events_cat=holiday&eventDate=2025-12-15
+  Matches: 1
+
+https://www.wpr.org/page/2?post_type=tribe_events&eventDisplay=day&tribe_events_cat=holiday&eventDate=2025-12-16
+  Matches: 1
+
+https://www.wpr.org/events/category/festivals/holiday/page/3?tribe-bar-date=2025-12-16
+  Matches: 1
+
+https://www.wpr.org/events/category/festivals/holiday/page/3?tribe-bar-date=2025-12-20&eventDisplay=past
+  Matches: 1
+
+https://www.wpr.org?post_type=tribe_events&eventDisplay=day&tribe_events_cat=holiday&paged=3&eventDate=2025-12-11
+  Matches: 1
+
+https://www.wpr.org/events/category/festivals/holiday/page/3?tribe-bar-date=2025-12-11&eventDisplay=past
+  Matches: 1
+
+https://www.wpr.org?post_type=tribe_events&eventDisplay=day&tribe_events_cat=holiday&paged=3&eventDate=2025-12-18
+  Matches: 1
+
+https://www.wpr.org?post_type=tribe_events&eventDisplay=day&tribe_events_cat=holiday&paged=2&eventDate=2025-11-06
+  Matches: 1
+
+https://www.wpr.org/events/category/festivals/holiday/page/2?tribe-bar-date=2025-11-07
+  Matches: 1
+
+https://www.wpr.org/events/category/festivals/holiday/list?tribe-bar-date=2025-11-08
+  Matches: 1
+
+https://www.wpr.org/events/category/festivals/holiday/list?tribe-bar-date=2025-10-26
+  Matches: 1
+
+https://www.wpr.org/events/category/festivals/holiday/list?tribe-bar-date=2025-11-09
+  Matches: 1
+
+https://www.wpr.org/events/category/festivals/holiday/week/2025-11-04
+  Matches: 1
+
+https://www.wpr.org/events/category/festivals/holiday/page/2?tribe-bar-date=2025-11-02
+  Matches: 1
+
+https://www.wpr.org/events/category/festivals/holiday/week/2025-11-03
+  Matches: 1
+
+https://www.wpr.org?post_type=tribe_events&eventDisplay=day&tribe_events_cat=holiday&paged=2&eventDate=2025-11-26
+  Matches: 1
+
+https://www.wpr.org/events/category/festivals/holiday/page/3?tribe-bar-date=2025-11-26
+  Matches: 1
+
+https://www.wpr.org/events/category/festivals/holiday/list?tribe-bar-date=2025-11-27&eventDisplay=past
+  Matches: 1
+
+https://www.wpr.org/events/category/festivals/holiday/page/2?tribe-bar-date=2025-11-27
+  Matches: 1
+
+https://www.wpr.org/events/category/festivals/holiday/day/2025-10-18
+  Matches: 1
+
+https://www.wpr.org/events/category/festivals/holiday/day/2025-10-20
+  Matches: 1
+
+https://www.wpr.org/events/category/festivals/holiday/list?tribe-bar-date=2025-10-12
+  Matches: 1
+
+https://www.wpr.org/events/category/festivals/holiday/page/3?tribe-bar-date=2025-10-31
+  Matches: 1
+
+https://www.wpr.org/events/category/festivals/holiday/list?tribe-bar-date=2025-10-30&eventDisplay=past
+  Matches: 1
+
+https://www.wpr.org/events/category/festivals/holiday/page/3?tribe-bar-date=2025-11-25
+  Matches: 1
+
+https://www.wpr.org/events/category/festivals/holiday/page/2?tribe-bar-date=2025-11-24
+  Matches: 1
+
+https://www.wpr.org/events/category/festivals/holiday/list?tribe-bar-date=2025-11-24&eventDisplay=past
+  Matches: 1
+
+https://www.wpr.org?post_type=tribe_events&eventDisplay=day&tribe_events_cat=holiday&paged=3&eventDate=2025-11-01
+  Matches: 1
+
+https://www.wpr.org/events/category/festivals/holiday/page/4?tribe-bar-date=2025-11-01
+  Matches: 1
+
+https://www.wpr.org/page/2?post_type=tribe_events&eventDisplay=day&tribe_events_cat=holiday&eventDate=2025-11-02
+  Matches: 1
+
+https://www.wpr.org/page/2?post_type=tribe_events&eventDisplay=day&tribe_events_cat=holiday&eventDate=2025-11-06
+  Matches: 1
+
+https://www.wpr.org/page/2?post_type=tribe_events&eventDisplay=day&tribe_events_cat=holiday&eventDate=2025-10-31
+  Matches: 1
+
+https://www.wpr.org?post_type=tribe_events&eventDisplay=day&tribe_events_cat=holiday&paged=2&eventDate=2025-11-28
+  Matches: 1
+
+https://www.wpr.org/events/category/festivals/holiday/page/3?tribe-bar-date=2025-11-22
+  Matches: 1
+
+https://www.wpr.org/events/category/festivals/holiday/day/2025-11-19
+  Matches: 1
+
+https://www.wpr.org/events/category/festivals/holiday/week/2025-11-20
+  Matches: 1
+
+https://www.wpr.org/events/category/festivals/holiday/list?tribe-bar-date=2025-11-21&eventDisplay=past
+  Matches: 1
+
+https://www.wpr.org/events/category/festivals/holiday/week/2025-08-01
+  Matches: 1
+
+https://www.wpr.org/events/category/festivals/holiday/list?tribe-bar-date=2025-08-01
+  Matches: 1
+
+https://www.wpr.org/events/category/festivals/holiday/day/2025-08-01
+  Matches: 1
+
+https://www.wpr.org/events/category/festivals/holiday/day/2025-09-02
+  Matches: 1
+
+https://www.wpr.org/events/category/festivals/holiday/day/2025-08-31
+  Matches: 1
+
+https://www.wpr.org/events/category/festivals/holiday/week/2025-08-24
+  Matches: 1
+
+https://www.wpr.org/events/category/festivals/holiday/week/2025-09-07
+  Matches: 1
+
+https://www.wpr.org/events/category/festivals/holiday/page/2?tribe-bar-date=2025-09-01
+  Matches: 1
+
+https://www.wpr.org/events/category/festivals/holiday/list?tribe-bar-date=2025-09-30
+  Matches: 1
+
+https://www.wpr.org/events/category/festivals/holiday/week/2025-10-02
+  Matches: 1
+
+https://www.wpr.org/events/category/festivals/holiday/page/3?tribe-bar-date=2025-10-01
+  Matches: 1
+
+https://www.wpr.org?post_type=tribe_events&eventDisplay=day&tribe_events_cat=holiday&paged=2&eventDate=2025-10-01
+  Matches: 1
+
+https://www.wpr.org/events/category/festivals/holiday/list?tribe-bar-date=2025-09-21
+  Matches: 1
+
+https://www.wpr.org?post_type=tribe_events&eventDisplay=day&tribe_events_cat=holiday&paged=2&eventDate=2025-12-08
+  Matches: 1
+
+https://www.wpr.org/events/category/festivals/holiday/page/3?tribe-bar-date=2025-12-08
+  Matches: 1
+
+https://www.wpr.org/events/category/festivals/holiday/page/2?tribe-bar-date=2025-12-08&eventDisplay=past
+  Matches: 1
+
+https://www.wpr.org/events/category/festivals/holiday/page/4?tribe-bar-date=2025-12-07
+  Matches: 1
+
+https://www.wpr.org?post_type=tribe_events&eventDisplay=day&tribe_events_cat=holiday&paged=2&eventDate=2025-12-23
+  Matches: 1
+
+https://www.wpr.org/events/category/festivals/holiday/page/2?tribe-bar-date=2025-12-23
+  Matches: 1
+
+https://www.wpr.org/events/category/festivals/holiday/page/3?tribe-bar-date=2025-12-21&eventDisplay=past
+  Matches: 1
+
+https://www.wpr.org?post_type=tribe_events&eventDisplay=day&tribe_events_cat=holiday&paged=3&eventDate=2025-12-09
+  Matches: 1
+
+https://www.wpr.org/events/category/festivals/holiday/page/3?tribe-bar-date=2025-12-09&eventDisplay=past
+  Matches: 1
+
+https://www.wpr.org/events/category/festivals/holiday/page/3?tribe-bar-date=2025-12-10&eventDisplay=past
+  Matches: 1
+
+https://www.wpr.org/events/category/festivals/holiday/page/3?tribe-bar-date=2025-12-12&eventDisplay=past
+  Matches: 1
+
+https://www.wpr.org?post_type=tribe_events&eventDisplay=day&tribe_events_cat=holiday&paged=3&eventDate=2025-12-12
+  Matches: 1
+
+https://www.wpr.org/events/category/festivals/holiday/page/2?tribe-bar-date=2025-12-27&eventDisplay=past
+  Matches: 1
+
+https://www.wpr.org/events/category/festivals/holiday/list?tribe-bar-date=2025-12-29
+  Matches: 1
+
+https://www.wpr.org/events/category/festivals/holiday/page/2?tribe-bar-date=2025-12-26
+  Matches: 1
+
+https://www.wpr.org/events/category/festivals/holiday/page/3?tribe-bar-date=2025-12-26&eventDisplay=past
+  Matches: 1
+
+https://www.wpr.org/page/5?post_type=tribe_events&eventDisplay=day&tribe_events_cat=holiday
+  Matches: 1
+
+https://www.wpr.org/page/5?post_type=tribe_events&eventDisplay=day&tribe_events_cat=holiday&eventDate=2025-12-10
+  Matches: 1
+
+https://www.wpr.org/page/4?post_type=tribe_events&eventDisplay=day&tribe_events_cat=holiday&eventDate=2025-12-13
+  Matches: 1
+
+https://www.wpr.org/page/3?post_type=tribe_events&eventDisplay=day&tribe_events_cat=holiday&eventDate=2025-12-14
+  Matches: 1
+
+https://www.wpr.org/events/category/festivals/holiday/page/3?tribe-bar-date=2025-11-23
+  Matches: 1
+
+https://www.wpr.org?post_type=tribe_events&eventDisplay=day&tribe_events_cat=holiday&paged=2&eventDate=2025-11-23
+  Matches: 1
+
+https://www.wpr.org/events/category/festivals/holiday/page/2?tribe-bar-date=2025-11-16
+  Matches: 1
+
+https://www.wpr.org/events/category/festivals/holiday/day/2025-11-17
+  Matches: 1
+
+https://www.wpr.org/events/category/festivals/holiday/day/2025-11-15
+  Matches: 1
+
+https://www.wpr.org/events/category/arts/page/6?eventDisplay=past
+  Matches: 1
+
+https://www.wpr.org/page/2?post_type=tribe_events&eventDisplay=day&tribe_events_cat=arts&eventDate=2025-11-29
+  Matches: 1
+
+https://www.wpr.org/events/category/arts/page/3?tribe-bar-date=2025-11-30&eventDisplay=past
+  Matches: 1
+
+https://www.wpr.org/events/category/arts/page/2?tribe-bar-date=2025-11-23&eventDisplay=past
+  Matches: 1
+
+https://www.wpr.org?post_type=tribe_events&eventDisplay=day&tribe_events_cat=arts&paged=2&eventDate=2025-11-23
+  Matches: 1
+
+https://www.wpr.org/events/category/arts/page/3?tribe-bar-date=2025-11-23
+  Matches: 1
+
+https://www.wpr.org?post_type=tribe_events&eventDisplay=day&tribe_events_cat=arts&paged=2&eventDate=2025-12-01
+  Matches: 1
+
+https://www.wpr.org/events/category/arts/page/3?tribe-bar-date=2025-12-01
+  Matches: 1
+
+https://www.wpr.org/page/2?post_type=tribe_events&eventDisplay=day&tribe_events_cat=arts&eventDate=2025-12-15
+  Matches: 1
+
+https://www.wpr.org/page/2?post_type=tribe_events&eventDisplay=day&tribe_events_cat=arts&eventDate=2025-12-05
+  Matches: 1
+
+https://www.wpr.org/events/category/arts/page/3?tribe-bar-date=2025-12-05&eventDisplay=past
+  Matches: 1
+
+https://www.wpr.org/events/category/arts/page/4?tribe-bar-date=2025-12-05
+  Matches: 1
+
+https://www.wpr.org/events/category/arts/list?tribe-bar-date=2025-10-29&eventDisplay=past
+  Matches: 1
+
+https://www.wpr.org/events/category/arts/page/2?tribe-bar-date=2025-10-29
+  Matches: 1
+
+https://www.wpr.org/events/category/arts/day/2025-10-27
+  Matches: 1
+
+https://www.wpr.org/events/category/arts/page/3?tribe-bar-date=2025-10-30
+  Matches: 1
+
+https://www.wpr.org/events/category/arts/page/2?tribe-bar-date=2025-11-13&eventDisplay=past
+  Matches: 1
+
+https://www.wpr.org/events/category/arts/page/3?tribe-bar-date=2025-11-13
+  Matches: 1
+
+https://www.wpr.org/events/category/arts/page/3?tribe-bar-date=2025-10-31
+  Matches: 1
+
+https://www.wpr.org/events/category/arts/page/3?tribe-bar-date=2025-11-16
+  Matches: 1
+
+https://www.wpr.org?post_type=tribe_events&eventDisplay=day&tribe_events_cat=arts&paged=2&eventDate=2025-11-16
+  Matches: 1
+
+https://www.wpr.org/events/category/arts/page/2?tribe-bar-date=2025-11-27
+  Matches: 1
+
+https://www.wpr.org?post_type=tribe_events&eventDisplay=day&tribe_events_cat=arts&paged=2&eventDate=2025-11-28
+  Matches: 1
+
+https://www.wpr.org/events/category/arts/page/3?tribe-bar-date=2025-11-28
+  Matches: 1
+
+https://www.wpr.org/events/category/arts/list?tribe-bar-date=2025-10-26
+  Matches: 1
+
+https://www.wpr.org/events/category/arts/page/2?tribe-bar-date=2025-10-19
+  Matches: 1
+
+https://www.wpr.org/events/category/arts/page/3?tribe-bar-date=2025-11-14
+  Matches: 1
+
+https://www.wpr.org/events/category/arts/page/2?tribe-bar-date=2025-11-14&eventDisplay=past
+  Matches: 1
+
+https://www.wpr.org?post_type=tribe_events&eventDisplay=day&tribe_events_cat=arts&paged=2&eventDate=2025-11-09
+  Matches: 1
+
+https://www.wpr.org/events/category/arts/page/2?tribe-bar-date=2025-11-09&eventDisplay=past
+  Matches: 1
+
+https://www.wpr.org/events/category/arts/page/2?tribe-bar-date=2025-11-10
+  Matches: 1
+
+https://www.wpr.org/events/category/arts/page/2?tribe-bar-date=2025-11-22&eventDisplay=past
+  Matches: 1
+
+https://www.wpr.org?post_type=tribe_events&eventDisplay=day&tribe_events_cat=arts&paged=2&eventDate=2025-11-22
+  Matches: 1
+
+https://www.wpr.org?post_type=tribe_events&eventDisplay=day&tribe_events_cat=arts&paged=2&eventDate=2025-11-19
+  Matches: 1
+
+https://www.wpr.org/events/category/arts/page/2?tribe-bar-date=2025-11-19&eventDisplay=past
+  Matches: 1
+
+https://www.wpr.org/events/category/arts/page/2?tribe-bar-date=2025-11-18
+  Matches: 1
+
+https://www.wpr.org/events/category/arts/list?tribe-bar-date=2025-11-18&eventDisplay=past
+  Matches: 1
+
+https://www.wpr.org/events/category/arts/page/2?tribe-bar-date=2025-11-20&eventDisplay=past
+  Matches: 1
+
+https://www.wpr.org/events/category/arts/page/3?tribe-bar-date=2025-11-20
+  Matches: 1
+
+https://www.wpr.org?post_type=tribe_events&eventDisplay=day&tribe_events_cat=arts&paged=2&eventDate=2025-11-06
+  Matches: 1
+
+https://www.wpr.org/events/category/arts/page/3?tribe-bar-date=2025-11-06
+  Matches: 1
+
+https://www.wpr.org?post_type=tribe_events&eventDisplay=day&tribe_events_cat=arts&paged=3&eventDate=2025-11-01
+  Matches: 1
+
+https://www.wpr.org/events/category/arts/page/4?tribe-bar-date=2025-11-01
+  Matches: 1
+
+https://www.wpr.org/page/2?post_type=tribe_events&eventDisplay=day&tribe_events_cat=arts&eventDate=2025-10-31
+  Matches: 1
+
+https://www.wpr.org/page/2?post_type=tribe_events&eventDisplay=day&tribe_events_cat=arts&eventDate=2025-11-01
+  Matches: 1
+
+https://www.wpr.org/page/2?post_type=tribe_events&eventDisplay=day&tribe_events_cat=arts&eventDate=2025-11-02
+  Matches: 1
+
+https://www.wpr.org/events/category/arts/page/3?tribe-bar-date=2025-11-12
+  Matches: 1
+
+https://www.wpr.org/events/category/arts/page/2?tribe-bar-date=2025-11-12&eventDisplay=past
+  Matches: 1
+
+https://www.wpr.org?post_type=tribe_events&eventDisplay=day&tribe_events_cat=arts&paged=2&eventDate=2025-11-05
+  Matches: 1
+
+https://www.wpr.org/events/category/arts/page/2?tribe-bar-date=2025-11-05&eventDisplay=past
+  Matches: 1
+
+https://www.wpr.org/events/category/arts/page/2?tribe-bar-date=2025-11-21&eventDisplay=past
+  Matches: 1
+
+https://www.wpr.org?post_type=tribe_events&eventDisplay=day&tribe_events_cat=arts&paged=2&eventDate=2025-11-02
+  Matches: 1
+
+https://www.wpr.org/events/category/arts/page/3?tribe-bar-date=2025-11-02
+  Matches: 1
+
+https://www.wpr.org/events/category/arts/page/2?tribe-bar-date=2025-11-26&eventDisplay=past
+  Matches: 1
+
+https://www.wpr.org?post_type=tribe_events&eventDisplay=day&tribe_events_cat=arts&paged=2&eventDate=2025-11-26
+  Matches: 1
+
+https://www.wpr.org?post_type=tribe_events&eventDisplay=day&tribe_events_cat=arts&paged=2&eventDate=2025-11-04
+  Matches: 1
+
+https://www.wpr.org?post_type=tribe_events&eventDisplay=day&tribe_events_cat=arts&paged=2&eventDate=2025-11-15
+  Matches: 1
+
+https://www.wpr.org/events/category/arts/page/2?tribe-bar-date=2025-11-29&eventDisplay=past
+  Matches: 1
+
+https://www.wpr.org/events/category/arts/page/3?tribe-bar-date=2025-11-29
+  Matches: 1
+
+https://www.wpr.org?post_type=tribe_events&eventDisplay=day&tribe_events_cat=arts&paged=2&eventDate=2025-11-08
+  Matches: 1
+
+https://www.wpr.org/events/category/arts/page/2?tribe-bar-date=2025-10-04
+  Matches: 1
+
+https://www.wpr.org/events/category/arts/list?tribe-bar-date=2025-10-04&eventDisplay=past
+  Matches: 1
+
+https://www.wpr.org/events/category/arts/page/3?tribe-bar-date=2025-10-01
+  Matches: 1
+
+https://www.wpr.org/events/category/arts/list?tribe-bar-date=2025-10-03&eventDisplay=past
+  Matches: 1
+
+https://www.wpr.org/events/category/arts/week/2025-10-20
+  Matches: 1
+
+https://www.wpr.org/events/category/arts/week/2025-10-21
+  Matches: 1
+
+https://www.wpr.org/events/category/arts/list?tribe-bar-date=2025-10-21
+  Matches: 1
+
+https://www.wpr.org/events/category/arts/list?tribe-bar-date=2025-10-10&eventDisplay=past
+  Matches: 1
+
+https://www.wpr.org/events/category/arts/list?tribe-bar-date=2025-10-17&eventDisplay=past
+  Matches: 1
+
+https://www.wpr.org/events/category/arts/week/2025-10-06
+  Matches: 1
+
+https://www.wpr.org/events/category/arts/list?tribe-bar-date=2025-10-05&eventDisplay=past
+  Matches: 1
+
+https://www.wpr.org/events/category/arts/page/2?tribe-bar-date=2025-10-05
+  Matches: 1
+
+https://www.wpr.org/events/category/arts/page/2?tribe-bar-date=2025-10-09
+  Matches: 1
+
+https://www.wpr.org/events/category/arts/list?tribe-bar-date=2025-10-09&eventDisplay=past
+  Matches: 1
+
+https://www.wpr.org/events/category/arts/day/2025-08-07
+  Matches: 1
+
+https://www.wpr.org/events/category/arts/day/2025-07-30
+  Matches: 1
+
+https://www.wpr.org/events/category/arts/week/2025-08-01
+  Matches: 1
+
+https://www.wpr.org/events/category/arts/day/2025-08-01
+  Matches: 1
+
+https://www.wpr.org/events/category/arts/list?tribe-bar-date=2025-08-01
+  Matches: 1
+
+https://www.wpr.org/events/category/arts/day/2025-08-10
+  Matches: 1
+
+https://www.wpr.org/events/category/arts/day/2025-08-14
+  Matches: 1
+
+https://www.wpr.org/events/category/arts/list?tribe-bar-date=2025-09-13
+  Matches: 1
+
+https://www.wpr.org/events/category/arts/day/2025-09-14
+  Matches: 1
+
+https://www.wpr.org/events/category/arts/week/2025-09-13
+  Matches: 1
+
+https://www.wpr.org/events/category/arts/day/2025-09-12
+  Matches: 1
+
+https://www.wpr.org/events/category/arts/week/2025-09-07
+  Matches: 1
+
+https://www.wpr.org/events/category/arts/week/2025-09-06
+  Matches: 1
+
+https://www.wpr.org/events/category/arts/list?tribe-bar-date=2025-09-06
+  Matches: 1
+
+https://www.wpr.org/events/category/arts/day/2025-09-19
+  Matches: 1
+
+https://www.wpr.org/events/category/arts/day/2025-09-04
+  Matches: 1
+
+https://www.wpr.org/events/category/arts/week/2025-09-26
+  Matches: 1
+
+https://www.wpr.org/events/category/arts/list?tribe-bar-date=2025-09-25
+  Matches: 1
+
+https://www.wpr.org/events/category/arts/week/2025-09-25
+  Matches: 1
+
+https://www.wpr.org/events/category/arts/day/2025-09-24
+  Matches: 1
+
+https://www.wpr.org/events/category/arts/week/2025-08-24
+  Matches: 1
+
+https://www.wpr.org/events/category/arts/list?tribe-bar-date=2025-10-07
+  Matches: 1
+
+https://www.wpr.org/events/category/arts/page/2?tribe-bar-date=2025-10-08
+  Matches: 1
+
+https://www.wpr.org/events/category/arts/list?tribe-bar-date=2025-10-02&eventDisplay=past
+  Matches: 1
+
+https://www.wpr.org/events/category/arts/list?tribe-bar-date=2025-09-28&eventDisplay=past
+  Matches: 1
+
+https://www.wpr.org/events/category/arts/list?tribe-bar-date=2025-09-21
+  Matches: 1
+
+https://www.wpr.org/events/category/arts/week/2025-09-14
+  Matches: 1
+
+https://www.wpr.org/events/category/arts/list?tribe-bar-date=2025-10-11&eventDisplay=past
+  Matches: 1
+
+https://www.wpr.org/events/category/arts/page/2?tribe-bar-date=2025-10-11
+  Matches: 1
+
+https://www.wpr.org/events/category/arts/day/2025-10-14
+  Matches: 1
+
+https://www.wpr.org/events/category/arts/list?tribe-bar-date=2025-10-12&eventDisplay=past
+  Matches: 1
+
+https://www.wpr.org/events/category/arts/page/2?tribe-bar-date=2025-10-12
+  Matches: 1
+
+https://www.wpr.org/events/category/arts/list?tribe-bar-date=2025-10-23&eventDisplay=past
+  Matches: 1
+
+https://www.wpr.org/events/category/arts/page/2?tribe-bar-date=2025-10-23
+  Matches: 1
+
+https://www.wpr.org/events/category/arts/week/2025-10-24
+  Matches: 1
+
+https://www.wpr.org/events/category/arts/day/2025-10-25
+  Matches: 1
+
+https://www.wpr.org/events/category/arts/list?tribe-bar-date=2025-09-30
+  Matches: 1
+
+https://www.wpr.org/events/category/arts/list?tribe-bar-date=2025-10-15
+  Matches: 1
+
+https://www.wpr.org/events/category/arts/page/2?tribe-bar-date=2025-10-16
+  Matches: 1
+
+https://www.wpr.org/events/category/arts/list?tribe-bar-date=2025-10-16&eventDisplay=past
+  Matches: 1
+
+https://www.wpr.org?post_type=tribe_events&eventDisplay=day&tribe_events_cat=arts&paged=2&eventDate=2025-11-25
+  Matches: 1
+
+https://www.wpr.org/events/category/arts/page/3?tribe-bar-date=2025-11-25
+  Matches: 1
+
+https://www.wpr.org/events/category/arts/page/2?tribe-bar-date=2025-11-24
+  Matches: 1
+
+https://www.wpr.org/page/2?post_type=tribe_events&eventDisplay=day&tribe_events_cat=arts&eventDate=2025-12-23
+  Matches: 1
+
+https://www.wpr.org/page/2?post_type=tribe_events&eventDisplay=day&tribe_events_cat=arts&eventDate=2025-12-21
+  Matches: 1
+
+https://www.wpr.org/events/category/arts/page/3?tribe-bar-date=2025-12-24&eventDisplay=past
+  Matches: 1
+
+https://www.wpr.org/page/2?post_type=tribe_events&eventDisplay=day&tribe_events_cat=arts&eventDate=2025-12-25
+  Matches: 1
+
+https://www.wpr.org/events/category/arts/page/3?tribe-bar-date=2025-12-02
+  Matches: 1
+
+https://www.wpr.org?post_type=tribe_events&eventDisplay=day&tribe_events_cat=arts&paged=2&eventDate=2025-12-02
+  Matches: 1
+
+https://www.wpr.org/page/2?post_type=tribe_events&eventDisplay=day&tribe_events_cat=arts&eventDate=2025-12-02
+  Matches: 1
+
+https://www.wpr.org?post_type=tribe_events&eventDisplay=day&tribe_events_cat=arts&paged=3&eventDate=2025-12-03
+  Matches: 1
+
+https://www.wpr.org/events/category/arts/page/3?tribe-bar-date=2025-12-19&eventDisplay=past
+  Matches: 1
+
+https://www.wpr.org/page/2?post_type=tribe_events&eventDisplay=day&tribe_events_cat=arts&eventDate=2025-12-19
+  Matches: 1
+
+https://www.wpr.org/page/2?post_type=tribe_events&eventDisplay=day&tribe_events_cat=arts&eventDate=2025-12-20
+  Matches: 1
+
+https://www.wpr.org/events/category/arts/page/4?tribe-bar-date=2025-12-19
+  Matches: 1
+
+https://www.wpr.org/events/category/arts/page/3?tribe-bar-date=2025-12-26&eventDisplay=past
+  Matches: 1
+
+https://www.wpr.org/events/category/arts/page/2?tribe-bar-date=2025-12-16&eventDisplay=past
+  Matches: 1
+
+https://www.wpr.org/events/category/arts/page/3?tribe-bar-date=2025-12-16
+  Matches: 1
+
+https://www.wpr.org/events/category/arts/page/4?tribe-bar-date=2025-12-17
+  Matches: 1
+
+https://www.wpr.org?post_type=tribe_events&eventDisplay=day&tribe_events_cat=arts&paged=3&eventDate=2025-12-17
+  Matches: 1
+
+https://www.wpr.org/events/category/arts/page/4?tribe-bar-date=2025-12-10
+  Matches: 1
+
+https://www.wpr.org/events/category/arts/page/3?tribe-bar-date=2025-12-10&eventDisplay=past
+  Matches: 1
+
+https://www.wpr.org/events/category/arts/day/2026-01-05
+  Matches: 1
+
+https://www.wpr.org/events/category/arts/list?tribe-bar-date=2026-01-10
+  Matches: 1
+
+https://www.wpr.org/events/category/arts/week/2026-01-10
+  Matches: 1
+
+https://www.wpr.org/events/category/arts/list?tribe-bar-date=2026-01-09&eventDisplay=past
+  Matches: 1
+
+https://www.wpr.org/events/category/arts/day/2026-02-08
+  Matches: 1
+
+https://www.wpr.org/events/category/arts/week/2026-03-22
+  Matches: 1
+
+https://www.wpr.org/events/category/arts/day/2026-02-03
+  Matches: 1
+
+https://www.wpr.org/events/category/arts/list?tribe-bar-date=2026-01-31
+  Matches: 1
+
+https://www.wpr.org/events/category/arts/list?tribe-bar-date=2026-03-01&eventDisplay=past
+  Matches: 1
+
+https://www.wpr.org/events/category/arts/day/2026-04-12
+  Matches: 1
+
+https://www.wpr.org/events/category/arts/2026-05
+  Matches: 1
+
+https://www.wpr.org/events/category/arts/list?tribe-bar-date=2026-03-22
+  Matches: 1
+
+https://www.wpr.org/events/category/arts/day/2026-03-23
+  Matches: 1
+
+https://www.wpr.org/events/category/arts/day/2026-03-02
+  Matches: 1
+
+https://www.wpr.org/events/category/arts/day/2026-01-22
+  Matches: 1
+
+https://www.wpr.org/events/category/arts/week/2026-01-23
+  Matches: 1
+
+https://www.wpr.org/events/category/arts/list?tribe-bar-date=2026-01-27
+  Matches: 1
+
+https://www.wpr.org/events/category/arts/day/2026-01-28
+  Matches: 1
+
+https://www.wpr.org/events/category/arts/list?tribe-bar-date=2026-01-26&eventDisplay=past
+  Matches: 1
+
+https://www.wpr.org/events/category/arts/list?tribe-bar-date=2026-01-03
+  Matches: 1
+
+https://www.wpr.org/events/category/arts/week/2026-01-03
+  Matches: 1
+
+https://www.wpr.org?post_type=tribe_events&eventDisplay=day&tribe_events_cat=arts&paged=2&eventDate=2026-01-01
+  Matches: 1
+
+https://www.wpr.org/events/category/arts/page/3?tribe-bar-date=2026-01-01&eventDisplay=past
+  Matches: 1
+
+https://www.wpr.org/events/category/arts/page/4?tribe-bar-date=2025-12-12
+  Matches: 1
+
+https://www.wpr.org?post_type=tribe_events&eventDisplay=day&tribe_events_cat=arts&paged=3&eventDate=2025-12-15
+  Matches: 1
+
+https://www.wpr.org?post_type=tribe_events&eventDisplay=day&tribe_events_cat=arts&paged=3&eventDate=2025-12-21
+  Matches: 1
+
+https://www.wpr.org/events/category/arts/page/4?tribe-bar-date=2025-12-09
+  Matches: 1
+
+https://www.wpr.org/events/category/arts/page/2?tribe-bar-date=2025-12-08&eventDisplay=past
+  Matches: 1
+
+https://www.wpr.org/events/category/arts/page/4?tribe-bar-date=2025-12-20
+  Matches: 1
+
+https://www.wpr.org/events/category/arts/page/2?tribe-bar-date=2025-12-29&eventDisplay=past
+  Matches: 1
+
+https://www.wpr.org/events/category/arts/list?tribe-bar-date=2025-12-30&eventDisplay=past
+  Matches: 1
+
+https://www.wpr.org/events/category/arts/page/3?tribe-bar-date=2025-12-28&eventDisplay=past
+  Matches: 1
+
+https://www.wpr.org?post_type=tribe_events&eventDisplay=day&tribe_events_cat=arts&paged=3&eventDate=2025-12-04
+  Matches: 1
+
+https://www.wpr.org/events/category/arts/page/4?tribe-bar-date=2025-12-04
+  Matches: 1
+
+https://www.wpr.org?post_type=tribe_events&eventDisplay=day&tribe_events_cat=arts&paged=3&eventDate=2025-12-13
+  Matches: 1
+
+https://www.wpr.org/events/category/arts/page/4?tribe-bar-date=2025-12-13
+  Matches: 1
+
+https://www.wpr.org/events/category/arts/page/3?tribe-bar-date=2025-12-07&eventDisplay=past
+  Matches: 1
+
+https://www.wpr.org?post_type=tribe_events&eventDisplay=day&tribe_events_cat=arts&paged=2&eventDate=2025-12-27
+  Matches: 1
+
+https://www.wpr.org/events/category/arts/page/3?tribe-bar-date=2025-12-27&eventDisplay=past
+  Matches: 1
+
+https://www.wpr.org?post_type=tribe_events&eventDisplay=day&tribe_events_cat=arts&paged=3&eventDate=2025-12-11
+  Matches: 1
+
+https://www.wpr.org/events/category/arts/page/3?tribe-bar-date=2025-12-11&eventDisplay=past
+  Matches: 1
+
+https://www.wpr.org/page/5?post_type=tribe_events&eventDisplay=day&tribe_events_cat=arts&eventDate=2025-12-10
+  Matches: 1
+
+https://www.wpr.org/page/5?post_type=tribe_events&eventDisplay=day&tribe_events_cat=arts&eventDate=2025-12-12
+  Matches: 1
+
+https://www.wpr.org?post_type=tribe_events&eventDisplay=day&tribe_events_cat=arts&paged=6
+  Matches: 1
+
+https://www.wpr.org/page/4?post_type=tribe_events&eventDisplay=day&tribe_events_cat=arts&eventDate=2025-12-09
+  Matches: 1
+
+https://www.wpr.org/page/4?post_type=tribe_events&eventDisplay=day&tribe_events_cat=arts&eventDate=2025-12-13
+  Matches: 1
+
+https://www.wpr.org/page/3?post_type=tribe_events&eventDisplay=day&tribe_events_cat=arts&eventDate=2025-12-08
+  Matches: 1
+
+https://www.wpr.org/page/3?post_type=tribe_events&eventDisplay=day&tribe_events_cat=arts&eventDate=2025-12-14
+  Matches: 1
+
+https://www.wpr.org/events/category/other/pint-sized-concert/week/2025-12-29
+  Matches: 1
+
+https://www.wpr.org/events/category/other/pint-sized-concert/week/2025-12-27
+  Matches: 1
+
+https://www.wpr.org/events/category/other/pint-sized-concert/week/2026-01-12
+  Matches: 1
+
+https://www.wpr.org/events/category/other/pint-sized-concert/day/2026-01-13
+  Matches: 1
+
+https://www.wpr.org/events/category/other/pint-sized-concert/day/2026-01-25
+  Matches: 1
+
+https://www.wpr.org/events/category/other/pint-sized-concert/day/2025-12-17
+  Matches: 1
+
+https://www.wpr.org/events/category/other/pint-sized-concert/list?tribe-bar-date=2025-12-16
+  Matches: 1
+
+https://www.wpr.org/events/category/other/pint-sized-concert/list?tribe-bar-date=2025-12-15&eventDisplay=past
+  Matches: 1
+
+https://www.wpr.org/events/category/other/pint-sized-concert/day/2025-12-19
+  Matches: 1
+
+https://www.wpr.org/events/category/other/pint-sized-concert/week/2025-12-20
+  Matches: 1
+
+https://www.wpr.org/events/category/other/pint-sized-concert/week/2025-12-22
+  Matches: 1
+
+https://www.wpr.org/events/category/other/pint-sized-concert/list?tribe-bar-date=2025-11-09
+  Matches: 1
+
+https://www.wpr.org/events/category/other/pint-sized-concert/day/2025-11-09
+  Matches: 1
+
+https://www.wpr.org/events/category/other/pint-sized-concert/list?tribe-bar-date=2025-11-16&eventDisplay=past
+  Matches: 1
+
+https://www.wpr.org/events/category/other/pint-sized-concert/day/2025-11-21
+  Matches: 1
+
+https://www.wpr.org/events/category/other/pint-sized-concert/day/2025-11-27
+  Matches: 1
+
+https://www.wpr.org/events/category/other/pint-sized-concert/week/2025-11-28
+  Matches: 1
+
+https://www.wpr.org/events/tag/pint-sized-concert/list?tribe-bar-date=2025-12-12
+  Matches: 1
+
+https://www.wpr.org/events/tag/pint-sized-concert/day/2025-12-09
+  Matches: 1
+
+https://www.wpr.org/events/tag/pint-sized-concert/list?tribe-bar-date=2025-11-30
+  Matches: 1
+
+https://www.wpr.org/events/tag/pint-sized-concert/week/2025-12-07
+  Matches: 1
+
+https://www.wpr.org/events/tag/pint-sized-concert/week/2025-11-23
+  Matches: 1
+
+https://www.wpr.org/events/tag/pint-sized-concert/list?tribe-bar-date=2025-12-14
+  Matches: 1
+
+https://www.wpr.org/events/tag/pint-sized-concert/day/2026-01-01
+  Matches: 1
+
+https://www.wpr.org/events/tag/pint-sized-concert/2026-02
+  Matches: 1
+
+https://www.wpr.org/events/tag/pint-sized-concert/week/2026-01-01
+  Matches: 1
+
+https://www.wpr.org/events/tag/pint-sized-concert/day/2025-11-01
+  Matches: 1
+
+https://www.wpr.org/events/tag/pint-sized-concert/list?tribe-bar-date=2025-11-01
+  Matches: 1
+
+https://www.wpr.org/events/tag/pint-sized-concert/week/2025-12-01
+  Matches: 1
+
+https://www.wpr.org/events/tag/white-winter/week/2025-12-07
+  Matches: 1
+
+https://www.wpr.org/events/tag/white-winter/list?tribe-bar-date=2025-11-30
+  Matches: 1
+
+https://www.wpr.org/events/tag/white-winter/list?tribe-bar-date=2025-12-11
+  Matches: 1
+
+https://www.wpr.org/events/tag/white-winter/week/2026-01-01
+  Matches: 1
+
+https://www.wpr.org/events/tag/white-winter/list?tribe-bar-date=2026-01-01
+  Matches: 1
+
+https://www.wpr.org/events/tag/white-winter/week/2025-11-01
+  Matches: 1
+
+https://www.wpr.org/events/tag/white-winter/week/2025-12-01
+  Matches: 1
+
+https://www.wpr.org/events/tag/white-winter/week/2025-12-10
+  Matches: 1
+
+https://www.wpr.org/events/tag/white-winter/day/2025-12-09
+  Matches: 1
+
+https://www.wpr.org/events/tag/white-winter/week/2025-12-12
+  Matches: 1
+
+https://www.wpr.org/events/tag/white-winter/list?tribe-bar-date=2025-12-12
+  Matches: 1
+
+https://www.wpr.org/events/tag/white-winter/day/2025-12-13
+  Matches: 1
+
+https://www.wpr.org/events/tag/concerts/list?tribe-bar-date=2025-12-11
+  Matches: 1
+
+https://www.wpr.org/events/tag/concerts/list?tribe-bar-date=2025-12-10
+  Matches: 1
+
+https://www.wpr.org/events/tag/concerts/day/2025-12-09
+  Matches: 1
+
+https://www.wpr.org/events/tag/concerts/day/2025-12-13
+  Matches: 1
+
+https://www.wpr.org/events/tag/concerts/week/2025-11-23
+  Matches: 1
+
+https://www.wpr.org/events/tag/concerts/week/2025-12-07
+  Matches: 1
+
+https://www.wpr.org/event/mendelssohn-madness/2025-04-09
+  Matches: 1
+
+https://www.wpr.org/events/tag/concerts/day/2025-11-01
+  Matches: 1
+
+https://www.wpr.org/events/tag/concerts/day/2025-11-23
+  Matches: 1
+
+https://www.wpr.org/events/tag/concerts/list?tribe-bar-date=2025-11-01
+  Matches: 1
+
+https://www.wpr.org/events/tag/concerts/week/2025-12-01
+  Matches: 1
+
+https://www.wpr.org/events/tag/concerts/list?tribe-bar-date=2025-12-01
+  Matches: 1
+
+https://www.wpr.org/events/tag/concerts/day/2026-01-01
+  Matches: 1
+
+https://www.wpr.org/events/tag/pop-music/day/2025-12-13
+  Matches: 1
+
+https://www.wpr.org/events/tag/pop-music/list?tribe-bar-date=2025-12-12
+  Matches: 1
+
+https://www.wpr.org/events/tag/pop-music/week/2025-12-12
+  Matches: 1
+
+https://www.wpr.org/events/tag/pop-music/week/2025-12-10
+  Matches: 1
+
+https://www.wpr.org/events/tag/pop-music/day/2025-12-09
+  Matches: 1
+
+https://www.wpr.org/events/tag/pop-music/list?tribe-bar-date=2025-12-11
+  Matches: 1
+
+https://www.wpr.org/events/tag/pop-music/list?tribe-bar-date=2025-11-30
+  Matches: 1
+
+https://www.wpr.org/events/tag/pop-music/list?tribe-bar-date=2025-12-14
+  Matches: 1
+
+https://www.wpr.org/events/tag/pop-music/week/2025-12-01
+  Matches: 1
+
+https://www.wpr.org/events/tag/pop-music/day/2025-11-01
+  Matches: 1
+
+https://www.wpr.org/events/tag/pop-music/2025-10
+  Matches: 1
+
+https://www.wpr.org/events/tag/pop-music/week/2025-11-01
+  Matches: 1
+
+https://www.wpr.org/events/tag/pop-music/list?tribe-bar-date=2026-01-01
+  Matches: 1
+
+https://www.wpr.org/events/tag/pop-music/2026-02
+  Matches: 1
+
+https://www.wpr.org/events/tag/bong-center/day/2025-12-14
+  Matches: 1
+
+https://www.wpr.org/events/tag/bong-center/week/2025-12-21
+  Matches: 1
+
+https://www.wpr.org/events/tag/bong-center/list?tribe-bar-date=2025-12-14
+  Matches: 1
+
+https://www.wpr.org/events/tag/bong-center/week/2025-12-10
+  Matches: 1
+
+https://www.wpr.org/events/tag/bong-center/day/2025-12-09
+  Matches: 1
+
+https://www.wpr.org/events/tag/bong-center/day/2025-12-01
+  Matches: 1
+
+https://www.wpr.org/events/tag/bong-center/week/2025-12-01
+  Matches: 1
+
+https://www.wpr.org/events/tag/bong-center/2025-10
+  Matches: 1
+
+https://www.wpr.org/events/tag/bong-center/week/2025-11-01
+  Matches: 1
+
+https://www.wpr.org/events/tag/bong-center/list?tribe-bar-date=2026-01-01
+  Matches: 1
+
+https://www.wpr.org/events/tag/bong-center/day/2026-01-01
+  Matches: 1
+
+https://www.wpr.org/events/tag/honest_dog_books/day/2025-12-14
+  Matches: 1
+
+https://www.wpr.org/events/tag/honest_dog_books/week/2025-12-21
+  Matches: 1
+
+https://www.wpr.org/events/tag/honest_dog_books/list?tribe-bar-date=2025-12-14
+  Matches: 1
+
+https://www.wpr.org/events/tag/honest_dog_books/list?tribe-bar-date=2025-12-11
+  Matches: 1
+
+https://www.wpr.org/events/tag/honest_dog_books/day/2025-11-30
+  Matches: 1
+
+https://www.wpr.org/events/tag/honest_dog_books/list?tribe-bar-date=2026-01-01
+  Matches: 1
+
+https://www.wpr.org/events/tag/honest_dog_books/day/2026-01-01
+  Matches: 1
+
+https://www.wpr.org/events/tag/honest_dog_books/list?tribe-bar-date=2025-11-01
+  Matches: 1
+
+https://www.wpr.org/events/tag/honest_dog_books/week/2025-11-01
+  Matches: 1
+
+https://www.wpr.org/events/tag/honest_dog_books/week/2025-12-01
+  Matches: 1
+
+https://www.wpr.org/events/tag/honest_dog_books/day/2025-12-01
+  Matches: 1
+
+https://www.wpr.org/events/tag/honest_dog_books/list?tribe-bar-date=2025-12-10
+  Matches: 1
+
+https://www.wpr.org/events/tag/honest_dog_books/week/2025-12-12
+  Matches: 1
+
+https://www.wpr.org/events/tag/local_music/week/2025-12-07
+  Matches: 1
+
+https://www.wpr.org/events/tag/local_music/day/2025-12-14
+  Matches: 1
+
+https://www.wpr.org/events/tag/local_music/week/2025-12-21
+  Matches: 1
+
+https://www.wpr.org/events/tag/local_music/week/2025-11-23
+  Matches: 1
+
+https://www.wpr.org/events/tag/local_music/list?tribe-bar-date=2025-11-30
+  Matches: 1
+
+https://www.wpr.org/events/tag/local_music/list?tribe-bar-date=2025-12-11
+  Matches: 1
+
+https://www.wpr.org/events/tag/local_music/list?tribe-bar-date=2025-12-12
+  Matches: 1
+
+https://www.wpr.org/events/tag/local_music/week/2025-12-12
+  Matches: 1
+
+https://www.wpr.org/events/tag/local_music/list?tribe-bar-date=2025-12-10
+  Matches: 1
+
+https://www.wpr.org/events/tag/local_music/week/2025-12-10
+  Matches: 1
+
+https://www.wpr.org/events/tag/local_music/day/2025-12-09
+  Matches: 1
+
+https://www.wpr.org/events/tag/local_music/day/2025-11-01
+  Matches: 1
+
+https://www.wpr.org/events/tag/local_music/2025-10
+  Matches: 1
+
+https://www.wpr.org/events/tag/local_music/week/2025-11-01
+  Matches: 1
+
+https://www.wpr.org/events/tag/local_music/list?tribe-bar-date=2025-11-01
+  Matches: 1
+
+https://www.wpr.org/events/tag/local_music/list?tribe-bar-date=2026-01-01
+  Matches: 1
+
+https://www.wpr.org/events/tag/local_music/day/2025-12-01
+  Matches: 1
+
+https://www.wpr.org/events/category/other/pint-sized-concert/day/2025-11-12
+  Matches: 1
+
+https://www.wpr.org/events/category/other/pint-sized-concert/day/2025-11-18
+  Matches: 1
+
+https://www.wpr.org/events/category/other/pint-sized-concert/week/2025-11-17
+  Matches: 1
+
+https://www.wpr.org/events/category/other/pint-sized-concert/week/2025-10-30
+  Matches: 1
+
+https://www.wpr.org/events/category/other/pint-sized-concert/list?tribe-bar-date=2025-10-30
+  Matches: 1
+
+https://www.wpr.org/events/category/other/pint-sized-concert/list?tribe-bar-date=2025-10-31&eventDisplay=past
+  Matches: 1
+
+https://www.wpr.org/events/category/other/pint-sized-concert/week/2025-11-03
+  Matches: 1
+
+https://www.wpr.org/events/category/other/pint-sized-concert/list?tribe-bar-date=2025-11-02&eventDisplay=past
+  Matches: 1
+
+https://www.wpr.org/events/category/other/pint-sized-concert/day/2025-10-26
+  Matches: 1
+
+https://www.wpr.org/events/category/other/pint-sized-concert/list?tribe-bar-date=2025-10-26
+  Matches: 1
+
+https://www.wpr.org/events/category/other/pint-sized-concert/list?tribe-bar-date=2025-10-19&eventDisplay=past
+  Matches: 1
+
+https://www.wpr.org/events/category/other/pint-sized-concert/day/2025-10-12
+  Matches: 1
+
+https://www.wpr.org/events/category/other/pint-sized-concert/list?tribe-bar-date=2025-10-23
+  Matches: 1
+
+https://www.wpr.org/events/category/other/pint-sized-concert/week/2025-10-23
+  Matches: 1
+
+https://www.wpr.org/events/category/other/pint-sized-concert/list?tribe-bar-date=2025-09-30
+  Matches: 1
+
+https://www.wpr.org/events/category/other/pint-sized-concert/week/2025-09-30
+  Matches: 1
+
+https://www.wpr.org/events/category/other/pint-sized-concert/list?tribe-bar-date=2025-10-04
+  Matches: 1
+
+https://www.wpr.org/events/category/other/pint-sized-concert/list?tribe-bar-date=2025-10-03&eventDisplay=past
+  Matches: 1
+
+https://www.wpr.org/events/category/other/pint-sized-concert/list?tribe-bar-date=2025-09-01&eventDisplay=past
+  Matches: 1
+
+https://www.wpr.org/events/category/other/pint-sized-concert/day/2025-08-14
+  Matches: 1
+
+https://www.wpr.org/events/category/other/pint-sized-concert/2025-07
+  Matches: 1
+
+https://www.wpr.org/events/category/other/pint-sized-concert/week/2025-08-01
+  Matches: 1
+
+https://www.wpr.org/events/category/other/pint-sized-concert/day/2025-08-31
+  Matches: 1
+
+https://www.wpr.org/events/category/other/pint-sized-concert/day/2025-09-02
+  Matches: 1
+
+https://www.wpr.org/events/category/other/pint-sized-concert/day/2025-09-21
+  Matches: 1
+
+https://www.wpr.org/events/category/other/pint-sized-concert/list?tribe-bar-date=2025-10-05
+  Matches: 1
+
+https://www.wpr.org/events/category/other/pint-sized-concert/week/2025-10-20
+  Matches: 1
+
+https://www.wpr.org/events/category/other/pint-sized-concert/list?tribe-bar-date=2025-10-21&eventDisplay=past
+  Matches: 1
+
+https://www.wpr.org/events/category/other/pint-sized-concert/list?tribe-bar-date=2025-11-05&eventDisplay=past
+  Matches: 1
+
+https://www.wpr.org/events/category/other/pint-sized-concert/list?tribe-bar-date=2025-11-04
+  Matches: 1
+
+https://www.wpr.org/events/category/other/pint-sized-concert/week/2025-12-30
+  Matches: 1
+
+https://www.wpr.org/events/category/other/pint-sized-concert/list?tribe-bar-date=2025-12-30
+  Matches: 1
+
+https://www.wpr.org/events/category/other/pint-sized-concert/week/2026-01-03
+  Matches: 1
+
+https://www.wpr.org/events/category/other/pint-sized-concert/list?tribe-bar-date=2026-01-31
+  Matches: 1
+
