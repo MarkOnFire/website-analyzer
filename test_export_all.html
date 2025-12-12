@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bug Scan Results - https://www.example.com</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: #f5f5f5;
+            padding: 20px;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+        }
+
+        .header h1 {
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            opacity: 0.9;
+            font-size: 14px;
+        }
+
+        .summary {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            padding: 30px;
+            background: #f8f9fa;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .summary-item {
+            background: white;
+            padding: 15px;
+            border-radius: 6px;
+            border-left: 4px solid #667eea;
+        }
+
+        .summary-item .label {
+            font-size: 12px;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 5px;
+        }
+
+        .summary-item .value {
+            font-size: 24px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .summary-item .value.bugs {
+            color: #e74c3c;
+        }
+
+        .results {
+            padding: 30px;
+        }
+
+        .results h2 {
+            font-size: 20px;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+
+        thead {
+            background: #f8f9fa;
+        }
+
+        th {
+            padding: 12px;
+            text-align: left;
+            font-weight: 600;
+            color: #555;
+            border-bottom: 2px solid #e0e0e0;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        th:hover {
+            background: #e9ecef;
+        }
+
+        td {
+            padding: 12px;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        tr:hover {
+            background: #f8f9fa;
+        }
+
+        .url-link {
+            color: #667eea;
+            text-decoration: none;
+            word-break: break-all;
+        }
+
+        .url-link:hover {
+            text-decoration: underline;
+        }
+
+        .match-count {
+            background: #e74c3c;
+            color: white;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: bold;
+            display: inline-block;
+        }
+
+        .patterns {
+            font-size: 13px;
+            color: #666;
+        }
+
+        .pattern-badge {
+            background: #e9ecef;
+            padding: 2px 8px;
+            border-radius: 4px;
+            margin-right: 4px;
+            font-size: 11px;
+        }
+
+        .executive-summary {
+            padding: 30px;
+            background: #fff;
+        }
+
+        .executive-summary h2 {
+            font-size: 20px;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .summary-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .summary-card {
+            background: white;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 15px;
+            text-align: center;
+        }
+
+        .summary-card.critical {
+            border-left: 5px solid #e74c3c;
+        }
+
+        .summary-card.high {
+            border-left: 5px solid #e67e22;
+        }
+
+        .summary-card.medium {
+            border-left: 5px solid #f39c12;
+        }
+
+        .summary-card.low {
+            border-left: 5px solid #27ae60;
+        }
+
+        .card-label {
+            font-size: 11px;
+            color: #999;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 5px;
+        }
+
+        .card-value {
+            font-size: 28px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .card-value.critical {
+            color: #e74c3c;
+        }
+
+        .card-value.high {
+            color: #e67e22;
+        }
+
+        .card-value.medium {
+            color: #f39c12;
+        }
+
+        .card-value.low {
+            color: #27ae60;
+        }
+
+        .timeline {
+            margin-top: 15px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-left: 4px solid #667eea;
+            border-radius: 4px;
+            font-size: 13px;
+            color: #555;
+        }
+
+        .bug-analysis {
+            padding: 30px;
+            background: #fff;
+            border-top: 1px solid #e0e0e0;
+        }
+
+        .bug-analysis h2 {
+            font-size: 20px;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .bug-type-section {
+            margin-bottom: 25px;
+            border: 1px solid #e0e0e0;
+            border-radius: 6px;
+            overflow: hidden;
+        }
+
+        .bug-type-header {
+            background: #f8f9fa;
+            padding: 15px;
+            border-bottom: 1px solid #e0e0e0;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .bug-type-header:hover {
+            background: #e9ecef;
+        }
+
+        .bug-type-header h3 {
+            font-size: 16px;
+            margin: 0;
+            color: #333;
+        }
+
+        .bug-type-content {
+            padding: 20px;
+            background: white;
+            display: none;
+        }
+
+        .bug-type-content.show {
+            display: block;
+        }
+
+        .root-cause {
+            margin: 15px 0;
+            padding: 15px;
+            background: #f8f9fa;
+            border-left: 4px solid #667eea;
+            border-radius: 4px;
+            font-size: 14px;
+            color: #555;
+            line-height: 1.6;
+        }
+
+        .fixes-section {
+            margin-top: 20px;
+        }
+
+        .fix-option {
+            margin-bottom: 20px;
+            border: 1px solid #e0e0e0;
+            border-radius: 6px;
+            padding: 15px;
+            background: #fafbfc;
+        }
+
+        .fix-option h4 {
+            font-size: 15px;
+            margin: 0 0 10px 0;
+            color: #333;
+        }
+
+        .fix-description {
+            font-size: 13px;
+            color: #666;
+            margin-bottom: 10px;
+            line-height: 1.5;
+        }
+
+        .code-block {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 15px;
+            border-radius: 4px;
+            overflow-x: auto;
+            margin: 10px 0;
+        }
+
+        .code-block code {
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 12px;
+            line-height: 1.4;
+        }
+
+        .effort {
+            display: inline-block;
+            margin-top: 10px;
+            padding: 5px 10px;
+            background: #e9ecef;
+            border-radius: 4px;
+            font-size: 12px;
+            color: #555;
+        }
+
+        .priority-badge {
+            display: inline-block;
+            margin-left: 10px;
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: bold;
+            color: white;
+        }
+
+        .priority-badge.critical {
+            background: #e74c3c;
+        }
+
+        .priority-badge.high {
+            background: #e67e22;
+        }
+
+        .priority-badge.medium {
+            background: #f39c12;
+        }
+
+        .priority-badge.low {
+            background: #27ae60;
+        }
+
+        .details-toggle {
+            cursor: pointer;
+            text-decoration: underline;
+            color: #667eea;
+        }
+
+        .priority-column {
+            text-align: center;
+            font-weight: 600;
+        }
+
+        .priority-critical {
+            color: #e74c3c;
+        }
+
+        .priority-high {
+            color: #e67e22;
+        }
+
+        .priority-medium {
+            color: #f39c12;
+        }
+
+        .priority-low {
+            color: #27ae60;
+        }
+
+        .fix-indicator {
+            text-align: center;
+            font-size: 18px;
+        }
+
+        .fix-available {
+            color: #27ae60;
+        }
+
+        .fix-unavailable {
+            color: #bdc3c7;
+        }
+
+        .footer {
+            padding: 20px 30px;
+            background: #f8f9fa;
+            border-top: 1px solid #e0e0e0;
+            text-align: center;
+            color: #666;
+            font-size: 13px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            
+            <h1>Bug Scan Results</h1>
+            <p>Visual bug detection report for https://www.example.com</p>
+        </div>
+
+        <div class="summary">
+            <div class="summary-item">
+                <div class="label">Bugs Found</div>
+                <div class="value bugs">3</div>
+            </div>
+            <div class="summary-item">
+                <div class="label">Pages Scanned</div>
+                <div class="value">100</div>
+            </div>
+            <div class="summary-item">
+                <div class="label">Scan Date</div>
+                <div class="value" style="font-size: 14px; margin-top: 5px;">2025-12-12 00:33:31</div>
+            </div>
+            <div class="summary-item">
+                <div class="label">Example URL</div>
+                <div class="value" style="font-size: 11px; word-break: break-all; margin-top: 5px;">
+                    <a href="https://archive.org/web/.../example-with-bug" class="url-link" target="_blank">https://archive.org/web/.../example-with-bug...</a>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="results">
+            <h2>Affected Pages</h2>
+            <table id="resultsTable">
+                <thead>
+                    <tr>
+                        <th onclick="sortTable(0)">#</th>
+                        <th onclick="sortTable(1)">URL</th>
+                        <th onclick="sortTable(2)">Matches</th>
+                        <th onclick="sortTable(3)">Patterns</th>
+
+                    </tr>
+                </thead>
+                <tbody>
+
+                    <tr>
+                        <td>1</td>
+                        <td><a href="https://www.example.com/page1" class="url-link" target="_blank">https://www.example.com/page1</a></td>
+                        <td><span class="match-count">3</span></td>
+                        <td class="patterns"><span class="pattern-badge">multi_field (2)</span><span class="pattern-badge">opening_with_field (1)</span></td>
+
+                    </tr>
+
+                    <tr>
+                        <td>2</td>
+                        <td><a href="https://www.example.com/page2" class="url-link" target="_blank">https://www.example.com/page2</a></td>
+                        <td><span class="match-count">5</span></td>
+                        <td class="patterns"><span class="pattern-badge">multi_field (3)</span><span class="pattern-badge">field_fid (2)</span></td>
+
+                    </tr>
+
+                    <tr>
+                        <td>3</td>
+                        <td><a href="https://www.example.com/page3" class="url-link" target="_blank">https://www.example.com/page3</a></td>
+                        <td><span class="match-count">1</span></td>
+                        <td class="patterns"><span class="pattern-badge">opening_structure (1)</span></td>
+
+                    </tr>
+
+                </tbody>
+            </table>
+        </div>
+
+        <div class="footer">
+            Generated by Bug Finder - Website Analyzer Tool
+        </div>
+    </div>
+
+    <script>
+        function sortTable(column) {
+            const table = document.getElementById('resultsTable');
+            const tbody = table.querySelector('tbody');
+            const rows = Array.from(tbody.querySelectorAll('tr'));
+
+            rows.sort((a, b) => {
+                let aVal = a.children[column].innerText;
+                let bVal = b.children[column].innerText;
+
+                // Numeric sort for # and Matches columns
+                if (column === 0 || column === 2) {
+                    aVal = parseInt(aVal);
+                    bVal = parseInt(bVal);
+                }
+
+                return aVal > bVal ? 1 : -1;
+            });
+
+            tbody.innerHTML = '';
+            rows.forEach(row => tbody.appendChild(row));
+        }
+
+        function toggleBugType(element) {
+            const content = element.nextElementSibling;
+            content.classList.toggle('show');
+        }
+
+        // Auto-expand first bug type section
+        document.addEventListener('DOMContentLoaded', function() {
+            const firstSection = document.querySelector('.bug-type-header');
+            if (firstSection) {
+                firstSection.nextElementSibling.classList.add('show');
+            }
+        });
+    </script>
+</body>
+</html>

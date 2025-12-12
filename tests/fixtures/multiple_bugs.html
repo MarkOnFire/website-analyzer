@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Article with Multiple WordPress Embed Bugs</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .article { max-width: 800px; margin: 0 auto; }
+        .bug { background-color: #f8d7da; padding: 10px; margin: 10px 0; }
+    </style>
+</head>
+<body>
+    <article class="article">
+        <h1>Food Culture Around the World</h1>
+        <p>Published on December 10, 2024</p>
+
+        <p>Explore the diverse and fascinating food cultures from different regions around the world.</p>
+
+        <h2>European Cuisine</h2>
+
+        <p>European cuisine is known for its rich flavors and traditional cooking methods:</p>
+
+        <!-- First WordPress embed bug -->
+        <p class="bug">
+            [[{"fid":"1001001″,"view_mode":"full_width","fields":{"format":"full_width","alignment":"left"},"type":"media","field_deltas":{"1":{"format":"full_width","alignment":"left"}}}]]
+        </p>
+
+        <p>French cuisine, in particular, has influenced culinary traditions worldwide.</p>
+
+        <h2>Asian Cuisine</h2>
+
+        <p>Asian cuisines offer incredible diversity and complexity:</p>
+
+        <!-- Second WordPress embed bug -->
+        <p class="bug">
+            [[{"fid":"1001002″,"view_mode":"full_width","fields":{"format":"full_width","alignment":"center","field_image_caption[und][0][value]":"Traditional Asian dishes"},"type":"media"}]]
+        </p>
+
+        <p>From Japanese sushi to Indian curries, Asian food is beloved globally.</p>
+
+        <h2>Americas Cuisine</h2>
+
+        <p>The Americas have their own unique culinary traditions:</p>
+
+        <!-- Third WordPress embed bug with different structure -->
+        <p class="bug">
+            [[{"fid":"1001003″,"view_mode":"preview"}]]
+        </p>
+
+        <p>Indigenous ingredients and cooking methods continue to influence modern cuisine.</p>
+
+        <h2>African Cuisine</h2>
+
+        <p>African food is characterized by its use of fresh ingredients and bold flavors.</p>
+
+        <!-- Fourth bug: embedded JSON-like structure -->
+        <p class="bug">
+            "fid":"1001004″, "view_mode":"full_width", "type":"image"
+        </p>
+
+        <p>Traditional recipes passed down through generations maintain cultural identity.</p>
+
+        <h2>Oceania Cuisine</h2>
+
+        <p>Pacific island cuisines feature fresh seafood and tropical fruits.</p>
+
+        <!-- Fifth bug: partial WordPress embed -->
+        <p class="bug">
+            [[{"fid":"1001005″,"view_mode":"compact"
+        </p>
+
+        <p>The diversity of global cuisine reflects the richness of human culture and heritage.</p>
+    </article>
+</body>
+</html>

@@ -1,0 +1,13 @@
+{
+  "mcpServers": {
+    "website-analyzer": {
+      "command": "python3.11",
+      "args": [
+        "-m",
+        "src.analyzer.mcp_server"
+      ],
+      "cwd": "/path/to/website-analyzer",
+      "env": {}
+    }
+  }
+}

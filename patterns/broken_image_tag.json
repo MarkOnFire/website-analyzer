@@ -1,0 +1,27 @@
+{
+  "name": "broken_image_tag",
+  "description": "Detects broken or malformed image tags that may cause rendering issues. Identifies img tags with missing src attributes, invalid syntax, or placeholder values.",
+  "patterns": [
+    "<img[^>]*(?:src\\s*=\\s*[\"']?(?:javascript|data:|about:|chrome:)|src\\s*=\\s*[\"'][\"']|(?!.*src)\\s*>)",
+    "<img\\s+(?!.*src)[^>]*>",
+    "<img[^>]*src\\s*=\\s*[\"']?(?:['\"][^>]*)?$",
+    "src\\s*=\\s*[\"']['\"]",
+    "<img[^>]*\\.png[\"']\\s*\\.jpg"
+  ],
+  "severity": "medium",
+  "examples": [
+    "<img alt=\"test\">",
+    "<img src=\"\" alt=\"broken\">",
+    "<img src='javascript:void(0)'>",
+    "<img src='about:blank'>",
+    "<img.png' .jpg>"
+  ],
+  "tags": [
+    "html",
+    "images",
+    "accessibility",
+    "rendering"
+  ],
+  "author": "Website Analyzer Team",
+  "notes": "Common issue in dynamically generated or improperly migrated websites where image paths are not correctly set."
+}

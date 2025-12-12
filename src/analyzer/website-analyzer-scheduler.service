@@ -1,0 +1,28 @@
+[Unit]
+Description=Website Analyzer Scheduler Daemon
+Documentation=https://github.com/yourusername/website-analyzer
+After=network.target
+
+[Service]
+Type=simple
+User=%u
+Environment="PATH=/usr/local/bin:/usr/bin:/bin"
+ExecStart=/usr/bin/python3.11 -c "from src.analyzer.scheduler import SchedulerDaemon; SchedulerDaemon().start()"
+Restart=on-failure
+RestartSec=10
+
+# Logging
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=website-analyzer-scheduler
+
+# Security
+PrivateTmp=true
+NoNewPrivileges=true
+
+# Resource limits
+MemoryMax=512M
+CPUQuota=50%
+
+[Install]
+WantedBy=default.target

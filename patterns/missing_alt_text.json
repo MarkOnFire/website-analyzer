@@ -1,0 +1,27 @@
+{
+  "name": "missing_alt_text",
+  "description": "Detects images that are missing alt text attributes, which is important for accessibility and SEO. Identifies img tags without alt attributes or with empty alt values.",
+  "patterns": [
+    "<img(?!\\s+[^>]*alt\\s*=)[^>]*>",
+    "<img[^>]*alt\\s*=\\s*[\"'][\"'][^>]*>",
+    "<img[^>]*alt\\s*=\\s*[\"']\\s*[\"'][^>]*>",
+    "<img\\s+src[^>]*(?!alt\\s*=)",
+    "<img(?=[^>]*src)(?![^>]*alt)"
+  ],
+  "severity": "medium",
+  "examples": [
+    "<img src=\"image.jpg\">",
+    "<img src=\"photo.png\" alt=\"\">",
+    "<img src=\"test.gif\" alt='' >",
+    "<img width=\"100\" src=\"pic.jpg\" height=\"100\">"
+  ],
+  "tags": [
+    "accessibility",
+    "a11y",
+    "seo",
+    "compliance",
+    "wcag"
+  ],
+  "author": "Website Analyzer Team",
+  "notes": "Missing alt text is a common accessibility issue that impacts both screen reader users and SEO. WCAG 2.1 Level A requires alt text for meaningful images."
+}

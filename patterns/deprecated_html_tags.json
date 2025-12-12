@@ -1,0 +1,33 @@
+{
+  "name": "deprecated_html_tags",
+  "description": "Detects usage of deprecated HTML tags that should be replaced with semantic HTML5 alternatives or CSS. Includes tags like <center>, <font>, <marquee>, <blink>, etc.",
+  "patterns": [
+    "<center(?:\\s|>)[^<]*</center>",
+    "<font(?:\\s|>)[^<]*</font>",
+    "<marquee(?:\\s|>)[^<]*</marquee>",
+    "<blink(?:\\s|>)[^<]*</blink>",
+    "<big(?:\\s|>)[^<]*</big>",
+    "<strike(?:\\s|>)[^<]*</strike>",
+    "<tt(?:\\s|>)[^<]*</tt>",
+    "<u(?:\\s|>)[^<]*</u>(?!nwrap)",
+    "<basefont[^>]*>",
+    "<dir(?:\\s|>)[^<]*</dir>"
+  ],
+  "severity": "low",
+  "examples": [
+    "<center>Centered text</center>",
+    "<font color=\"red\">Red text</font>",
+    "<marquee>Scrolling text</marquee>",
+    "<blink>Blinking content</blink>",
+    "<strike>Strikethrough</strike>"
+  ],
+  "tags": [
+    "html",
+    "semantic",
+    "modernization",
+    "deprecation",
+    "html5"
+  ],
+  "author": "Website Analyzer Team",
+  "notes": "These tags are deprecated in HTML5 and should be replaced with semantic HTML or CSS alternatives. For example: <center> -> use CSS text-align or flexbox, <font> -> use CSS color property, <strike> -> use <del> or <s> tag."
+}

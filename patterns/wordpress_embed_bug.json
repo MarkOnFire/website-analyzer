@@ -1,0 +1,27 @@
+{
+  "name": "wordpress_embed_bug",
+  "description": "Detects WordPress embed field arrays rendered in HTML content. This pattern identifies cases where Drupal/WordPress field arrays are not properly serialized and appear as raw text in the page output.",
+  "patterns": [
+    "field\\[[^\\]]*\\]",
+    "field_view_mode",
+    "\\[\\{\\s*[\"']fid[\"']",
+    "field_image_caption\\[",
+    "field_file_image"
+  ],
+  "severity": "high",
+  "examples": [
+    "<div>field[0]</div>",
+    "field_view_mode=\"full_width\"",
+    "[{\"fid\":\"1101026\",\"view_mode\":\"full_width\"",
+    "field_image_caption[und][0][value]"
+  ],
+  "tags": [
+    "wordpress",
+    "drupal",
+    "embed",
+    "serialization",
+    "visual-bug"
+  ],
+  "author": "Website Analyzer Team",
+  "notes": "This pattern was discovered during analysis of WPR.org where WordPress embed codes appeared as visible text in articles instead of being rendered as embedded content."
+}

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Unicode Quote Variations Test</title>
+</head>
+<body>
+    <h1>Testing Various Quote Characters</h1>
+
+    <p>This page contains the same content with different Unicode quote characters to test pattern matching robustness.</p>
+
+    <h2>ASCII Quotes</h2>
+    <p>Standard ASCII quotes: "fid":"123", "view_mode":"full"</p>
+
+    <h2>Left/Right Single Quotes (U+2018/U+2019)</h2>
+    <p>Curly single quotes: 'fid':'456', 'view_mode':'preview'</p>
+
+    <h2>Left/Right Double Quotes (U+201C/U+201D)</h2>
+    <p>Curly double quotes: "fid":"789", "view_mode":"compact"</p>
+
+    <h2>Prime Characters (U+2033/U+2034)</h2>
+    <p>Prime quotes: ″fid″:″1011″, ″view_mode″:″full″</p>
+
+    <h2>Mixed Quotes</h2>
+    <p>Mixed styles: ["fid":'1213', "view_mode":'wide']</p>
+
+    <h2>WordPress Embed with Various Quotes</h2>
+    <p>Standard: [[{"fid":"123","view_mode":"full"}]]</p>
+    <p>Curly: [[{'fid':'456','view_mode':'preview'}]]</p>
+    <p>Mixed: [[{"fid":'789',"view_mode":'compact'}]]</p>
+
+    <h2>Field Variations</h2>
+    <p>Test matching with different field names and values</p>
+    <div id="test-content">
+        <span>"fid": "field_id_123"</span>
+        <span>'fid': 'another_id'</span>
+        <span>"view_mode":"thumbnail"</span>
+        <span>'view_mode':'fullscreen'</span>
+        <span>"type":"media"</span>
+    </div>
+
+    <h2>Escaped Characters</h2>
+    <p>Escaped quotes: \"fid\":\"999\", \"view_mode\":\"test\"</p>
+
+    <h2>HTML Entities</h2>
+    <p>HTML encoded: &quot;fid&quot;:&quot;555&quot;, &quot;view_mode&quot;:&quot;preview&quot;</p>
+</body>
+</html>

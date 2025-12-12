@@ -1,0 +1,21 @@
+Bug Scan Results for https://www.example.com
+Example URL: https://archive.org/web/.../example-with-bug
+Pages scanned: 100
+Bugs found: 3
+Scan date: 2025-12-12 00:33:31
+======================================================================
+
+https://www.example.com/page1
+  Matches: 3
+    - multi_field: 2
+    - opening_with_field: 1
+
+https://www.example.com/page2
+  Matches: 5
+    - multi_field: 3
+    - field_fid: 2
+
+https://www.example.com/page3
+  Matches: 1
+    - opening_structure: 1
+

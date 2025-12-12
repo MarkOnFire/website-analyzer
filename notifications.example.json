@@ -1,0 +1,61 @@
+{
+  "enabled": true,
+  "backends": {
+    "console": {
+      "type": "console",
+      "enabled": true,
+      "events": []
+    },
+    "email_production": {
+      "type": "email",
+      "enabled": false,
+      "events": ["scan_completed", "scan_failed", "threshold_alert"],
+      "smtp_host": "${SMTP_HOST}",
+      "smtp_port": 587,
+      "smtp_user": "${SMTP_USER}",
+      "smtp_password": "${SMTP_PASSWORD}",
+      "from_address": "bug-finder@example.com",
+      "to_addresses": [
+        "qa-team@example.com",
+        "dev-lead@example.com"
+      ],
+      "use_tls": true
+    },
+    "email_alerts_only": {
+      "type": "email",
+      "enabled": false,
+      "events": ["threshold_alert", "scan_failed"],
+      "smtp_host": "${SMTP_HOST}",
+      "smtp_port": 587,
+      "smtp_user": "${SMTP_USER}",
+      "smtp_password": "${SMTP_PASSWORD}",
+      "from_address": "alerts@example.com",
+      "to_addresses": [
+        "incident-response@example.com"
+      ],
+      "use_tls": true
+    },
+    "slack_main": {
+      "type": "slack",
+      "enabled": false,
+      "events": ["scan_completed", "new_bugs_found", "bugs_fixed", "threshold_alert"],
+      "webhook_url": "${SLACK_WEBHOOK_URL}"
+    },
+    "slack_alerts": {
+      "type": "slack",
+      "enabled": false,
+      "events": ["scan_failed", "threshold_alert"],
+      "webhook_url": "${SLACK_ALERTS_WEBHOOK_URL}"
+    },
+    "webhook_custom": {
+      "type": "webhook",
+      "enabled": false,
+      "events": ["scan_completed", "threshold_alert"],
+      "webhook_url": "https://api.example.com/webhooks/bug-finder",
+      "headers": {
+        "Authorization": "Bearer ${WEBHOOK_TOKEN}",
+        "Content-Type": "application/json"
+      }
+    }
+  }
+}

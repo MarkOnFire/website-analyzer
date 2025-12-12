@@ -2,6 +2,9 @@ import asyncio
 import json
 import re
 import typer
+import os
+import time
+import signal
 from pathlib import Path
 from typing import Optional, List, Dict, Any, Set
 from rich.progress import Progress, SpinnerColumn, TextColumn, BarColumn, TaskProgressColumn, TimeRemainingColumn, TimeElapsedColumn
@@ -261,6 +264,24 @@ bug_finder_app = typer.Typer(
     help="Find visual bugs across websites by example."
 )
 app.add_typer(bug_finder_app)
+
+schedule_app = typer.Typer(
+    name="schedule",
+    help="Manage recurring scans with cron-style scheduling."
+)
+app.add_typer(schedule_app)
+
+daemon_app = typer.Typer(
+    name="daemon",
+    help="Control the scheduler daemon (start/stop/status)."
+)
+app.add_typer(daemon_app)
+
+notify_app = typer.Typer(
+    name="notify",
+    help="Configure and test notification system."
+)
+app.add_typer(notify_app)
 
 
 @project_app.command("new")
@@ -1950,6 +1971,926 @@ def bug_finder_compare(
         raise typer.Exit(code=1)
     except Exception as e:
         console.print(f"[red]Error: {e}[/red]")
+        raise typer.Exit(code=1)
+
+
+# ============================================================================
+# SCHEDULER COMMANDS
+# ============================================================================
+
+@schedule_app.command("add")
+def schedule_add(
+    name: str = typer.Argument(..., help="Name for this schedule"),
+    site_url: str = typer.Option(..., "--site", help="Site URL to scan"),
+    example_url: str = typer.Option(..., "--example", help="Example URL with the bug"),
+    frequency: str = typer.Option(
+        "daily",
+        "--frequency",
+        help="Frequency: hourly, daily, weekly, or custom"
+    ),
+    max_pages: int = typer.Option(
+        1000,
+        "--max-pages",
+        help="Maximum pages to scan (0 for all)"
+    ),
+    cron: Optional[str] = typer.Option(
+        None,
+        "--cron",
+        help="Custom cron expression (required if frequency=custom)"
+    ),
+    output_dir: Optional[str] = typer.Option(
+        None,
+        "--output",
+        help="Output directory for results"
+    ),
+    tags: Optional[str] = typer.Option(
+        None,
+        "--tags",
+        help="Comma-separated tags"
+    ),
+):
+    """Create a new scheduled scan."""
+    try:
+        from src.analyzer.scheduler import (
+            ScheduleManager, ScheduleConfig, ScheduleFrequency, generate_schedule_id
+        )
+
+        # Validate frequency
+        valid_frequencies = [f.value for f in ScheduleFrequency]
+        if frequency not in valid_frequencies:
+            console.print(f"[red]Invalid frequency. Must be one of: {', '.join(valid_frequencies)}[/red]")
+            raise typer.Exit(code=1)
+
+        # Validate cron expression for custom frequency
+        if frequency == "custom" and not cron:
+            console.print("[red]--cron expression required when frequency=custom[/red]")
+            raise typer.Exit(code=1)
+
+        # Generate schedule ID
+        schedule_id = generate_schedule_id(name)
+
+        # Parse tags
+        tag_list = [t.strip() for t in tags.split(",") if t.strip()] if tags else []
+
+        # Create schedule
+        schedule = ScheduleConfig(
+            id=schedule_id,
+            name=name,
+            site_url=site_url,
+            example_url=example_url,
+            frequency=frequency,
+            max_pages=max_pages,
+            cron_expression=cron,
+            output_dir=output_dir,
+            tags=tag_list,
+        )
+
+        manager = ScheduleManager()
+        manager.add_schedule(schedule)
+
+        console.print(f"[green]✓ Schedule created successfully[/green]")
+        console.print(f"  ID: {schedule_id}")
+        console.print(f"  Name: {name}")
+        console.print(f"  Frequency: {frequency}")
+        if cron:
+            console.print(f"  Cron: {cron}")
+        console.print(f"  Site: {site_url}")
+        console.print(f"  Max pages: {max_pages}")
+
+    except ValueError as e:
+        console.print(f"[red]Error: {e}[/red]")
+        raise typer.Exit(code=1)
+    except Exception as e:
+        console.print(f"[red]Error: {e}[/red]")
+        raise typer.Exit(code=1)
+
+
+@schedule_app.command("list")
+def schedule_list(
+    enabled_only: bool = typer.Option(
+        False,
+        "--enabled",
+        help="Show only enabled schedules"
+    ),
+):
+    """List all scheduled scans."""
+    try:
+        from src.analyzer.scheduler import ScheduleManager
+
+        manager = ScheduleManager()
+        schedules = manager.list_schedules(enabled_only=enabled_only)
+
+        if not schedules:
+            console.print("[yellow]No schedules found[/yellow]")
+            return
+
+        table = Table(title="Scheduled Scans")
+        table.add_column("ID", style="cyan")
+        table.add_column("Name", style="green")
+        table.add_column("Frequency", style="blue")
+        table.add_column("Site", style="magenta")
+        table.add_column("Max Pages", justify="right")
+        table.add_column("Status")
+        table.add_column("Last Run")
+
+        for schedule in schedules:
+            status = "[green]enabled[/green]" if schedule.enabled else "[red]disabled[/red]"
+            last_run = schedule.last_run[:10] if schedule.last_run else "-"
+
+            table.add_row(
+                schedule.id[:16] + "...",
+                schedule.name,
+                schedule.frequency,
+                schedule.site_url[:30] + "..." if len(schedule.site_url) > 30 else schedule.site_url,
+                str(schedule.max_pages),
+                status,
+                last_run,
+            )
+
+        console.print(table)
+        console.print(f"\n[dim]Total: {len(schedules)} schedule(s)[/dim]")
+
+    except Exception as e:
+        console.print(f"[red]Error: {e}[/red]")
+        raise typer.Exit(code=1)
+
+
+@schedule_app.command("show")
+def schedule_show(
+    schedule_id: str = typer.Argument(..., help="Schedule ID"),
+):
+    """Show details of a specific schedule."""
+    try:
+        from src.analyzer.scheduler import ScheduleManager
+
+        manager = ScheduleManager()
+        schedule = manager.get_schedule(schedule_id)
+
+        if not schedule:
+            console.print(f"[red]Schedule '{schedule_id}' not found[/red]")
+            raise typer.Exit(code=1)
+
+        console.print(f"[bold]Schedule Details[/bold]\n")
+        console.print(f"ID:              {schedule.id}")
+        console.print(f"Name:            {schedule.name}")
+        console.print(f"Site URL:        {schedule.site_url}")
+        console.print(f"Example URL:     {schedule.example_url}")
+        console.print(f"Frequency:       {schedule.frequency}")
+        console.print(f"Max Pages:       {schedule.max_pages}")
+        console.print(f"Status:          {'[green]enabled[/green]' if schedule.enabled else '[red]disabled[/red]'}")
+
+        if schedule.cron_expression:
+            console.print(f"Cron:            {schedule.cron_expression}")
+        if schedule.output_dir:
+            console.print(f"Output Dir:      {schedule.output_dir}")
+        if schedule.tags:
+            console.print(f"Tags:            {', '.join(schedule.tags)}")
+
+        console.print(f"Created:         {schedule.created_at[:10]}")
+        if schedule.last_run:
+            console.print(f"Last Run:        {schedule.last_run[:19]}")
+        if schedule.next_run:
+            console.print(f"Next Run:        {schedule.next_run[:19]}")
+
+    except Exception as e:
+        console.print(f"[red]Error: {e}[/red]")
+        raise typer.Exit(code=1)
+
+
+@schedule_app.command("remove")
+def schedule_remove(
+    schedule_id: str = typer.Argument(..., help="Schedule ID to remove"),
+    confirm: bool = typer.Option(
+        False,
+        "--yes",
+        "-y",
+        help="Skip confirmation"
+    ),
+):
+    """Delete a scheduled scan."""
+    try:
+        from src.analyzer.scheduler import ScheduleManager
+
+        manager = ScheduleManager()
+        schedule = manager.get_schedule(schedule_id)
+
+        if not schedule:
+            console.print(f"[red]Schedule '{schedule_id}' not found[/red]")
+            raise typer.Exit(code=1)
+
+        if not confirm:
+            console.print(f"Remove schedule '[bold]{schedule.name}[/bold]' ({schedule_id})?")
+            if not typer.confirm("Continue"):
+                console.print("[yellow]Cancelled[/yellow]")
+                return
+
+        manager.remove_schedule(schedule_id)
+        console.print(f"[green]✓ Schedule removed[/green]")
+
+    except Exception as e:
+        console.print(f"[red]Error: {e}[/red]")
+        raise typer.Exit(code=1)
+
+
+@schedule_app.command("enable")
+def schedule_enable(
+    schedule_id: str = typer.Argument(..., help="Schedule ID to enable"),
+):
+    """Enable a disabled schedule."""
+    try:
+        from src.analyzer.scheduler import ScheduleManager
+
+        manager = ScheduleManager()
+        if manager.enable_schedule(schedule_id):
+            schedule = manager.get_schedule(schedule_id)
+            console.print(f"[green]✓ Schedule enabled: {schedule.name}[/green]")
+        else:
+            console.print(f"[red]Schedule '{schedule_id}' not found[/red]")
+            raise typer.Exit(code=1)
+
+    except Exception as e:
+        console.print(f"[red]Error: {e}[/red]")
+        raise typer.Exit(code=1)
+
+
+@schedule_app.command("disable")
+def schedule_disable(
+    schedule_id: str = typer.Argument(..., help="Schedule ID to disable"),
+):
+    """Disable a schedule."""
+    try:
+        from src.analyzer.scheduler import ScheduleManager
+
+        manager = ScheduleManager()
+        if manager.disable_schedule(schedule_id):
+            schedule = manager.get_schedule(schedule_id)
+            console.print(f"[green]✓ Schedule disabled: {schedule.name}[/green]")
+        else:
+            console.print(f"[red]Schedule '{schedule_id}' not found[/red]")
+            raise typer.Exit(code=1)
+
+    except Exception as e:
+        console.print(f"[red]Error: {e}[/red]")
+        raise typer.Exit(code=1)
+
+
+@schedule_app.command("run")
+def schedule_run(
+    schedule_id: str = typer.Argument(..., help="Schedule ID to run"),
+):
+    """Run a schedule immediately (skip the schedule)."""
+    try:
+        from src.analyzer.scheduler import ScheduledScanRunner
+
+        runner = ScheduledScanRunner()
+        result = runner.run_schedule_sync(schedule_id)
+
+        if result["success"]:
+            console.print(f"[green]✓ Scan completed successfully[/green]")
+            console.print(f"  Pages crawled: {result['pages_crawled']}")
+            console.print(f"  Output dir: {result['output_dir']}")
+        else:
+            console.print(f"[red]✗ Scan failed[/red]")
+            console.print(f"  Error: {result['error']}")
+            raise typer.Exit(code=1)
+
+    except ValueError as e:
+        console.print(f"[red]Schedule not found: {e}[/red]")
+        raise typer.Exit(code=1)
+    except Exception as e:
+        console.print(f"[red]Error: {e}[/red]")
+        raise typer.Exit(code=1)
+
+
+# ============================================================================
+# DAEMON COMMANDS
+# ============================================================================
+
+@daemon_app.command("start")
+def daemon_start(
+    background: bool = typer.Option(
+        True,
+        "--background",
+        help="Run daemon in background"
+    ),
+):
+    """Start the scheduler daemon."""
+    try:
+        from src.analyzer.scheduler import SchedulerDaemon
+
+        daemon = SchedulerDaemon()
+        status = daemon.get_status()
+
+        if status["running"]:
+            console.print(f"[yellow]Daemon already running (PID: {status['pid']})[/yellow]")
+            return
+
+        console.print("[cyan]Starting scheduler daemon...[/cyan]")
+
+        if background:
+            # Fork to background using subprocess
+            import subprocess
+            import sys
+
+            python_exe = sys.executable
+            script_code = (
+                "from src.analyzer.scheduler import SchedulerDaemon; "
+                "daemon = SchedulerDaemon(); "
+                "daemon.start()"
+            )
+
+            process = subprocess.Popen(
+                [python_exe, "-c", script_code],
+                stdout=subprocess.DEVNULL,
+                stderr=subprocess.DEVNULL,
+                start_new_session=True
+            )
+
+            console.print(f"[green]✓ Daemon started in background (PID: {process.pid})[/green]")
+            console.print(f"[dim]View logs: tail -f ~/.website-analyzer/logs/scheduler.log[/dim]")
+        else:
+            # Run in foreground (blocks)
+            daemon.start()
+
+    except ImportError:
+        console.print("[red]APScheduler not installed. Install with: pip install apscheduler[/red]")
+        raise typer.Exit(code=1)
+    except Exception as e:
+        console.print(f"[red]Error: {e}[/red]")
+        raise typer.Exit(code=1)
+
+
+@daemon_app.command("stop")
+def daemon_stop():
+    """Stop the scheduler daemon."""
+    try:
+        from src.analyzer.scheduler import SchedulerDaemon
+        import signal
+
+        daemon = SchedulerDaemon()
+        status = daemon.get_status()
+
+        if not status["running"]:
+            console.print("[yellow]Daemon is not running[/yellow]")
+            return
+
+        pid = status["pid"]
+        console.print(f"[cyan]Stopping daemon (PID: {pid})...[/cyan]")
+
+        # Send SIGTERM to the daemon
+        os.kill(pid, signal.SIGTERM)
+        time.sleep(1)
+
+        # Verify it stopped
+        status = daemon.get_status()
+        if status["running"]:
+            console.print("[red]Daemon did not stop gracefully, killing...[/red]")
+            os.kill(pid, signal.SIGKILL)
+        else:
+            console.print("[green]✓ Daemon stopped[/green]")
+
+    except ProcessLookupError:
+        console.print("[yellow]Daemon process not found (may have already stopped)[/yellow]")
+        # Clean up PID file
+        from src.analyzer.scheduler import SchedulerDaemon
+        daemon = SchedulerDaemon()
+        if daemon.pid_file.exists():
+            daemon.pid_file.unlink()
+    except Exception as e:
+        console.print(f"[red]Error: {e}[/red]")
+        raise typer.Exit(code=1)
+
+
+@daemon_app.command("status")
+def daemon_status():
+    """Show scheduler daemon status."""
+    try:
+        from src.analyzer.scheduler import SchedulerDaemon
+
+        daemon = SchedulerDaemon()
+        status = daemon.get_status()
+
+        console.print("[bold]Scheduler Daemon Status[/bold]\n")
+
+        if status["running"]:
+            console.print(f"Status:        [green]RUNNING[/green]")
+            console.print(f"PID:           {status['pid']}")
+        else:
+            console.print(f"Status:        [red]STOPPED[/red]")
+
+        console.print(f"Enabled schedules: {status['schedules_enabled']}")
+
+        if status["running"]:
+            console.print(f"\n[dim]View logs: tail -f ~/.website-analyzer/logs/scheduler.log[/dim]")
+
+    except Exception as e:
+        console.print(f"[red]Error: {e}[/red]")
+        raise typer.Exit(code=1)
+
+
+@daemon_app.command("logs")
+def daemon_logs(
+    lines: int = typer.Option(
+        50,
+        "--lines",
+        "-n",
+        help="Number of lines to show"
+    ),
+):
+    """View scheduler daemon logs."""
+    try:
+        log_file = Path.home() / ".website-analyzer" / "logs" / "scheduler.log"
+
+        if not log_file.exists():
+            console.print("[yellow]No logs found yet[/yellow]")
+            return
+
+        # Read last N lines
+        with open(log_file, "r") as f:
+            all_lines = f.readlines()
+            recent_lines = all_lines[-lines:] if len(all_lines) > lines else all_lines
+
+        console.print(f"[bold]Last {len(recent_lines)} log entries:[/bold]\n")
+        for line in recent_lines:
+            console.print(line.rstrip())
+
+    except Exception as e:
+        console.print(f"[red]Error: {e}[/red]")
+        raise typer.Exit(code=1)
+
+
+# ============================================================================
+# NOTIFICATION COMMANDS
+# ============================================================================
+
+@notify_app.command("test")
+def notify_test(
+    event_type: str = typer.Option(
+        "scan_completed",
+        "--event",
+        "-e",
+        help="Event type to test: scan_completed, scan_failed, new_bugs_found, bugs_fixed, threshold_alert"
+    ),
+    config: Optional[Path] = typer.Option(
+        None,
+        "--config",
+        "-c",
+        help="Path to notification configuration file",
+        exists=True,
+        file_okay=True,
+        dir_okay=False,
+        readable=True,
+        resolve_path=True,
+    ),
+):
+    """Send a test notification to all configured backends.
+
+    Tests your notification configuration by sending sample events.
+    Useful for verifying email, Slack, and webhook settings.
+
+    Examples:
+        python -m src.analyzer.cli notify test
+        python -m src.analyzer.cli notify test --event threshold_alert
+        python -m src.analyzer.cli notify test --config notifications.json
+    """
+    from src.analyzer.notifications import (
+        NotificationManager, ScanCompletedEvent, ScanFailedEvent,
+        NewBugsFoundEvent, BugsFixedEvent, ThresholdAlertEvent
+    )
+
+    try:
+        # Load configuration
+        config_path = config if config else Path("notifications.json")
+        manager = NotificationManager(config_path if config_path.exists() else None)
+
+        if not manager.backends:
+            console.print("[yellow]No notification backends configured![/yellow]")
+            console.print()
+            console.print("To set up notifications:")
+            console.print("  1. Copy notifications.example.json to notifications.json")
+            console.print("  2. Edit notifications.json with your settings")
+            console.print("  3. Set environment variables for credentials (see .env.example)")
+            console.print("  4. Run: python -m src.analyzer.cli notify test")
+            return
+
+        # Create sample event based on type
+        events = {
+            "scan_completed": ScanCompletedEvent(
+                site_name="example.com",
+                site_url="https://example.com",
+                scan_id="test_scan_001",
+                pages_scanned=150,
+                bugs_found=42,
+                duration_seconds=125.5,
+                output_file="/path/to/results.json",
+                report_url="https://example.com/reports/test"
+            ),
+            "scan_failed": ScanFailedEvent(
+                site_name="example.com",
+                site_url="https://example.com",
+                scan_id="test_scan_002",
+                error_message="Connection timeout after 300 seconds",
+                error_details="The server stopped responding during page fetch",
+                duration_seconds=300.0
+            ),
+            "new_bugs_found": NewBugsFoundEvent(
+                site_name="example.com",
+                site_url="https://example.com",
+                scan_id="test_scan_003",
+                new_bugs_count=15,
+                previous_bugs_count=27,
+                new_bug_urls=[
+                    "https://example.com/page1",
+                    "https://example.com/page2",
+                    "https://example.com/page3",
+                ]
+            ),
+            "bugs_fixed": BugsFixedEvent(
+                site_name="example.com",
+                site_url="https://example.com",
+                scan_id="test_scan_004",
+                fixed_bugs_count=12,
+                remaining_bugs_count=15,
+                fixed_bug_urls=[
+                    "https://example.com/fixed1",
+                    "https://example.com/fixed2",
+                ]
+            ),
+            "threshold_alert": ThresholdAlertEvent(
+                site_name="example.com",
+                site_url="https://example.com",
+                scan_id="test_scan_005",
+                threshold=50,
+                actual_count=127,
+                exceeded_by=77,
+                severity="critical"
+            ),
+        }
+
+        event = events.get(event_type)
+        if not event:
+            console.print(f"[red]Unknown event type: {event_type}[/red]")
+            console.print(f"[yellow]Valid types: {', '.join(events.keys())}[/yellow]")
+            raise typer.Exit(code=1)
+
+        console.print(f"[bold cyan]Sending test {event_type} notification...[/bold cyan]")
+        console.print()
+
+        # Send notification
+        async def _send_test():
+            return await manager.notify(event)
+
+        results = asyncio.run(_send_test())
+
+        # Display results
+        console.print("[bold green]Notification Results:[/bold green]")
+        for backend_name, success in results.items():
+            status = "[green]✓ SUCCESS[/green]" if success else "[red]✗ FAILED[/red]"
+            console.print(f"  {backend_name}: {status}")
+
+        console.print()
+        if all(results.values()):
+            console.print("[bold green]All notifications sent successfully![/bold green]")
+        else:
+            failed = [k for k, v in results.items() if not v]
+            console.print(f"[yellow]Some backends failed: {', '.join(failed)}[/yellow]")
+            console.print("[dim]Check your configuration and environment variables[/dim]")
+
+    except Exception as e:
+        console.print(f"[red]Error: {e}[/red]")
+        raise typer.Exit(code=1)
+
+
+@notify_app.command("configure")
+def notify_configure(
+    output: Path = typer.Option(
+        Path("notifications.json"),
+        "--output",
+        "-o",
+        help="Output path for configuration file"
+    ),
+):
+    """Interactive setup wizard for notification configuration.
+
+    Guides you through setting up email, Slack, and webhook notifications.
+    Creates a configuration file with your choices.
+
+    Example:
+        python -m src.analyzer.cli notify configure
+        python -m src.analyzer.cli notify configure --output my-notifications.json
+    """
+    from src.analyzer.notifications import NotificationConfig
+
+    try:
+        console.print("[bold cyan]Bug Finder Notification Configuration Wizard[/bold cyan]")
+        console.print()
+
+        # Ask what to configure
+        backends_to_setup = []
+
+        console.print("[cyan]Which notification backends would you like to set up?[/cyan]")
+        console.print()
+
+        if typer.confirm("Set up Console notifications (for testing)?", default=True):
+            backends_to_setup.append("console")
+
+        if typer.confirm("Set up Email notifications?", default=False):
+            backends_to_setup.append("email")
+
+        if typer.confirm("Set up Slack notifications?", default=False):
+            backends_to_setup.append("slack")
+
+        if typer.confirm("Set up Webhook notifications?", default=False):
+            backends_to_setup.append("webhook")
+
+        if not backends_to_setup:
+            console.print("[yellow]No backends selected. Exiting.[/yellow]")
+            return
+
+        console.print()
+
+        # Create configuration
+        config = NotificationConfig()
+
+        # Console is always enabled for testing
+        if "console" in backends_to_setup:
+            config.add_backend("console", "console", {
+                "enabled": True,
+                "events": ["scan_completed"]
+            })
+            console.print("[green]✓ Console backend configured[/green]")
+
+        # Email setup
+        if "email" in backends_to_setup:
+            console.print()
+            console.print("[cyan]Email Configuration[/cyan]")
+            console.print("[dim]Leave blank to skip[/dim]")
+
+            backend_name = typer.prompt("Backend name", default="email_production")
+            smtp_host = typer.prompt("SMTP Host", default="smtp.gmail.com")
+            smtp_port = typer.prompt("SMTP Port", default="587")
+            smtp_user = typer.prompt("SMTP User (email address)")
+            from_address = typer.prompt("From Address", default=smtp_user)
+            to_address = typer.prompt("To Address(es) - comma separated")
+
+            if smtp_user and to_address:
+                config.add_backend(backend_name, "email", {
+                    "enabled": True,
+                    "events": ["scan_completed", "scan_failed", "threshold_alert"],
+                    "smtp_host": "${SMTP_HOST}",
+                    "smtp_port": int(smtp_port),
+                    "smtp_user": "${SMTP_USER}",
+                    "smtp_password": "${SMTP_PASSWORD}",
+                    "from_address": from_address,
+                    "to_addresses": [a.strip() for a in to_address.split(",")],
+                    "use_tls": True
+                })
+                console.print(f"[green]✓ Email backend '{backend_name}' configured[/green]")
+                console.print(f"[yellow]⚠ Set environment variables: SMTP_HOST, SMTP_USER, SMTP_PASSWORD[/yellow]")
+
+        # Slack setup
+        if "slack" in backends_to_setup:
+            console.print()
+            console.print("[cyan]Slack Configuration[/cyan]")
+
+            backend_name = typer.prompt("Backend name", default="slack_main")
+            console.print("[dim]Go to: https://api.slack.com/messaging/webhooks[/dim]")
+            console.print("[dim]Create an Incoming Webhook and paste the URL below[/dim]")
+            webhook_url = typer.prompt("Webhook URL")
+
+            if webhook_url:
+                config.add_backend(backend_name, "slack", {
+                    "enabled": True,
+                    "events": ["scan_completed", "new_bugs_found", "bugs_fixed", "threshold_alert"],
+                    "webhook_url": "${SLACK_WEBHOOK_URL}"
+                })
+                console.print(f"[green]✓ Slack backend '{backend_name}' configured[/green]")
+                console.print(f"[yellow]⚠ Set environment variable: SLACK_WEBHOOK_URL[/yellow]")
+
+        # Webhook setup
+        if "webhook" in backends_to_setup:
+            console.print()
+            console.print("[cyan]Webhook Configuration[/cyan]")
+
+            backend_name = typer.prompt("Backend name", default="webhook_custom")
+            webhook_url = typer.prompt("Webhook URL", default="https://api.example.com/webhooks/bug-finder")
+
+            config.add_backend(backend_name, "webhook", {
+                "enabled": True,
+                "events": ["scan_completed", "threshold_alert"],
+                "webhook_url": webhook_url,
+                "headers": {"Authorization": "Bearer ${WEBHOOK_TOKEN}"}
+            })
+            console.print(f"[green]✓ Webhook backend '{backend_name}' configured[/green]")
+
+        # Save configuration
+        config.save(output)
+
+        console.print()
+        console.print(f"[bold green]Configuration saved to: {output}[/bold green]")
+        console.print()
+        console.print("[cyan]Next steps:[/cyan]")
+        console.print(f"  1. Review {output} and adjust as needed")
+        console.print("  2. Create .env file with credentials (copy from .env.example)")
+        console.print("  3. Test notifications: python -m src.analyzer.cli notify test")
+
+    except Exception as e:
+        console.print(f"[red]Error: {e}[/red]")
+        raise typer.Exit(code=1)
+
+
+@notify_app.command("list-backends")
+def notify_list_backends(
+    config: Optional[Path] = typer.Option(
+        None,
+        "--config",
+        "-c",
+        help="Path to notification configuration file",
+        exists=True,
+        file_okay=True,
+        dir_okay=False,
+        readable=True,
+        resolve_path=True,
+    ),
+):
+    """List all configured notification backends.
+
+    Shows which notification backends are available and their status.
+
+    Example:
+        python -m src.analyzer.cli notify list-backends
+        python -m src.analyzer.cli notify list-backends --config notifications.json
+    """
+    from src.analyzer.notifications import NotificationManager
+
+    try:
+        config_path = config if config else Path("notifications.json")
+        manager = NotificationManager(config_path if config_path.exists() else None)
+
+        backends = manager.backends
+        if not backends:
+            console.print("[yellow]No notification backends configured[/yellow]")
+            return
+
+        console.print("[bold cyan]Configured Notification Backends[/bold cyan]")
+        console.print()
+
+        table = Table(title="Backends")
+        table.add_column("Name", style="cyan")
+        table.add_column("Type", style="green")
+        table.add_column("Status", style="yellow")
+        table.add_column("Events", style="magenta")
+
+        for name, backend in backends.items():
+            backend_type = backend.config.get("type", "unknown")
+            status = "[green]ENABLED[/green]" if backend.enabled else "[red]DISABLED[/red]"
+            events = ", ".join(backend.supported_events) if backend.supported_events else "All"
+
+            table.add_row(name, backend_type, status, events)
+
+        console.print(table)
+        console.print()
+        console.print(f"[dim]Total backends: {len(backends)}[/dim]")
+
+    except Exception as e:
+        console.print(f"[red]Error: {e}[/red]")
+        raise typer.Exit(code=1)
+
+
+@notify_app.command("generate-example")
+def notify_generate_example(
+    output: Path = typer.Option(
+        Path("notifications.example.json"),
+        "--output",
+        "-o",
+        help="Output path for example configuration"
+    ),
+):
+    """Generate an example notification configuration file.
+
+    Creates a template with all available notification backends and options.
+
+    Example:
+        python -m src.analyzer.cli notify generate-example
+    """
+    try:
+        import shutil
+
+        example_path = Path(__file__).parent.parent.parent / "notifications.example.json"
+
+        if example_path.exists():
+            shutil.copy(example_path, output)
+            console.print(f"[green]✓ Example config created: {output}[/green]")
+            console.print()
+            console.print("[cyan]To use this configuration:[/cyan]")
+            console.print(f"  1. cp {output} notifications.json")
+            console.print("  2. Edit notifications.json with your settings")
+            console.print("  3. Set environment variables for credentials")
+            console.print("  4. Run: python -m src.analyzer.cli notify test")
+        else:
+            console.print("[red]Example configuration file not found[/red]")
+            raise typer.Exit(code=1)
+
+    except Exception as e:
+        console.print(f"[red]Error: {e}[/red]")
+        raise typer.Exit(code=1)
+
+
+# ============================================================================
+# WEB UI COMMANDS
+# ============================================================================
+
+web_app = typer.Typer(
+    name="serve",
+    help="Launch web-based dashboard for viewing scan results."
+)
+app.add_typer(web_app)
+
+
+@web_app.command("start", invoke_without_command=True)
+@web_app.callback(invoke_without_command=True)
+def serve_dashboard(
+    host: str = typer.Option(
+        "127.0.0.1",
+        "--host",
+        "-h",
+        help="Server host (default: 127.0.0.1)"
+    ),
+    port: int = typer.Option(
+        8000,
+        "--port",
+        "-p",
+        help="Server port (default: 8000)"
+    ),
+    base_dir: Path = typer.Option(
+        Path("."),
+        "--base-dir",
+        "-d",
+        help="Base directory containing projects",
+        file_okay=False,
+        dir_okay=True,
+        readable=True,
+        resolve_path=True,
+    ),
+    no_browser: bool = typer.Option(
+        False,
+        "--no-browser",
+        help="Don't automatically open browser"
+    ),
+):
+    """
+    Launch the web-based Bug Finder Dashboard.
+
+    The dashboard provides:
+    - Project overview with recent scans
+    - Interactive results viewer (sortable, filterable)
+    - Visual bug distribution charts
+    - Scan progress monitoring
+    - Pattern management UI
+    - Export functionality (JSON, CSV, HTML)
+    - Dark/light theme toggle
+
+    Features:
+    - Real-time updates from CLI scans
+    - Detailed filtering and search
+    - Multiple export formats
+    - Responsive design (works on mobile)
+
+    Examples:
+
+        # Start dashboard on default port (8000)
+        python -m src.analyzer.cli serve start
+
+        # Use custom port and host
+        python -m src.analyzer.cli serve start --host 0.0.0.0 --port 3000
+
+        # Don't auto-open browser
+        python -m src.analyzer.cli serve start --no-browser
+
+        # Specify custom projects directory
+        python -m src.analyzer.cli serve start --base-dir /path/to/projects
+    """
+    try:
+        from src.analyzer.web_ui import DashboardServer
+
+        server = DashboardServer(
+            host=host,
+            port=port,
+            base_dir=base_dir,
+        )
+        server.run(auto_open=not no_browser)
+
+    except ImportError:
+        console.print("[red]Error: FastAPI dependencies not installed[/red]")
+        console.print()
+        console.print("[yellow]To use the web dashboard, install required packages:[/yellow]")
+        console.print("  pip install fastapi uvicorn")
+        raise typer.Exit(code=1)
+    except KeyboardInterrupt:
+        console.print("\n[yellow]Dashboard stopped[/yellow]")
+        raise typer.Exit(code=0)
+    except Exception as e:
+        console.print(f"[red]Error starting dashboard: {e}[/red]")
         raise typer.Exit(code=1)
 
 

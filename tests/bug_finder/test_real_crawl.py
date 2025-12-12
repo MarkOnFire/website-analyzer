@@ -11,10 +11,12 @@ import asyncio
 import json
 import tempfile
 from pathlib import Path
+import pytest
 
 from src.analyzer.crawler import BasicCrawler
 
 
+@pytest.mark.asyncio
 async def test_real_crawl():
     """Test crawling a real URL (example.com)."""
     print("Starting real-world crawl test with example.com...")

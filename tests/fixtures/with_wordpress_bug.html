@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Article with WordPress Embed Bug</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .article { max-width: 800px; margin: 0 auto; }
+        .bug { background-color: #fff3cd; padding: 10px; margin: 10px 0; }
+    </style>
+</head>
+<body>
+    <article class="article">
+        <h1>Tom and Jerry: A Classic Animation Story</h1>
+        <p>Published on December 10, 2024</p>
+
+        <p>Tom and Jerry is one of the most beloved animated series of all time. The show has entertained millions of viewers across generations.</p>
+
+        <p>Here's an image from the classic series:</p>
+
+        <!-- WordPress embed bug - raw JSON embedded in HTML -->
+        <p class="bug">
+            [[{"fid":"1101026″,"view_mode":"full_width","fields":{"format":"full_width","alignment":"","field_image_caption[und][0][value]":"%3Cp%3ETom%20and%20Jerry%20milkglass%20set%20%3Cem%3E%3Ca%20href%3D%22https%3A%2F%2Fwww.flickr.com%2Fphotos%2Fjohnnyvintage%2F%22%3EJonnie%20Andersen%3C%2Fa%3E%20(CC%20BY-NC-ND%202.0)%3C%2Fem%3E%3C%2Fp%3E%0A","field_image_caption[und][0][format]":"full_html","field_file_image_alt_text[und][0][value]":"Tom and Jerry milkglass set","field_file_image_title_text[und][0][value]":"Tom and Jerry milkglass set"},"type":"media","field_deltas":{"2":{"format":"full_width","alignment":"","field_image_caption[und][0][value]":"%3Cp%3ETom%20and%20Jerry%20milkglass%20set%20%3Cem%3E%3Ca%20href%3D%22https%3A%2F%2Fwww.flickr.com%2Fphotos%2Fjohnnyvintage%2F%22%3EJonnie%20Andersen%3C%2Fa%3E%20(CC%20BY-NC-ND%202.0)%3C%2Fem%3E%3C%2Fp%3E%0A","field_image_caption[und][0][format]":"full_html","field_file_image_alt_text[und][0][value]":"Tom and Jerry milkglass set","field_file_image_title_text[und][0][value]":"Tom and Jerry milkglass set"}},"link_text":false,"attributes":{"alt":"Tom and Jerry milkglass set","title":"Tom and Jerry milkglass set","class":"media-element file-full-width","data-delta":"2″}}]]
+        </p>
+
+        <p>The image shown above is from a famous episode where Tom and Jerry encounter a mysterious drink. The animation quality in this scene is exceptional.</p>
+
+        <p>Other notable features of the series include:</p>
+        <ul>
+            <li>Creative animation techniques</li>
+            <li>Memorable characters</li>
+            <li>Timeless humor</li>
+        </ul>
+
+        <p>The show continues to be enjoyed by new generations of viewers today.</p>
+    </article>
+</body>
+</html>

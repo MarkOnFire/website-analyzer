@@ -1,0 +1,71 @@
+{
+  "schedules": [
+    {
+      "id": "schedule_20251211120000_daily_full_scan",
+      "name": "Daily Full Site Scan",
+      "site_url": "https://www.wpr.org",
+      "example_url": "https://www.wpr.org/food/article",
+      "frequency": "daily",
+      "max_pages": 0,
+      "enabled": true,
+      "output_dir": "/Users/mriechers/Developer/website-analyzer/projects/wpr-org/scans",
+      "cron_expression": "0 2 * * *",
+      "notifications": {
+        "email": null,
+        "slack": null
+      },
+      "created_at": "2025-12-11T12:00:00",
+      "last_run": null,
+      "next_run": "2025-12-12T02:00:00",
+      "tags": ["production", "daily", "full-site", "wpr"]
+    },
+    {
+      "id": "schedule_20251211120100_weekly_comprehensive",
+      "name": "Weekly Comprehensive Scan",
+      "site_url": "https://www.wpr.org",
+      "example_url": "https://www.wpr.org/food/article",
+      "frequency": "weekly",
+      "max_pages": 5000,
+      "enabled": true,
+      "output_dir": "/Users/mriechers/Developer/website-analyzer/projects/wpr-org/scans",
+      "cron_expression": "0 3 ? * MON",
+      "notifications": {},
+      "created_at": "2025-12-11T12:01:00",
+      "last_run": null,
+      "next_run": "2025-12-15T03:00:00",
+      "tags": ["production", "weekly", "comprehensive", "wpr"]
+    },
+    {
+      "id": "schedule_20251211120200_hourly_critical",
+      "name": "Hourly Critical Pages Check",
+      "site_url": "https://www.wpr.org",
+      "example_url": "https://www.wpr.org/food/article",
+      "frequency": "hourly",
+      "max_pages": 10,
+      "enabled": true,
+      "output_dir": "/Users/mriechers/Developer/website-analyzer/projects/wpr-org/scans",
+      "cron_expression": "0 * * * *",
+      "notifications": {},
+      "created_at": "2025-12-11T12:02:00",
+      "last_run": "2025-12-11T14:00:00",
+      "next_run": "2025-12-11T15:00:00",
+      "tags": ["production", "hourly", "critical", "wpr"]
+    },
+    {
+      "id": "schedule_20251211120300_custom_every_six_hours",
+      "name": "Every 6 Hours - Extended Scan",
+      "site_url": "https://www.example.com",
+      "example_url": "https://www.example.com/page",
+      "frequency": "custom",
+      "max_pages": 500,
+      "enabled": false,
+      "output_dir": null,
+      "cron_expression": "0 */6 * * *",
+      "notifications": {},
+      "created_at": "2025-12-11T12:03:00",
+      "last_run": null,
+      "next_run": null,
+      "tags": ["example", "custom", "extended"]
+    }
+  ]
+}

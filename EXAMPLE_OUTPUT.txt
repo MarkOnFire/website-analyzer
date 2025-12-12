@@ -1,0 +1,197 @@
+# Bug Finder Scanner - Example Output
+
+## STANDARD MODE (Default)
+================================================================================
+
+Starting with example extraction:
+
+  Fetching example page: https://archive.org/web/.../page-with-bug
+  ✓ Fetched 245,680 bytes
+  Searching for embed code patterns...
+     ✓ Found pattern: unclosed-double-bracket
+     Length: 1,248 chars
+
+  Bug example extracted (1248 chars)
+     Detection method: unclosed-double-bracket
+     Preview: [[{"fid":"1101026″,"view_mode":"full_width","fields":{"format":"full_width...
+
+  Analyzing bug and generating search patterns...
+     Confidence: high
+     Patterns generated: 5
+     Key fields: fid, view_mode, fields...
+     Special characters: 3 found
+
+  Scanning https://www.example.com (max 1000 pages)...
+     This may take several minutes to hours depending on site size.
+
+Progress bar during scan:
+
+  ⠙ Scanning (125/1000): https://www.example.com/articles/page-125... ▰▰▰▰▰░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░  12% 45s < 6m
+
+  ✓ FOUND 3 bug(s) on https://www.example.com/articles/page-101
+  ✓ FOUND 2 bug(s) on https://www.example.com/articles/page-115
+  ✓ FOUND 5 bug(s) on https://www.example.com/articles/page-122
+
+After scan completion:
+
+┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+┃ Scan Complete                                               ┃
+┃                                                               ┃
+┃ Pages Scanned          847                                   ┃
+┃ Bugs Found             42                                    ┃
+┃ Failed URLs            3                                     ┃
+┃ Scan Rate              2.8 pages/sec                        ┃
+┃ Duration               5m 2s                                 ┃
+┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+
+Top affected pages:
+  1. https://www.example.com/articles/page-5 - 7 match(es)
+  2. https://www.example.com/articles/page-12 - 6 match(es)
+  3. https://www.example.com/blog/post-89 - 5 match(es)
+  4. https://www.example.com/news/story-42 - 5 match(es)
+  5. https://www.example.com/pages/about - 4 match(es)
+  ... and 37 more
+
+✓ Final results saved to: bug_results_example-com.json
+
+Found 42 pages with bugs!
+
+Top 10 affected pages:
+  1. https://www.example.com/articles/page-5
+     Matches: 7 pattern(s)
+  2. https://www.example.com/articles/page-12
+     Matches: 6 pattern(s)
+  3. https://www.example.com/blog/post-89
+     Matches: 5 pattern(s)
+...
+
+Results saved in all formats:
+  - projects/example-com/scans/bug_results_example-com.txt
+  - projects/example-com/scans/bug_results_example-com.csv
+  - projects/example-com/scans/bug_results_example-com.html
+  - projects/example-com/scans/bug_results_example-com.json
+
+================================================================================
+
+## QUIET MODE (--quiet)
+================================================================================
+
+[Only critical output and final results - perfect for logs/CI]
+
+✓ Final results saved to: bug_results_example-com.json
+
+[Exit code: 0 for success, 1 for errors]
+
+================================================================================
+
+## VERBOSE MODE (--verbose)
+================================================================================
+
+All standard output PLUS:
+
+  Scanning (125/1000): https://www.example.com/articles/page-125
+  Error checking https://www.example.com/timeout-page: Connection timeout after 60s
+
+  [Full Crawl4AI debug logs]
+  [Pattern matching details]
+  [Link extraction info]
+
+  After scan:
+  Warning: 3 URLs failed to scan (see detailed log)
+
+================================================================================
+
+## INCREMENTAL MODE (--incremental)
+================================================================================
+
+[Standard output PLUS periodic progress saves]
+
+...
+  Saving progress to bug_results_example-com.partial.json...
+...
+  Saving progress to bug_results_example-com.partial.json...
+...
+
+On interrupt (Ctrl+C):
+  Scan interrupted by user!
+  [Partial results still usable in .partial.json]
+
+On completion:
+  ✓ Final results saved to: bug_results_example-com.json
+  [.partial.json renamed to final file]
+
+================================================================================
+
+## COMMAND LINE EXAMPLES
+================================================================================
+
+# Standard scan - shows all progress and results
+python -m src.analyzer.cli bug-finder scan \
+  --example-url "https://archive.org/web/.../page-with-bug" \
+  --site "https://www.example.com" \
+  --max-pages 500
+
+# Quiet mode - minimal output for automation
+python -m src.analyzer.cli bug-finder scan \
+  --example-url "https://archive.org/web/.../page-with-bug" \
+  --site "https://www.example.com" \
+  --max-pages 500 \
+  --quiet
+
+# Verbose debugging - full details
+python -m src.analyzer.cli bug-finder scan \
+  --example-url "https://archive.org/web/.../page-with-bug" \
+  --site "https://www.example.com" \
+  --max-pages 100 \
+  --verbose
+
+# Long scan with incremental saves
+python -m src.analyzer.cli bug-finder scan \
+  --example-url "https://archive.org/web/.../page-with-bug" \
+  --site "https://www.example.com" \
+  --max-pages 5000 \
+  --incremental
+
+# Combined flags
+python -m src.analyzer.cli bug-finder scan \
+  --example-url "https://archive.org/web/.../page-with-bug" \
+  --site "https://www.example.com" \
+  --max-pages 2000 \
+  --incremental \
+  --verbose
+
+================================================================================
+
+## UI COMPONENTS EXPLAINED
+================================================================================
+
+Progress Bar:
+  ⠙ Scanning (125/1000): URL... ▰▰▰▰░░░░░░░░░░ 12% 45s < 6m
+  │ │        │    │            │               │  │   │   │
+  │ │        │    │            │               │  │   │   └─ Estimated remaining
+  │ │        │    │            │               │  │   └───── Elapsed time
+  │ │        │    │            │               │  └───────── Completion %
+  │ │        │    │            │               └──────────── Progress bar
+  │ │        │    │            └────────────────────────────── Current page URL
+  │ │        │    └────────────────────────────────────────── Total pages
+  │ │        └─────────────────────────────────────────────── Current page #
+  │ └──────────────────────────────────────────────────────── Spinner animation
+  └─────────────────────────────────────────────────────────── Status message
+
+Summary Table:
+  ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+  ┃ Scan Complete                               ┃
+  ┃                                               ┃
+  ┃ Pages Scanned          847                   ┃  Key metrics in table format
+  ┃ Bugs Found             42                    ┃  with color-coded values
+  ┃ Failed URLs            3                     ┃
+  ┃ Scan Rate              2.8 pages/sec        ┃
+  ┃ Duration               5m 2s                ┃
+  ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+
+Result Highlighting:
+  ✓ FOUND X bug(s) - Green text for successful matches
+  Warning: X failed     - Yellow for caution items
+  Bugs Found: 42       - Red number for critical count
+
+================================================================================

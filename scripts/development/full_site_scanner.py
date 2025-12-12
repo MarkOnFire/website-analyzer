@@ -20,6 +20,12 @@ from datetime import datetime
 from crawl4ai import AsyncWebCrawler
 from bs4 import BeautifulSoup
 from typing import Optional
+from rich.progress import Progress, SpinnerColumn, TextColumn, BarColumn, TaskProgressColumn, TimeRemainingColumn, TimeElapsedColumn
+from rich.console import Console
+from rich.panel import Panel
+from rich.text import Text
+from rich.table import Table
+import logging
 
 # Add parent directory to path for imports
 sys.path.insert(0, str(Path(__file__).parent.parent.parent))
@@ -71,7 +77,7 @@ PATTERNS = {
 }
 
 class SiteScanner:
-    def __init__(self, start_url, max_pages=1000, incremental=False, output_file=None):
+    def __init__(self, start_url, max_pages=1000, incremental=False, output_file=None, quiet=False, verbose=False):
         self.start_url = start_url
         self.base_domain = urlparse(start_url).netloc
         self.max_pages = max_pages
@@ -92,6 +98,19 @@ class SiteScanner:
             self.partial_file = output_path.with_stem(output_path.stem + '.partial')
 
         self.scan_start_time = None
+
+        # UI configuration
+        self.quiet = quiet
+        self.verbose = verbose
+        self.console = Console()
+
+        # Configure logging for verbose mode
+        if verbose:
+            logging.basicConfig(level=logging.DEBUG)
+        elif quiet:
+            logging.basicConfig(level=logging.CRITICAL)
+        else:
+            logging.basicConfig(level=logging.WARNING)
 
     def normalize_url(self, url):
         """Normalize URL for deduplication."""
@@ -144,7 +163,8 @@ class SiteScanner:
             # Move temp to partial (replace if exists)
             temp_file.replace(self.partial_file)
         except Exception as e:
-            print(f"⚠️  Failed to write incremental results: {e}")
+            if not self.quiet:
+                self.console.print(f"[yellow]Warning: Failed to write incremental results: {e}[/yellow]")
 
     def extract_links_from_html(self, html, current_url):
         """Extract all internal links from HTML."""
@@ -202,85 +222,97 @@ class SiteScanner:
                 return None, new_links
 
         except Exception as e:
-            print(f"      ⚠️  Error: {str(e)[:50]}")
-            self.failed_urls.append({'url': url, 'error': str(e)})
+            error_msg = str(e)[:100]
+            if self.verbose:
+                self.console.print(f"[yellow]Error checking {url}: {error_msg}[/yellow]")
+            self.failed_urls.append({'url': url, 'error': error_msg})
             return None, set()
 
     async def scan(self):
-        """Perform comprehensive site scan."""
-        print(f"🔍 Starting comprehensive scan of {self.start_url}")
-        print(f"   Max pages: {self.max_pages}")
-        print(f"   Domain: {self.base_domain}")
-        if self.incremental:
-            print(f"   Incremental mode: ENABLED")
-            print(f"   Output file: {self.partial_file}")
-        print()
+        """Perform comprehensive site scan with rich progress bars."""
+        # Show header
+        if not self.quiet:
+            header = Panel(
+                f"[bold cyan]Bug Finder Scanner[/bold cyan]\n"
+                f"[cyan]Domain:[/cyan] {self.base_domain}\n"
+                f"[cyan]Max Pages:[/cyan] {self.max_pages}\n"
+                f"[cyan]Incremental:[/cyan] {'Yes' if self.incremental else 'No'}",
+                title="[bold]Starting Scan[/bold]",
+                border_style="green"
+            )
+            self.console.print(header)
 
         self.scan_start_time = datetime.now()
         pages_checked = 0
 
         try:
-            while self.to_visit and pages_checked < self.max_pages:
-                url = self.to_visit.pop(0)
+            with Progress(
+                SpinnerColumn(),
+                TextColumn("[progress.description]{task.description}"),
+                BarColumn(),
+                TaskProgressColumn(),
+                TimeRemainingColumn(),
+                TimeElapsedColumn(),
+                console=self.console,
+                disable=self.quiet,
+            ) as progress:
+                scan_task = progress.add_task(
+                    "[green]Scanning pages...",
+                    total=self.max_pages
+                )
 
-                if url in self.visited:
-                    continue
+                while self.to_visit and pages_checked < self.max_pages:
+                    url = self.to_visit.pop(0)
 
-                self.visited.add(url)
-                pages_checked += 1
+                    if url in self.visited:
+                        continue
 
-                # Show progress
-                print(f"[{pages_checked}/{self.max_pages}] {url[:80]}...", end=" ", flush=True)
+                    self.visited.add(url)
+                    pages_checked += 1
 
-                match_result, new_links = await self.check_page_for_patterns(url)
+                    # Update progress bar description with current page
+                    short_url = url[:60] + "..." if len(url) > 60 else url
+                    progress.update(
+                        scan_task,
+                        description=f"[green]Scanning ({pages_checked}/{self.max_pages}): {short_url}",
+                        advance=1
+                    )
 
-                if match_result:
-                    print(f"✅ FOUND {match_result['total_matches']} MATCH(ES)!")
-                    self.matches_found.append(match_result)
-                    # Write incremental results after finding a bug
-                    self._write_incremental_results(is_final=False)
-                else:
-                    print("❌")
+                    match_result, new_links = await self.check_page_for_patterns(url)
 
-                # Add new links to queue
-                for link in new_links:
-                    if link not in self.visited and link not in self.to_visit:
-                        self.to_visit.append(link)
-
-                # Progress update every 50 pages + incremental write
-                if pages_checked % 50 == 0:
-                    elapsed = (datetime.now() - self.scan_start_time).total_seconds()
-                    rate = pages_checked / elapsed if elapsed > 0 else 0
-                    estimated_remaining = (self.max_pages - pages_checked) / rate if rate > 0 else 0
-                    print(f"\n   📊 Progress: {pages_checked} pages | {len(self.matches_found)} bugs found | "
-                          f"{len(self.to_visit)} queued | {rate:.1f} pages/sec | "
-                          f"~{estimated_remaining/60:.1f}min remaining")
-
-                    # Write incremental results periodically
-                    if self.incremental:
-                        print(f"   💾 Saving progress to {self.partial_file.name}...")
+                    if match_result:
+                        # Bug found - update task with success color
+                        if not self.quiet:
+                            self.console.print(
+                                f"[bold green]✓ FOUND {match_result['total_matches']} bug(s) on {short_url}[/bold green]"
+                            )
+                        self.matches_found.append(match_result)
+                        # Write incremental results after finding a bug
                         self._write_incremental_results(is_final=False)
-                    print()
+
+                    # Add new links to queue
+                    for link in new_links:
+                        if link not in self.visited and link not in self.to_visit:
+                            self.to_visit.append(link)
+
+                    # Periodic incremental write and stats update
+                    if pages_checked % 50 == 0 and self.incremental:
+                        self._write_incremental_results(is_final=False)
+
+                # Mark task as complete
+                progress.update(scan_task, completed=pages_checked)
 
         except KeyboardInterrupt:
             # Handle scan interruption gracefully
-            print("\n\n⚠️  Scan interrupted by user!")
-            print(f"   Saving partial results to {self.partial_file.name}..." if self.incremental else "")
+            if not self.quiet:
+                self.console.print(
+                    "\n[bold yellow]Scan interrupted by user![/bold yellow]"
+                )
             self._write_incremental_results(is_final=False)
             raise
 
-        # Final report
-        elapsed = (datetime.now() - self.scan_start_time).total_seconds()
-        print("\n" + "="*80)
-        print(f"📊 SCAN COMPLETE")
-        print("="*80)
-        print(f"   Pages scanned: {pages_checked}")
-        print(f"   Bugs found: {len(self.matches_found)}")
-        print(f"   Failed URLs: {len(self.failed_urls)}")
-        print(f"   Duration: {elapsed/60:.1f} minutes")
-        if pages_checked > 0:
-            print(f"   Rate: {pages_checked/elapsed:.1f} pages/second")
-        print("="*80)
+        # Generate and display final report
+        self._print_summary(pages_checked)
 
         # Write final results if in incremental mode
         if self.incremental:
@@ -290,26 +322,82 @@ class SiteScanner:
                 output_path = Path(self.output_file)
                 try:
                     self.partial_file.replace(output_path)
-                    print(f"\n✅ Final results saved to: {output_path.name}")
+                    if not self.quiet:
+                        self.console.print(
+                            f"[green]✓ Final results saved to: {output_path.name}[/green]"
+                        )
                 except Exception as e:
-                    print(f"⚠️  Failed to rename to final file: {e}")
-                    print(f"   Partial results available at: {self.partial_file.name}")
+                    if not self.quiet:
+                        self.console.print(
+                            f"[yellow]Warning: Failed to rename to final file: {e}[/yellow]"
+                        )
+                        self.console.print(
+                            f"[cyan]Partial results available at: {self.partial_file.name}[/cyan]"
+                        )
 
         return self.matches_found
+
+    def _print_summary(self, pages_checked):
+        """Print a formatted summary of the scan results."""
+        if self.quiet:
+            return
+
+        elapsed = (datetime.now() - self.scan_start_time).total_seconds()
+        minutes = elapsed / 60
+        seconds = elapsed % 60
+        rate = pages_checked / elapsed if elapsed > 0 else 0
+
+        # Create summary table
+        table = Table(title="Scan Summary", show_header=False, box=None)
+        table.add_row("[cyan]Pages Scanned[/cyan]", f"[bold]{pages_checked}[/bold]")
+        table.add_row("[cyan]Bugs Found[/cyan]", f"[bold red]{len(self.matches_found)}[/bold red]")
+        table.add_row("[cyan]Failed URLs[/cyan]", f"[yellow]{len(self.failed_urls)}[/yellow]")
+        table.add_row("[cyan]Scan Rate[/cyan]", f"{rate:.1f} pages/sec")
+        table.add_row("[cyan]Duration[/cyan]", f"{int(minutes)}m {int(seconds)}s")
+
+        if self.to_visit:
+            table.add_row("[cyan]Pages Remaining (Not Scanned)[/cyan]", f"{len(self.to_visit)}")
+
+        summary_panel = Panel(
+            table,
+            title="[bold green]Scan Complete[/bold green]",
+            border_style="green",
+            padding=(1, 2)
+        )
+        self.console.print(summary_panel)
+
+        # Show bug statistics if any found
+        if self.matches_found:
+            self.console.print(
+                f"\n[bold]Top affected pages:[/bold]"
+            )
+            for i, match in enumerate(self.matches_found[:5], 1):
+                url_display = match['url'][:70] + "..." if len(match['url']) > 70 else match['url']
+                self.console.print(
+                    f"  {i}. [link]{url_display}[/link] - {match['total_matches']} match(es)"
+                )
+            if len(self.matches_found) > 5:
+                self.console.print(
+                    f"  ... and [bold]{len(self.matches_found) - 5}[/bold] more"
+                )
+
+        # Show failed URLs if any
+        if self.failed_urls:
+            self.console.print(
+                f"\n[yellow]Warning: {len(self.failed_urls)} URLs failed to scan[/yellow]"
+            )
 
 async def main():
     # Configuration
     START_URL = "https://www.wpr.org"
     MAX_PAGES = 5000  # Adjust as needed - can go up to 10,000+
 
-    # Run scan
-    scanner = SiteScanner(START_URL, max_pages=MAX_PAGES)
+    # Run scan with progress bars
+    scanner = SiteScanner(START_URL, max_pages=MAX_PAGES, incremental=False, quiet=False, verbose=False)
     matches = await scanner.scan()
 
     # Save detailed results
     if matches:
-        print(f"\n🔴 FOUND {len(matches)} PAGES WITH BUGS:\n")
-
         # Save to JSON
         output_file = f"bug_scan_results_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json"
         with open(output_file, 'w') as f:
@@ -321,21 +409,22 @@ async def main():
                 'results': matches
             }, f, indent=2)
 
-        print(f"✅ Detailed results saved to: {output_file}\n")
+        console = Console()
+        console.print(f"[green]✓ Detailed results saved to: {output_file}[/green]\n")
 
         # Print summary
         for i, match in enumerate(matches[:20], 1):  # Show first 20
-            print(f"{i}. {match['url']}")
-            print(f"   Matches: {match['total_matches']} ({', '.join(f'{k}: {v}' for k, v in match['patterns'].items())})")
+            console.print(f"{i}. {match['url']}")
+            console.print(f"   Matches: {match['total_matches']} ({', '.join(f'{k}: {v}' for k, v in match['patterns'].items())})")
 
             # Show clean sample
             sample = match['sample_context'].replace('\n', ' ').replace('\t', ' ')
             sample = re.sub(r'\s+', ' ', sample)
-            print(f"   Sample: ...{sample[:150]}...")
-            print()
+            console.print(f"   Sample: ...{sample[:150]}...")
+            console.print()
 
         if len(matches) > 20:
-            print(f"   ... and {len(matches) - 20} more (see {output_file} for full list)\n")
+            console.print(f"   ... and {len(matches) - 20} more (see {output_file} for full list)\n")
 
         # Save simple list
         list_file = "affected_urls.txt"
@@ -347,14 +436,15 @@ async def main():
                 f.write(f"{match['url']}\n")
                 f.write(f"  Matches: {match['total_matches']}\n\n")
 
-        print(f"✅ URL list saved to: {list_file}")
+        console.print(f"[green]✓ URL list saved to: {list_file}[/green]")
 
     else:
-        print("\n✅ No bugs found across the scanned pages.")
-        print("   This could mean:")
-        print("   - The bug has been fixed")
-        print("   - The bug exists on pages not yet discovered")
-        print("   - Try increasing MAX_PAGES or different URL patterns")
+        console = Console()
+        console.print("\n[bold green]✓ No bugs found across the scanned pages.[/bold green]")
+        console.print("   This could mean:")
+        console.print("   - The bug has been fixed")
+        console.print("   - The bug exists on pages not yet discovered")
+        console.print("   - Try increasing MAX_PAGES or different URL patterns")
 
     # Save failed URLs for debugging
     if scanner.failed_urls:
@@ -362,7 +452,7 @@ async def main():
         with open(failed_file, 'w') as f:
             for fail in scanner.failed_urls:
                 f.write(f"{fail['url']}\n  Error: {fail['error']}\n\n")
-        print(f"\n⚠️  {len(scanner.failed_urls)} URLs failed - see {failed_file}")
+        console.print(f"\n[yellow]Warning: {len(scanner.failed_urls)} URLs failed - see {failed_file}[/yellow]")
 
 if __name__ == "__main__":
     asyncio.run(main())

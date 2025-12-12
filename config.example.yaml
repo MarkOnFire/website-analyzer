@@ -1,0 +1,89 @@
+# Bug Finder Configuration File (YAML Format)
+#
+# This file demonstrates all available configuration options for the bug-finder tool.
+# Copy and modify this file, then use with: --config my-config.yaml
+#
+# Configuration Precedence (highest to lowest):
+# 1. Command-line arguments (--max-pages, --format, etc.)
+# 2. Site-specific settings (if URL matches)
+# 3. Default scan_settings
+
+# Default settings for all scans
+scan_settings:
+  # Maximum number of pages to scan
+  max_pages: 1000
+
+  # Maximum crawl depth (null = unlimited)
+  max_depth: null
+
+  # Output format: txt, csv, html, json, or all
+  format: txt
+
+# Output directory preferences
+output_settings:
+  # Base output directory for scan results
+  output_dir: projects
+
+  # Create 'scans' subdirectory within project folder
+  create_scans_subdir: true
+
+  # Include timestamp in result filenames
+  timestamp_results: true
+
+# Pattern matching configuration
+pattern_settings:
+  # Whether pattern matching is case-sensitive
+  case_sensitive: false
+
+  # Enable regular expression pattern matching
+  use_regex: true
+
+  # Minimum length for auto-generated patterns
+  min_pattern_length: 5
+
+# Site-specific configuration overrides
+# Keys are URLs, values override default settings for that site
+site_specific:
+  # Example 1: Standard site with moderate crawl depth
+  https://www.example.com:
+    url: https://www.example.com
+    max_pages: 500
+    format: html
+    exclude_patterns:
+      - "*/admin/*"
+      - "*/api/*"
+
+  # Example 2: Large site with comprehensive scanning
+  https://www.wpr.org:
+    url: https://www.wpr.org
+    max_pages: 2000
+    format: all
+    exclude_patterns:
+      - "*/admin/*"
+      - "*/search*"
+
+# USAGE EXAMPLES
+# ==============
+#
+# Without config file:
+#   python -m src.analyzer.cli bug-finder scan \
+#     --example-url "https://archive.org/web/.../page-with-bug" \
+#     --site "https://www.example.com" \
+#     --max-pages 100
+#
+# With config file (using defaults):
+#   python -m src.analyzer.cli bug-finder scan \
+#     --config config.yaml \
+#     --example-url "https://archive.org/web/.../page-with-bug" \
+#     --site "https://www.example.com"
+#
+# With config file (CLI overrides settings):
+#   python -m src.analyzer.cli bug-finder scan \
+#     --config config.yaml \
+#     --example-url "https://archive.org/web/.../page-with-bug" \
+#     --site "https://www.example.com" \
+#     --max-pages 500 \
+#     --format json
+#
+# Generate config template:
+#   python -m src.analyzer.cli bug-finder config-example --output my-config.yaml

@@ -1,0 +1,37 @@
+{
+  "scan_settings": {
+    "max_pages": 1000,
+    "max_depth": null,
+    "format": "txt"
+  },
+  "output_settings": {
+    "output_dir": "projects",
+    "create_scans_subdir": true,
+    "timestamp_results": true
+  },
+  "pattern_settings": {
+    "case_sensitive": false,
+    "use_regex": true,
+    "min_pattern_length": 5
+  },
+  "site_specific": {
+    "https://www.example.com": {
+      "url": "https://www.example.com",
+      "max_pages": 500,
+      "format": "html",
+      "exclude_patterns": [
+        "*/admin/*",
+        "*/api/*"
+      ]
+    },
+    "https://www.wpr.org": {
+      "url": "https://www.wpr.org",
+      "max_pages": 2000,
+      "format": "all",
+      "exclude_patterns": [
+        "*/admin/*",
+        "*/search*"
+      ]
+    }
+  }
+}

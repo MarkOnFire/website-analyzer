@@ -19,13 +19,17 @@ from pathlib import Path
 from crawl4ai import AsyncWebCrawler
 from pattern_generator import PatternGenerator
 from full_site_scanner import SiteScanner
+from rich.console import Console
 
 
 class BugFinderCLI:
     """Interactive CLI for finding visual bugs across a website."""
 
-    def __init__(self):
+    def __init__(self, quiet=False, verbose=False):
         self.generator = PatternGenerator()
+        self.quiet = quiet
+        self.verbose = verbose
+        self.console = Console()
 
     async def extract_bug_from_url(self, url: str) -> tuple[str, str]:
         """
@@ -39,7 +43,8 @@ class BugFinderCLI:
         Returns:
             (bug_text, detection_method) tuple
         """
-        print(f"📥 Fetching example page: {url}")
+        if not self.quiet:
+            self.console.print(f"[cyan]Fetching example page: {url}[/cyan]")
 
         async with AsyncWebCrawler() as crawler:
             result = await crawler.arun(url)
@@ -48,12 +53,14 @@ class BugFinderCLI:
                 raise ValueError("Failed to fetch page")
 
             html = result.html
-            print(f"✅ Fetched {len(html):,} bytes")
+            if not self.quiet:
+                self.console.print(f"[green]✓ Fetched {len(html):,} bytes[/green]")
 
             import re
 
             # Strategy 1: Look for [[ or {{ patterns (common in embed bugs)
-            print("🔍 Searching for embed code patterns...")
+            if not self.quiet:
+                self.console.print("[cyan]Searching for embed code patterns...[/cyan]")
 
             embed_patterns = [
                 # Complete patterns with closing brackets
@@ -70,23 +77,27 @@ class BugFinderCLI:
                     matches.sort(key=len, reverse=True)
                     bug_text = matches[0][:2000]  # Max 2000 chars
 
-                    print(f"   ✅ Found pattern: {method}")
-                    print(f"   Length: {len(bug_text)} chars")
+                    if not self.quiet:
+                        self.console.print(f"[green]   ✓ Found pattern: {method}[/green]")
+                        self.console.print(f"   Length: {len(bug_text)} chars")
                     return bug_text, method
 
             # Strategy 2: Look for JSON structures in paragraph/div tags
-            print("🔍 Searching for JSON in visible elements...")
+            if not self.quiet:
+                self.console.print("[cyan]Searching for JSON in visible elements...[/cyan]")
 
             json_pattern = r'<(?:p|div)[^>]*>([^<]*\{["\']fid["\'][^<]{100,})</(?:p|div)>'
             matches = re.findall(json_pattern, html, re.IGNORECASE | re.DOTALL)
 
             if matches:
                 bug_text = matches[0][:2000]
-                print(f"   ✅ Found JSON in visible element")
+                if not self.quiet:
+                    self.console.print(f"[green]   ✓ Found JSON in visible element[/green]")
                 return bug_text, 'json-in-visible-tag'
 
             # Strategy 3: Look for escaped characters (common in rendering bugs)
-            print("🔍 Searching for escaped HTML patterns...")
+            if not self.quiet:
+                self.console.print("[cyan]Searching for escaped HTML patterns...[/cyan]")
 
             escaped_pattern = r'%[0-9A-F]{2}[^%\s]{50,}'  # URL-encoded content
             matches = re.findall(escaped_pattern, html)
@@ -95,23 +106,26 @@ class BugFinderCLI:
                 # Find the longest escaped sequence
                 matches.sort(key=len, reverse=True)
                 bug_text = matches[0][:2000]
-                print(f"   ✅ Found escaped content")
+                if not self.quiet:
+                    self.console.print(f"[green]   ✓ Found escaped content[/green]")
                 return bug_text, 'escaped-html'
 
             # Strategy 4: Generic long strings that look like bugs
             # Look for very long unbroken strings in paragraph tags (unusual)
-            print("🔍 Searching for anomalous long strings...")
+            if not self.quiet:
+                self.console.print("[cyan]Searching for anomalous long strings...[/cyan]")
 
             anomaly_pattern = r'<p[^>]*>([^\s<]{200,})</p>'
             matches = re.findall(anomaly_pattern, html)
 
             if matches:
                 bug_text = matches[0][:2000]
-                print(f"   ✅ Found anomalous long string")
+                if not self.quiet:
+                    self.console.print(f"[green]   ✓ Found anomalous long string[/green]")
                 return bug_text, 'anomalous-string'
 
             raise ValueError(
-                "\n❌ Could not automatically detect bug pattern in HTML.\n"
+                "\nCould not automatically detect bug pattern in HTML.\n"
                 "   Strategies tried:\n"
                 "   - Double bracket patterns [[...]]\n"
                 "   - JSON in visible tags\n"
@@ -140,48 +154,53 @@ class BugFinderCLI:
             incremental: Enable incremental output to .partial.json
             output_file: Output file path for incremental mode
         """
-        print("=" * 70)
-        print("Bug Finder - Visual Bug Scanner")
-        print("=" * 70)
-        print()
+        if not self.quiet:
+            self.console.print("[bold cyan]Bug Finder - Visual Bug Scanner[/bold cyan]")
+            self.console.print()
 
         # Step 1: Get bug example
         detection_method = "manual"
         if bug_text:
-            print("📝 Using provided bug text")
+            if not self.quiet:
+                self.console.print("[cyan]Using provided bug text[/cyan]")
             example = bug_text
         else:
-            print("🔎 Extracting bug pattern from example URL...\n")
+            if not self.quiet:
+                self.console.print("[cyan]Extracting bug pattern from example URL...[/cyan]\n")
             example, detection_method = await self.extract_bug_from_url(example_url)
 
-        print(f"\n📋 Bug example extracted ({len(example)} chars)")
-        print(f"   Detection method: {detection_method}")
-        print(f"   Preview: {example[:150]}...")
-        print()
+        if not self.quiet:
+            self.console.print(f"\n[cyan]Bug example extracted ({len(example)} chars)[/cyan]")
+            self.console.print(f"   Detection method: {detection_method}")
+            self.console.print(f"   Preview: {example[:150]}...")
+            self.console.print()
 
         # Step 2: Generate patterns
-        print("🧠 Analyzing bug and generating search patterns...")
+        if not self.quiet:
+            self.console.print("[cyan]Analyzing bug and generating search patterns...[/cyan]")
         analysis = self.generator.analyze(example)
 
-        print(f"   Confidence: {analysis.confidence}")
-        print(f"   Patterns generated: {len(analysis.patterns)}")
-        print(f"   Key fields: {', '.join(analysis.key_fields[:3])}...")
+        if not self.quiet:
+            self.console.print(f"   Confidence: {analysis.confidence}")
+            self.console.print(f"   Patterns generated: {len(analysis.patterns)}")
+            self.console.print(f"   Key fields: {', '.join(analysis.key_fields[:3])}...")
 
-        if analysis.unicode_chars:
-            print(f"   Special characters: {len(analysis.unicode_chars)} found")
-        print()
+            if analysis.unicode_chars:
+                self.console.print(f"   Special characters: {len(analysis.unicode_chars)} found")
+            self.console.print()
 
         # Step 3: Scan the site
-        print(f"🌐 Scanning {site_to_scan} (max {max_pages} pages)...")
-        if incremental:
-            print(f"   Incremental output: ENABLED")
-            if output_file:
-                print(f"   Progress file: {output_file}.partial.json")
-        print("   This may take several minutes to hours depending on site size.")
-        print()
+        if not self.quiet:
+            self.console.print(f"[cyan]Scanning {site_to_scan} (max {max_pages} pages)...[/cyan]")
+            if incremental:
+                self.console.print(f"   Incremental output: [green]ENABLED[/green]")
+                if output_file:
+                    self.console.print(f"   Progress file: {output_file}.partial.json")
+            self.console.print("   This may take several minutes to hours depending on site size.")
+            self.console.print()
 
         # Create scanner with generated patterns
-        scanner = SiteScanner(site_to_scan, max_pages=max_pages, incremental=incremental, output_file=output_file)
+        scanner = SiteScanner(site_to_scan, max_pages=max_pages, incremental=incremental, output_file=output_file, quiet=self.quiet, verbose=self.verbose)
 
         # Override patterns with our generated ones
         import full_site_scanner
@@ -190,41 +209,7 @@ class BugFinderCLI:
         # Run scan
         matches = await scanner.scan()
 
-        # Step 4: Report results
-        print("\n" + "=" * 70)
-        print("📊 RESULTS")
-        print("=" * 70)
-
-        if matches:
-            print(f"\n🔴 Found {len(matches)} pages with similar bugs:\n")
-
-            for i, match in enumerate(matches[:20], 1):
-                print(f"{i}. {match['url']}")
-                print(f"   Matches: {match['total_matches']} pattern(s)")
-                print(f"   Patterns: {', '.join(match['patterns'].keys())}")
-                print()
-
-            if len(matches) > 20:
-                print(f"   ... and {len(matches) - 20} more\n")
-
-            # Save results
-            output_file = f"bug_results_{Path(site_to_scan).name.replace('.', '_')}.txt"
-            with open(output_file, 'w') as f:
-                f.write(f"Bug Scan Results for {site_to_scan}\n")
-                f.write(f"Example URL: {example_url}\n")
-                f.write(f"Pages scanned: {len(scanner.visited)}\n")
-                f.write(f"Bugs found: {len(matches)}\n")
-                f.write("=" * 70 + "\n\n")
-
-                for match in matches:
-                    f.write(f"{match['url']}\n")
-                    f.write(f"  Matches: {match['total_matches']}\n\n")
-
-            print(f"✅ Full results saved to: {output_file}")
-        else:
-            print("\n✅ No bugs found!")
-            print("   Either the bug has been fixed, or it exists on pages not yet scanned.")
-
+        # Step 4: Report results (handled by scanner)
         return matches
 
 
