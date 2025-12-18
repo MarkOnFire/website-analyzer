@@ -30,6 +30,8 @@ build/
 # Project Workspace Data
 projects/*
 !projects/.gitkeep
+!projects/README.md
+!projects/example-com/
 artifacts/*
 !artifacts/.gitkeep
 !artifacts/README.md
