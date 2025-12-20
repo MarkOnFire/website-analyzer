@@ -2,6 +2,7 @@
  * Job management for async analysis operations.
  */
 
+import { ChildProcess } from "child_process";
 import type { Job } from "./types.js";
 
 /**
@@ -19,6 +20,8 @@ export function generateJobId(): string {
  */
 export class JobManager {
   private jobs: Map<string, Job> = new Map();
+  private processes: Map<string, ChildProcess> = new Map();
+  private timeouts: Map<string, NodeJS.Timeout> = new Map();
 
   /**
    * Create a new job and return its ID.
@@ -112,11 +115,83 @@ export class JobManager {
         job.completedAt < oneHourAgo
       ) {
         this.jobs.delete(id);
+        this.processes.delete(id);
+        this.clearTimeout(id);
         removed++;
       }
     }
 
     return removed;
+  }
+
+  /**
+   * Attach a child process to a job.
+   */
+  attachProcess(jobId: string, process: ChildProcess): void {
+    this.processes.set(jobId, process);
+  }
+
+  /**
+   * Get the process for a job.
+   */
+  getProcess(jobId: string): ChildProcess | undefined {
+    return this.processes.get(jobId);
+  }
+
+  /**
+   * Remove process tracking for a job.
+   */
+  detachProcess(jobId: string): void {
+    this.processes.delete(jobId);
+  }
+
+  /**
+   * Set a timeout for a job. If timeout is reached, kills the process and marks job as failed.
+   */
+  setTimeout(jobId: string, timeoutMs: number): void {
+    const timeout = setTimeout(() => {
+      const process = this.processes.get(jobId);
+      if (process && !process.killed) {
+        process.kill("SIGTERM");
+      }
+      this.updateJobStatus(jobId, "failed", {
+        error: `Job timed out after ${timeoutMs}ms`,
+        completedAt: new Date().toISOString(),
+      });
+      this.detachProcess(jobId);
+    }, timeoutMs);
+
+    this.timeouts.set(jobId, timeout);
+  }
+
+  /**
+   * Clear timeout for a job.
+   */
+  clearTimeout(jobId: string): void {
+    const timeout = this.timeouts.get(jobId);
+    if (timeout) {
+      clearTimeout(timeout);
+      this.timeouts.delete(jobId);
+    }
+  }
+
+  /**
+   * Kill a running job and its process.
+   */
+  killJob(jobId: string): boolean {
+    const process = this.processes.get(jobId);
+    if (!process || process.killed) {
+      return false;
+    }
+
+    process.kill("SIGTERM");
+    this.clearTimeout(jobId);
+    this.updateJobStatus(jobId, "failed", {
+      error: "Job was manually killed",
+      completedAt: new Date().toISOString(),
+    });
+
+    return true;
   }
 }
 

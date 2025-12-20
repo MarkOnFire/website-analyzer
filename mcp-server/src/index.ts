@@ -23,6 +23,9 @@ import {
   ViewIssuesInputSchema,
   RerunTestsInputSchema,
 } from "./types.js";
+import { executePythonCLI, spawnPythonCLI, parseProgress } from "./cli-executor.js";
+import { readdir, readFile } from "fs/promises";
+import { join } from "path";
 
 // Create the MCP server
 const server = new Server(
@@ -184,62 +187,208 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
     switch (name) {
       case "list_tests": {
         ListTestsInputSchema.parse(args);
-        // TODO: Call Python CLI to get actual test list
-        return {
-          content: [
-            {
-              type: "text",
-              text: JSON.stringify({
-                tests: [
-                  { name: "migration-scanner", description: "Scan for migration patterns", category: "migration" },
-                  { name: "llm-optimizer", description: "Analyze LLM discoverability", category: "optimization" },
-                  { name: "seo-optimizer", description: "SEO best practices check", category: "optimization" },
-                  { name: "security-audit", description: "Security vulnerability scan", category: "security" },
-                ],
-              }, null, 2),
-            },
-          ],
-        };
+
+        try {
+          const result = await executePythonCLI(["test", "list"]);
+
+          if (result.exitCode !== 0) {
+            throw new Error(`Python CLI failed: ${result.stderr}`);
+          }
+
+          // Parse JSON output from Python CLI
+          const tests = JSON.parse(result.stdout);
+
+          return {
+            content: [
+              {
+                type: "text",
+                text: JSON.stringify(tests, null, 2),
+              },
+            ],
+          };
+        } catch (error) {
+          logger.error({ error }, "Failed to list tests");
+          throw error;
+        }
       }
 
       case "list_projects": {
         const input = ListProjectsInputSchema.parse(args);
-        // TODO: Call Python CLI to get actual projects
-        return {
-          content: [
-            {
-              type: "text",
-              text: JSON.stringify({
-                projects: [],
-                message: "No projects found. Use start_analysis to create one.",
-              }, null, 2),
-            },
-          ],
-        };
+
+        try {
+          const projectsDir = join("/Users/mriechers/Developer/website-analyzer", "projects");
+          const entries = await readdir(projectsDir, { withFileTypes: true });
+          const projects = [];
+
+          for (const entry of entries) {
+            if (!entry.isDirectory()) continue;
+
+            try {
+              const metadataPath = join(projectsDir, entry.name, "metadata.json");
+              const metadataContent = await readFile(metadataPath, "utf-8");
+              const metadata = JSON.parse(metadataContent);
+
+              const projectInfo: any = {
+                slug: entry.name,
+                url: metadata.url || "unknown",
+                createdAt: metadata.created_at || metadata.createdAt || "unknown",
+                lastCrawl: metadata.last_crawl || metadata.lastCrawl,
+              };
+
+              if (input.includeSnapshots) {
+                try {
+                  const snapshotsDir = join(projectsDir, entry.name, "snapshots");
+                  const snapshots = await readdir(snapshotsDir);
+                  projectInfo.snapshotCount = snapshots.length;
+                } catch {
+                  projectInfo.snapshotCount = 0;
+                }
+              }
+
+              projects.push(projectInfo);
+            } catch (error) {
+              logger.warn({ project: entry.name, error }, "Failed to read project metadata");
+            }
+          }
+
+          return {
+            content: [
+              {
+                type: "text",
+                text: JSON.stringify({ projects }, null, 2),
+              },
+            ],
+          };
+        } catch (error) {
+          logger.error({ error }, "Failed to list projects");
+          // Return empty list if projects directory doesn't exist
+          return {
+            content: [
+              {
+                type: "text",
+                text: JSON.stringify({
+                  projects: [],
+                  message: "No projects found. Use start_analysis to create one.",
+                }, null, 2),
+              },
+            ],
+          };
+        }
       }
 
       case "start_analysis": {
         const input = StartAnalysisInputSchema.parse(args);
 
         // Create a job
-        const job = jobManager.createJob("full_analysis", input.url.replace(/https?:\/\//, "").replace(/[^a-z0-9]/gi, "-"));
+        const projectSlug = input.url.replace(/https?:\/\//, "").replace(/[^a-z0-9]/gi, "-");
+        const job = jobManager.createJob("full_analysis", projectSlug);
 
-        // TODO: Spawn Python CLI process for actual analysis
-        logger.info({ jobId: job.id, url: input.url }, "Starting analysis job");
+        try {
+          // Build CLI arguments
+          const cliArgs = ["crawl", "start", input.url];
 
-        // For now, just return the job info
-        return {
-          content: [
-            {
-              type: "text",
-              text: JSON.stringify({
-                jobId: job.id,
-                message: `Analysis job created for ${input.url}. Use check_status to monitor progress.`,
-                projectSlug: job.projectSlug,
-              }, null, 2),
-            },
-          ],
-        };
+          if (input.maxPages) {
+            cliArgs.push("--max-pages", input.maxPages.toString());
+          }
+
+          if (input.maxDepth) {
+            cliArgs.push("--max-depth", input.maxDepth.toString());
+          }
+
+          if (input.recrawl) {
+            cliArgs.push("--recrawl");
+          }
+
+          if (input.tests && input.tests.length > 0) {
+            cliArgs.push("--tests", input.tests.join(","));
+          }
+
+          // Spawn Python CLI process
+          const process = spawnPythonCLI(cliArgs);
+          jobManager.attachProcess(job.id, process);
+
+          // Set 30-minute timeout for analysis jobs
+          jobManager.setTimeout(job.id, 30 * 60 * 1000);
+
+          // Update job status to running
+          jobManager.updateJobStatus(job.id, "running");
+
+          // Setup stdout/stderr handlers for progress tracking
+          let stdoutBuffer = "";
+          let stderrBuffer = "";
+
+          process.stdout?.on("data", (data) => {
+            const text = data.toString();
+            stdoutBuffer += text;
+
+            // Parse progress from each line
+            const lines = stdoutBuffer.split("\n");
+            stdoutBuffer = lines.pop() || ""; // Keep incomplete line in buffer
+
+            for (const line of lines) {
+              const progress = parseProgress(line);
+              if (progress) {
+                jobManager.updateProgress(job.id, progress.current, progress.total, progress.message);
+              }
+              logger.debug({ jobId: job.id, line }, "CLI stdout");
+            }
+          });
+
+          process.stderr?.on("data", (data) => {
+            stderrBuffer += data.toString();
+            logger.warn({ jobId: job.id, stderr: data.toString() }, "CLI stderr");
+          });
+
+          process.on("error", (error) => {
+            logger.error({ jobId: job.id, error }, "Process spawn error");
+            jobManager.updateJobStatus(job.id, "failed", {
+              error: `Process spawn failed: ${error.message}`,
+              completedAt: new Date().toISOString(),
+            });
+            jobManager.clearTimeout(job.id);
+            jobManager.detachProcess(job.id);
+          });
+
+          process.on("close", (exitCode, signal) => {
+            logger.info({ jobId: job.id, exitCode, signal }, "Process completed");
+            jobManager.clearTimeout(job.id);
+            jobManager.detachProcess(job.id);
+
+            if (exitCode === 0) {
+              jobManager.updateJobStatus(job.id, "completed", {
+                result: { projectSlug, message: "Analysis completed successfully" },
+                completedAt: new Date().toISOString(),
+              });
+            } else {
+              jobManager.updateJobStatus(job.id, "failed", {
+                error: `Process exited with code ${exitCode}: ${stderrBuffer}`,
+                completedAt: new Date().toISOString(),
+              });
+            }
+          });
+
+          logger.info({ jobId: job.id, url: input.url }, "Started analysis job");
+
+          return {
+            content: [
+              {
+                type: "text",
+                text: JSON.stringify({
+                  jobId: job.id,
+                  message: `Analysis job started for ${input.url}. Use check_status to monitor progress.`,
+                  projectSlug,
+                }, null, 2),
+              },
+            ],
+          };
+        } catch (error) {
+          logger.error({ jobId: job.id, error }, "Failed to start analysis");
+          jobManager.updateJobStatus(job.id, "failed", {
+            error: error instanceof Error ? error.message : String(error),
+            completedAt: new Date().toISOString(),
+          });
+          throw error;
+        }
       }
 
       case "check_status": {
@@ -276,38 +425,166 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
 
       case "view_issues": {
         const input = ViewIssuesInputSchema.parse(args);
-        // TODO: Read issues from project's issues.json
-        return {
-          content: [
-            {
-              type: "text",
-              text: JSON.stringify({
-                issues: [],
-                totalCount: 0,
-                message: `No issues found for project: ${input.projectSlug}`,
-              }, null, 2),
-            },
-          ],
-        };
+
+        try {
+          const issuesPath = join(
+            "/Users/mriechers/Developer/website-analyzer",
+            "projects",
+            input.projectSlug,
+            "issues.json"
+          );
+
+          const issuesContent = await readFile(issuesPath, "utf-8");
+          const issuesData = JSON.parse(issuesContent);
+          let issues = issuesData.issues || [];
+
+          // Apply filters
+          if (input.testName) {
+            issues = issues.filter((issue: any) => issue.test_name === input.testName || issue.testName === input.testName);
+          }
+
+          if (input.priority) {
+            issues = issues.filter((issue: any) => issue.priority === input.priority);
+          }
+
+          if (input.status) {
+            issues = issues.filter((issue: any) => issue.status === input.status);
+          }
+
+          // Apply limit
+          const totalCount = issues.length;
+          issues = issues.slice(0, input.limit || 50);
+
+          return {
+            content: [
+              {
+                type: "text",
+                text: JSON.stringify({
+                  issues,
+                  totalCount,
+                  returned: issues.length,
+                }, null, 2),
+              },
+            ],
+          };
+        } catch (error) {
+          logger.warn({ projectSlug: input.projectSlug, error }, "Failed to read issues");
+          // Return empty if issues.json doesn't exist
+          return {
+            content: [
+              {
+                type: "text",
+                text: JSON.stringify({
+                  issues: [],
+                  totalCount: 0,
+                  message: `No issues found for project: ${input.projectSlug}`,
+                }, null, 2),
+              },
+            ],
+          };
+        }
       }
 
       case "rerun_tests": {
         const input = RerunTestsInputSchema.parse(args);
         const job = jobManager.createJob("test", input.projectSlug);
 
-        logger.info({ jobId: job.id, projectSlug: input.projectSlug }, "Starting test rerun job");
+        try {
+          // Build CLI arguments
+          const cliArgs = ["test", "run", input.projectSlug];
 
-        return {
-          content: [
-            {
-              type: "text",
-              text: JSON.stringify({
-                jobId: job.id,
-                message: `Test rerun job created for ${input.projectSlug}. Use check_status to monitor.`,
-              }, null, 2),
-            },
-          ],
-        };
+          if (input.tests && input.tests.length > 0) {
+            cliArgs.push("--tests", input.tests.join(","));
+          }
+
+          if (input.recrawl) {
+            cliArgs.push("--recrawl");
+          }
+
+          // Spawn Python CLI process
+          const process = spawnPythonCLI(cliArgs);
+          jobManager.attachProcess(job.id, process);
+
+          // Set 20-minute timeout for test jobs
+          jobManager.setTimeout(job.id, 20 * 60 * 1000);
+
+          // Update job status to running
+          jobManager.updateJobStatus(job.id, "running");
+
+          // Setup stdout/stderr handlers
+          let stdoutBuffer = "";
+          let stderrBuffer = "";
+
+          process.stdout?.on("data", (data) => {
+            const text = data.toString();
+            stdoutBuffer += text;
+
+            const lines = stdoutBuffer.split("\n");
+            stdoutBuffer = lines.pop() || "";
+
+            for (const line of lines) {
+              const progress = parseProgress(line);
+              if (progress) {
+                jobManager.updateProgress(job.id, progress.current, progress.total, progress.message);
+              }
+              logger.debug({ jobId: job.id, line }, "CLI stdout");
+            }
+          });
+
+          process.stderr?.on("data", (data) => {
+            stderrBuffer += data.toString();
+            logger.warn({ jobId: job.id, stderr: data.toString() }, "CLI stderr");
+          });
+
+          process.on("error", (error) => {
+            logger.error({ jobId: job.id, error }, "Process spawn error");
+            jobManager.updateJobStatus(job.id, "failed", {
+              error: `Process spawn failed: ${error.message}`,
+              completedAt: new Date().toISOString(),
+            });
+            jobManager.clearTimeout(job.id);
+            jobManager.detachProcess(job.id);
+          });
+
+          process.on("close", (exitCode, signal) => {
+            logger.info({ jobId: job.id, exitCode, signal }, "Process completed");
+            jobManager.clearTimeout(job.id);
+            jobManager.detachProcess(job.id);
+
+            if (exitCode === 0) {
+              jobManager.updateJobStatus(job.id, "completed", {
+                result: { projectSlug: input.projectSlug, message: "Tests completed successfully" },
+                completedAt: new Date().toISOString(),
+              });
+            } else {
+              jobManager.updateJobStatus(job.id, "failed", {
+                error: `Process exited with code ${exitCode}: ${stderrBuffer}`,
+                completedAt: new Date().toISOString(),
+              });
+            }
+          });
+
+          logger.info({ jobId: job.id, projectSlug: input.projectSlug }, "Started test rerun job");
+
+          return {
+            content: [
+              {
+                type: "text",
+                text: JSON.stringify({
+                  jobId: job.id,
+                  message: `Test rerun job started for ${input.projectSlug}. Use check_status to monitor.`,
+                }, null, 2),
+              },
+            ],
+          };
+        } catch (error) {
+          logger.error({ jobId: job.id, error }, "Failed to start test rerun");
+          jobManager.updateJobStatus(job.id, "failed", {
+            error: error instanceof Error ? error.message : String(error),
+            completedAt: new Date().toISOString(),
+          });
+          throw error;
+        }
       }
 
       default:

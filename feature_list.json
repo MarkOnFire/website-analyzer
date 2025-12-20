@@ -606,7 +606,7 @@
       "id": 61,
       "category": "mcp-server",
       "description": "Implement list_tests tool with schema validation",
-      "passes": false,
+      "passes": true,
       "dependencies": [
         60
       ],
@@ -616,7 +616,7 @@
       "id": 62,
       "category": "mcp-server",
       "description": "Implement list_projects tool with workspace scanning",
-      "passes": false,
+      "passes": true,
       "dependencies": [
         60
       ],
@@ -636,7 +636,7 @@
       "id": 64,
       "category": "mcp-server",
       "description": "Implement start_analysis tool with input validation",
-      "passes": false,
+      "passes": true,
       "dependencies": [
         60,
         63
@@ -647,7 +647,7 @@
       "id": 65,
       "category": "mcp-server",
       "description": "Add process spawning for Python CLI from start_analysis",
-      "passes": false,
+      "passes": true,
       "dependencies": [
         64
       ],
@@ -657,7 +657,7 @@
       "id": 66,
       "category": "mcp-server",
       "description": "Implement job tracking (in-memory store of running jobs)",
-      "passes": false,
+      "passes": true,
       "dependencies": [
         63,
         65
@@ -668,7 +668,7 @@
       "id": 67,
       "category": "mcp-server",
       "description": "Implement check_status tool with job lookup",
-      "passes": false,
+      "passes": true,
       "dependencies": [
         60,
         66
@@ -679,7 +679,7 @@
       "id": 68,
       "category": "mcp-server",
       "description": "Add progress parsing from Python CLI stdout",
-      "passes": false,
+      "passes": true,
       "dependencies": [
         65,
         67
@@ -690,7 +690,7 @@
       "id": 69,
       "category": "mcp-server",
       "description": "Implement view_issues tool with filtering support",
-      "passes": false,
+      "passes": true,
       "dependencies": [
         60
       ],
@@ -700,7 +700,7 @@
       "id": 70,
       "category": "mcp-server",
       "description": "Implement rerun_tests tool with recrawl option",
-      "passes": false,
+      "passes": true,
       "dependencies": [
         60,
         64
@@ -711,7 +711,7 @@
       "id": 71,
       "category": "mcp-server",
       "description": "Add error handling for Python CLI spawn failures",
-      "passes": false,
+      "passes": true,
       "dependencies": [
         65
       ],
@@ -721,7 +721,7 @@
       "id": 72,
       "category": "mcp-server",
       "description": "Implement timeout handling for long-running jobs",
-      "passes": false,
+      "passes": true,
       "dependencies": [
         66
       ],
@@ -751,7 +751,7 @@
       "id": 75,
       "category": "llm-optimization",
       "description": "Create LLM optimization plugin skeleton",
-      "passes": false,
+      "passes": true,
       "dependencies": [
         23
       ],
@@ -761,7 +761,7 @@
       "id": 76,
       "category": "llm-optimization",
       "description": "Implement meta tag extraction (description, keywords, OG, Twitter)",
-      "passes": false,
+      "passes": true,
       "dependencies": [
         75
       ],
@@ -771,7 +771,7 @@
       "id": 77,
       "category": "llm-optimization",
       "description": "Add meta tag quality scoring (presence, length, uniqueness)",
-      "passes": false,
+      "passes": true,
       "dependencies": [
         76
       ],
@@ -781,7 +781,7 @@
       "id": 78,
       "category": "llm-optimization",
       "description": "Implement schema.org markup detection and validation",
-      "passes": false,
+      "passes": true,
       "dependencies": [
         75
       ],
@@ -791,7 +791,7 @@
       "id": 79,
       "category": "llm-optimization",
       "description": "Add heading structure analysis (H1-H6 hierarchy)",
-      "passes": false,
+      "passes": true,
       "dependencies": [
         75
       ],
@@ -821,7 +821,7 @@
       "id": 82,
       "category": "llm-optimization",
       "description": "Implement content clarity scoring (per page)",
-      "passes": false,
+      "passes": true,
       "dependencies": [
         75
       ],
@@ -841,7 +841,7 @@
       "id": 84,
       "category": "llm-optimization",
       "description": "Generate quick wins (missing meta tags, schema opportunities)",
-      "passes": false,
+      "passes": true,
       "dependencies": [
         76,
         78
@@ -852,7 +852,7 @@
       "id": 85,
       "category": "llm-optimization",
       "description": "Generate strategic recommendations (content structure, navigation)",
-      "passes": false,
+      "passes": true,
       "dependencies": [
         79,
         80,
@@ -864,7 +864,7 @@
       "id": 86,
       "category": "llm-optimization",
       "description": "Calculate overall LLM optimization score (0-10)",
-      "passes": false,
+      "passes": true,
       "dependencies": [
         76,
         78,
@@ -901,7 +901,7 @@
       "id": 89,
       "category": "seo-optimization",
       "description": "Create SEO optimization plugin skeleton",
-      "passes": false,
+      "passes": true,
       "dependencies": [
         23
       ],
@@ -911,7 +911,7 @@
       "id": 90,
       "category": "seo-optimization",
       "description": "Implement title tag extraction and analysis (length, uniqueness)",
-      "passes": false,
+      "passes": true,
       "dependencies": [
         89
       ],
@@ -921,7 +921,7 @@
       "id": 91,
       "category": "seo-optimization",
       "description": "Add meta description analysis (presence, length, quality)",
-      "passes": false,
+      "passes": true,
       "dependencies": [
         89
       ],
@@ -931,7 +931,7 @@
       "id": 92,
       "category": "seo-optimization",
       "description": "Implement H1 tag analysis (presence, count, hierarchy)",
-      "passes": false,
+      "passes": true,
       "dependencies": [
         89
       ],
@@ -941,7 +941,7 @@
       "id": 93,
       "category": "seo-optimization",
       "description": "Add image alt text coverage check",
-      "passes": false,
+      "passes": true,
       "dependencies": [
         89
       ],
@@ -991,7 +991,7 @@
       "id": 98,
       "category": "seo-optimization",
       "description": "Implement robots.txt validation",
-      "passes": false,
+      "passes": true,
       "dependencies": [
         89
       ],
@@ -1001,7 +1001,7 @@
       "id": 99,
       "category": "seo-optimization",
       "description": "Add sitemap.xml validation",
-      "passes": false,
+      "passes": true,
       "dependencies": [
         89
       ],
@@ -1011,7 +1011,7 @@
       "id": 100,
       "category": "seo-optimization",
       "description": "Implement keyword density analysis (if keywords provided)",
-      "passes": false,
+      "passes": true,
       "dependencies": [
         89
       ],
@@ -1021,7 +1021,7 @@
       "id": 101,
       "category": "seo-optimization",
       "description": "Add content length analysis (thin content detection)",
-      "passes": false,
+      "passes": true,
       "dependencies": [
         89
       ],
@@ -1031,7 +1031,7 @@
       "id": 102,
       "category": "seo-optimization",
       "description": "Implement duplicate content detection (same title/description)",
-      "passes": false,
+      "passes": true,
       "dependencies": [
         90,
         91
@@ -1042,7 +1042,7 @@
       "id": 103,
       "category": "seo-optimization",
       "description": "Add internal linking structure analysis",
-      "passes": false,
+      "passes": true,
       "dependencies": [
         89
       ],
@@ -1052,7 +1052,7 @@
       "id": 104,
       "category": "seo-optimization",
       "description": "Calculate overall SEO score (0-10)",
-      "passes": false,
+      "passes": true,
       "dependencies": [
         90,
         91,
@@ -1065,7 +1065,7 @@
       "id": 105,
       "category": "seo-optimization",
       "description": "Categorize issues as critical/warnings/opportunities",
-      "passes": false,
+      "passes": true,
       "dependencies": [
         89,
         104
@@ -1098,7 +1098,7 @@
       "id": 108,
       "category": "security-audit",
       "description": "Create security audit plugin skeleton",
-      "passes": false,
+      "passes": true,
       "dependencies": [
         23
       ],
@@ -1108,7 +1108,7 @@
       "id": 109,
       "category": "security-audit",
       "description": "Implement HTTPS usage check (mixed content detection)",
-      "passes": false,
+      "passes": true,
       "dependencies": [
         108
       ],
@@ -1118,7 +1118,7 @@
       "id": 110,
       "category": "security-audit",
       "description": "Add security header analysis (CSP, X-Frame-Options, HSTS, etc.)",
-      "passes": false,
+      "passes": true,
       "dependencies": [
         108
       ],
@@ -1128,7 +1128,7 @@
       "id": 111,
       "category": "security-audit",
       "description": "Implement cookie security flags check (Secure, HttpOnly, SameSite)",
-      "passes": false,
+      "passes": true,
       "dependencies": [
         108
       ],
@@ -1138,7 +1138,7 @@
       "id": 112,
       "category": "security-audit",
       "description": "Add exposed sensitive files detection (/.git, /.env, /admin)",
-      "passes": false,
+      "passes": true,
       "dependencies": [
         108
       ],
@@ -1148,7 +1148,7 @@
       "id": 113,
       "category": "security-audit",
       "description": "Implement information disclosure check (HTML comments, error messages)",
-      "passes": false,
+      "passes": true,
       "dependencies": [
         108
       ],
@@ -1158,7 +1158,7 @@
       "id": 114,
       "category": "security-audit",
       "description": "Add third-party script source audit",
-      "passes": false,
+      "passes": true,
       "dependencies": [
         108
       ],
@@ -1168,7 +1168,7 @@
       "id": 115,
       "category": "security-audit",
       "description": "Implement SRI (Subresource Integrity) hash checking",
-      "passes": false,
+      "passes": true,
       "dependencies": [
         108
       ],
@@ -1178,7 +1178,7 @@
       "id": 116,
       "category": "security-audit",
       "description": "Add OWASP Top 10 mapping for findings",
-      "passes": false,
+      "passes": true,
       "dependencies": [
         108
       ],
@@ -1188,7 +1188,7 @@
       "id": 117,
       "category": "security-audit",
       "description": "Implement severity classification (high/medium/low)",
-      "passes": false,
+      "passes": true,
       "dependencies": [
         108
       ],
@@ -1198,7 +1198,7 @@
       "id": 118,
       "category": "security-audit",
       "description": "Generate hardening recommendations",
-      "passes": false,
+      "passes": true,
       "dependencies": [
         108,
         110
@@ -1209,7 +1209,7 @@
       "id": 119,
       "category": "security-audit",
       "description": "Test security audit on HTTPS site with good headers",
-      "passes": false,
+      "passes": true,
       "dependencies": [
         108,
         117
@@ -1220,7 +1220,7 @@
       "id": 120,
       "category": "security-audit",
       "description": "Test security audit on site with known vulnerabilities",
-      "passes": false,
+      "passes": true,
       "dependencies": [
         108,
         117
