@@ -84,17 +84,34 @@ class TestRunner:
         if snapshot_timestamp:
             snapshot_dir = workspace.get_snapshots_dir() / snapshot_timestamp
             if not snapshot_dir.exists():
-                raise ValueError(f"Snapshot not found: {snapshot_timestamp}")
+                raise ValueError(
+                    f"Snapshot not found: {snapshot_timestamp}. "
+                    f"Expected location: {snapshot_dir}. "
+                    "To list available snapshots, run: "
+                    f"python -m src.analyzer.cli project info {slug}"
+                )
         else:
             snapshot_dir = snap_manager.get_latest_snapshot()
             if not snapshot_dir:
-                raise ValueError(f"No snapshots found for project {slug}")
+                raise ValueError(
+                    f"No snapshots found for project {slug}. "
+                    "The project exists but has not been crawled yet. "
+                    "To crawl this project, run: "
+                    f"python -m src.analyzer.cli crawl site {slug}"
+                )
             
         # Load snapshot data
         try:
             snapshot = SiteSnapshot.load(snapshot_dir)
         except Exception as e:
-            raise ValueError(f"Failed to load snapshot: {e}")
+            raise ValueError(
+                f"Failed to load snapshot: {e}. "
+                f"Snapshot directory: {snapshot_dir}. "
+                "The snapshot may be incomplete or corrupted. "
+                "Common causes: crawl was interrupted, missing sitemap.json or summary.json. "
+                "To fix, recrawl the project: "
+                f"python -m src.analyzer.cli crawl site {slug}"
+            )
         
         # Load plugins
         all_plugins = load_plugins()
@@ -112,11 +129,17 @@ class TestRunner:
             
             missing = wanted - found_names
             if missing:
-                # We could warn or raise. For now, let's raise if NOTHING matches, 
-                # but maybe just log missing ones? 
+                # We could warn or raise. For now, let's raise if NOTHING matches,
+                # but maybe just log missing ones?
                 # User asked for specific tests, so probably expects them.
                 if not plugins_to_run:
-                     raise ValueError(f"No matching tests found for: {missing}")
+                     raise ValueError(
+                         f"No matching tests found for: {', '.join(sorted(missing))}. "
+                         "To see available test plugins, run: "
+                         "python -m src.analyzer.cli test list-plugins. "
+                         "Common plugin names: migration-scanner, seo-optimizer, "
+                         "llm-optimizer, security-audit"
+                     )
         else:
             plugins_to_run = all_plugins
             

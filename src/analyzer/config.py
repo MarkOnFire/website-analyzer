@@ -99,7 +99,12 @@ class ConfigLoader:
         elif suffix in ['.yaml', '.yml']:
             return ConfigLoader._load_yaml(config_path)
         else:
-            raise ValueError(f"Unsupported config format: {suffix}. Supported: {ConfigLoader.SUPPORTED_FORMATS}")
+            raise ValueError(
+                f"Unsupported config format: {suffix}. "
+                f"Supported formats: {', '.join(ConfigLoader.SUPPORTED_FORMATS)}. "
+                f"File: {config_path}. "
+                "Please use .json or .yaml file extension."
+            )
 
     @staticmethod
     def _load_json(config_path: Path) -> BugFinderConfig:
@@ -109,9 +114,19 @@ class ConfigLoader:
                 data = json.load(f)
             return BugFinderConfig(**data)
         except json.JSONDecodeError as e:
-            raise ValueError(f"Invalid JSON in config file: {e}")
+            raise ValueError(
+                f"Invalid JSON in config file: {e}. "
+                f"File: {config_path}. "
+                "Please check JSON syntax. Common issues: missing commas, unquoted strings, "
+                "trailing commas. "
+                "You can validate JSON syntax at https://jsonlint.com/"
+            )
         except Exception as e:
-            raise ValueError(f"Error loading config file: {e}")
+            raise ValueError(
+                f"Error loading config file: {e}. "
+                f"File: {config_path}. "
+                "Please check that the file exists and is readable."
+            )
 
     @staticmethod
     def _load_yaml(config_path: Path) -> BugFinderConfig:
@@ -130,9 +145,19 @@ class ConfigLoader:
                 data = {}
             return BugFinderConfig(**data)
         except yaml.YAMLError as e:
-            raise ValueError(f"Invalid YAML in config file: {e}")
+            raise ValueError(
+                f"Invalid YAML in config file: {e}. "
+                f"File: {config_path}. "
+                "Please check YAML syntax. Common issues: incorrect indentation, "
+                "missing colons, tab characters (use spaces). "
+                "You can validate YAML syntax at https://www.yamllint.com/"
+            )
         except Exception as e:
-            raise ValueError(f"Error loading config file: {e}")
+            raise ValueError(
+                f"Error loading config file: {e}. "
+                f"File: {config_path}. "
+                "Please check that the file exists and is readable."
+            )
 
     @staticmethod
     def save(config: BugFinderConfig, output_path: Union[str, Path], format: str = 'json') -> None:

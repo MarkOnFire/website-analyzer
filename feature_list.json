@@ -1279,7 +1279,7 @@
       "id": 125,
       "category": "polish",
       "description": "Add comprehensive error messages for all failure modes",
-      "passes": false,
+      "passes": true,
       "dependencies": [
         27,
         60
@@ -1290,7 +1290,7 @@
       "id": 126,
       "category": "polish",
       "description": "Create user documentation for Claude interactions",
-      "passes": false,
+      "passes": true,
       "dependencies": [
         121,
         122
@@ -1301,7 +1301,7 @@
       "id": 127,
       "category": "polish",
       "description": "Create developer documentation for adding custom tests",
-      "passes": false,
+      "passes": true,
       "dependencies": [
         23,
         26

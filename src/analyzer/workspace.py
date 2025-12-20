@@ -65,7 +65,10 @@ def slugify_url(url: str) -> str:
         ValueError: If URL is empty or contains only invalid characters
     """
     if not url:
-        raise ValueError("URL cannot be empty")
+        raise ValueError(
+            "URL cannot be empty. "
+            "Please provide a valid URL, for example: https://example.com"
+        )
 
     # Parse the URL to extract domain and port
     parsed = urlparse(url)
@@ -74,7 +77,11 @@ def slugify_url(url: str) -> str:
     netloc = parsed.netloc
 
     if not netloc:
-        raise ValueError(f"Invalid URL: {url}")
+        raise ValueError(
+            f"Invalid URL: {url}. "
+            "URL must include a protocol (http:// or https://) and a domain name. "
+            "Examples: https://example.com or https://blog.example.com"
+        )
 
     # Convert to lowercase
     slug = netloc.lower()
@@ -95,7 +102,11 @@ def slugify_url(url: str) -> str:
     slug = re.sub(r"-+", "-", slug)
 
     if not slug:
-        raise ValueError(f"URL resulted in empty slug: {url}")
+        raise ValueError(
+            f"URL resulted in empty slug: {url}. "
+            "The URL must contain valid domain characters (letters, numbers, dots). "
+            "Please check that the URL is properly formatted."
+        )
 
     return slug
 
@@ -154,7 +165,10 @@ class Workspace:
         # Check if workspace already exists
         if project_dir.exists():
             raise ValueError(
-                f"Workspace already exists for {slug} at {project_dir}"
+                f"Workspace already exists for {slug} at {project_dir}. "
+                "To use this project, run: "
+                f"python -m src.analyzer.cli crawl site {slug}. "
+                "Or, to start fresh, delete the existing project directory first."
             )
 
         # Create directory structure
@@ -203,23 +217,52 @@ class Workspace:
 
         # Validate directory exists
         if not project_dir.exists():
-            raise ValueError(f"Workspace not found for slug: {slug}")
+            raise ValueError(
+                f"Workspace not found for slug: {slug}. "
+                f"Expected location: {project_dir}. "
+                "To create a new project, run: "
+                "python -m src.analyzer.cli project new <URL>. "
+                "To list existing projects, run: "
+                "python -m src.analyzer.cli project list"
+            )
 
         if not project_dir.is_dir():
-            raise ValueError(f"Project path is not a directory: {project_dir}")
+            raise ValueError(
+                f"Project path is not a directory: {project_dir}. "
+                "The project location exists but is a file instead of a directory. "
+                "This is likely a filesystem error. Please remove the file and recreate the project."
+            )
 
         # Load and validate metadata
         metadata_path = project_dir / "metadata.json"
         if not metadata_path.exists():
-            raise ValueError(f"metadata.json not found in workspace: {project_dir}")
+            raise ValueError(
+                f"metadata.json not found in workspace: {project_dir}. "
+                "The project directory exists but is missing required metadata. "
+                "This workspace may be corrupted. "
+                "To fix, either delete and recreate the project, or manually create metadata.json "
+                "with the required fields: url, slug, created_at"
+            )
 
         try:
             metadata_data = json.loads(metadata_path.read_text())
             metadata = ProjectMetadata(**metadata_data)
         except json.JSONDecodeError as e:
-            raise ValueError(f"Invalid JSON in metadata.json: {e}")
+            raise ValueError(
+                f"Invalid JSON in metadata.json: {e}. "
+                f"File location: {metadata_path}. "
+                "The metadata file contains malformed JSON. "
+                "To fix, either manually correct the JSON syntax, or delete and recreate the project."
+            )
         except Exception as e:
-            raise ValueError(f"Failed to parse metadata: {e}")
+            raise ValueError(
+                f"Failed to parse metadata: {e}. "
+                f"File location: {metadata_path}. "
+                "The metadata file is missing required fields (url, slug, created_at) "
+                "or contains invalid values. "
+                "To fix, check the file contents against the ProjectMetadata schema, "
+                "or delete and recreate the project."
+            )
 
         # Validate workspace structure
         required_dirs = ["snapshots", "test-results"]
@@ -227,13 +270,21 @@ class Workspace:
             dir_path = project_dir / dir_name
             if not dir_path.is_dir():
                 raise ValueError(
-                    f"Missing required directory: {dir_name} in {project_dir}"
+                    f"Missing required directory: {dir_name} in {project_dir}. "
+                    "The project workspace is incomplete. "
+                    f"To fix, manually create the directory: mkdir -p {dir_path}, "
+                    "or delete and recreate the project."
                 )
 
         # Validate issues.json exists
         issues_path = project_dir / "issues.json"
         if not issues_path.exists():
-            raise ValueError(f"issues.json not found in workspace: {project_dir}")
+            raise ValueError(
+                f"issues.json not found in workspace: {project_dir}. "
+                "The project is missing the issues tracking file. "
+                f"To fix, manually create the file: echo '[]' > {issues_path}, "
+                "or delete and recreate the project."
+            )
 
         return cls(project_dir, metadata)
 

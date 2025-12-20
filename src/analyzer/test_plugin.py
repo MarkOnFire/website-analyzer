@@ -67,12 +67,22 @@ class SiteSnapshot(BaseModel):
             ValueError: If required files (sitemap.json, summary.json) are missing.
         """
         if not snapshot_dir.exists():
-            raise ValueError(f"Snapshot directory not found: {snapshot_dir}")
+            raise ValueError(
+                f"Snapshot directory not found: {snapshot_dir}. "
+                "The snapshot directory does not exist. "
+                "This may indicate the snapshot was deleted or the path is incorrect. "
+                "To create a new snapshot, recrawl the project."
+            )
 
         # Load sitemap
         sitemap_path = snapshot_dir / "sitemap.json"
         if not sitemap_path.exists():
-            raise ValueError(f"sitemap.json not found in {snapshot_dir}")
+            raise ValueError(
+                f"sitemap.json not found in {snapshot_dir}. "
+                "The snapshot is incomplete. This usually means the crawl was interrupted "
+                "or failed before completing. "
+                "To fix, recrawl the project to create a complete snapshot."
+            )
         sitemap = json.loads(sitemap_path.read_text(encoding="utf-8"))
 
         # Load summary

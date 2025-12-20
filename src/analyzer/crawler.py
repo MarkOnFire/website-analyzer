@@ -105,13 +105,23 @@ class BasicCrawler:
             ValueError: If the URL is empty, missing host, or uses an unsupported scheme.
         """
         if not url:
-            raise ValueError("URL cannot be empty")
+            raise ValueError(
+                "URL cannot be empty. "
+                "Please provide a valid URL with http:// or https:// protocol."
+            )
 
         parsed = urlparse(url)
         if parsed.scheme.lower() not in {"http", "https"}:
-            raise ValueError(f"Unsupported URL scheme: {parsed.scheme or 'missing'}")
+            raise ValueError(
+                f"Unsupported URL scheme: {parsed.scheme or 'missing'}. "
+                "Only http:// and https:// URLs are supported. "
+                f"Invalid URL: {url}"
+            )
         if not parsed.hostname:
-            raise ValueError("URL must include hostname")
+            raise ValueError(
+                f"URL must include hostname. Invalid URL: {url}. "
+                "URLs must be in format: https://example.com/path"
+            )
 
         scheme = parsed.scheme.lower()
         hostname = parsed.hostname.lower()
@@ -529,7 +539,12 @@ class BasicCrawler:
         pages_dir.mkdir(parents=True, exist_ok=True)
 
         if not result.url:
-            raise ValueError("CrawlResult.url is required for snapshot saving")
+            raise ValueError(
+                "CrawlResult.url is required for snapshot saving. "
+                "The crawler returned a result without a URL, which indicates an internal error. "
+                "This should not happen during normal operation. "
+                "Please report this as a bug if you see this message."
+            )
 
         slug = slugify_url(result.url)
         page_dir = pages_dir / slug
