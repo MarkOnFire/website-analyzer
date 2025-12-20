@@ -188,28 +188,34 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
       case "list_tests": {
         ListTestsInputSchema.parse(args);
 
-        try {
-          const result = await executePythonCLI(["test", "list"]);
+        // Return the known built-in test plugins
+        const tests = [
+          {
+            name: "migration-scanner",
+            description: "Scans for deprecated code patterns and migration issues",
+          },
+          {
+            name: "seo-optimizer",
+            description: "Analyzes SEO factors including meta tags, headings, and links",
+          },
+          {
+            name: "llm-optimizer",
+            description: "Checks content structure for LLM/AI discoverability",
+          },
+          {
+            name: "security-audit",
+            description: "Audits security headers, HTTPS usage, and vulnerabilities",
+          },
+        ];
 
-          if (result.exitCode !== 0) {
-            throw new Error(`Python CLI failed: ${result.stderr}`);
-          }
-
-          // Parse JSON output from Python CLI
-          const tests = JSON.parse(result.stdout);
-
-          return {
-            content: [
-              {
-                type: "text",
-                text: JSON.stringify(tests, null, 2),
-              },
-            ],
-          };
-        } catch (error) {
-          logger.error({ error }, "Failed to list tests");
-          throw error;
-        }
+        return {
+          content: [
+            {
+              type: "text",
+              text: JSON.stringify({ tests }, null, 2),
+            },
+          ],
+        };
       }
 
       case "list_projects": {
@@ -279,13 +285,24 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
       case "start_analysis": {
         const input = StartAnalysisInputSchema.parse(args);
 
-        // Create a job
-        const projectSlug = input.url.replace(/https?:\/\//, "").replace(/[^a-z0-9]/gi, "-");
+        // Create a slug from URL
+        const projectSlug = input.url
+          .replace(/https?:\/\//, "")
+          .replace(/\/$/, "")
+          .replace(/[^a-z0-9.-]/gi, "-")
+          .toLowerCase();
         const job = jobManager.createJob("full_analysis", projectSlug);
 
         try {
-          // Build CLI arguments
-          const cliArgs = ["crawl", "start", input.url];
+          // First, create the project (ignore error if it already exists)
+          logger.info({ url: input.url, slug: projectSlug }, "Creating project");
+          const createResult = await executePythonCLI(["project", "new", input.url]);
+          if (createResult.exitCode !== 0 && !createResult.stderr.includes("already exists")) {
+            throw new Error(`Failed to create project: ${createResult.stderr}`);
+          }
+
+          // Build crawl CLI arguments
+          const cliArgs = ["crawl", "start", projectSlug];
 
           if (input.maxPages) {
             cliArgs.push("--max-pages", input.maxPages.toString());
@@ -293,14 +310,6 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
 
           if (input.maxDepth) {
             cliArgs.push("--max-depth", input.maxDepth.toString());
-          }
-
-          if (input.recrawl) {
-            cliArgs.push("--recrawl");
-          }
-
-          if (input.tests && input.tests.length > 0) {
-            cliArgs.push("--tests", input.tests.join(","));
           }
 
           // Spawn Python CLI process

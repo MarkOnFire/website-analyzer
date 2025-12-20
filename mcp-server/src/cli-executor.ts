@@ -23,9 +23,14 @@ export async function executePythonCLI(
   return new Promise((resolve, reject) => {
     logger.debug({ args }, "Executing Python CLI");
 
-    const childProcess = spawn("python", ["-m", "src.analyzer.cli", ...args], {
-      cwd: "/Users/mriechers/Developer/website-analyzer",
-      env: { ...process.env },
+    const projectRoot = "/Users/mriechers/Developer/website-analyzer";
+    const pythonPath = `${projectRoot}/.venv/bin/python`;
+    const childProcess = spawn(pythonPath, ["-m", "src.analyzer.cli", ...args], {
+      cwd: projectRoot,
+      env: {
+        ...process.env,
+        PYTHONPATH: projectRoot,
+      },
     });
 
     let stdout = "";
@@ -81,9 +86,14 @@ export async function executePythonCLI(
 export function spawnPythonCLI(args: string[]): ChildProcess {
   logger.info({ args }, "Spawning async Python CLI");
 
-  const childProcess = spawn("python", ["-m", "src.analyzer.cli", ...args], {
-    cwd: "/Users/mriechers/Developer/website-analyzer",
-    env: { ...process.env },
+  const projectRoot = "/Users/mriechers/Developer/website-analyzer";
+  const pythonPath = `${projectRoot}/.venv/bin/python`;
+  const childProcess = spawn(pythonPath, ["-m", "src.analyzer.cli", ...args], {
+    cwd: projectRoot,
+    env: {
+      ...process.env,
+      PYTHONPATH: projectRoot,
+    },
   });
 
   childProcess.on("error", (error: Error) => {

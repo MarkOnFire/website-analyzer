@@ -2807,8 +2807,7 @@ web_app = typer.Typer(
 app.add_typer(web_app)
 
 
-@web_app.command("start", invoke_without_command=True)
-@web_app.callback(invoke_without_command=True)
+@web_app.command("start")
 def serve_dashboard(
     host: str = typer.Option(
         "127.0.0.1",
