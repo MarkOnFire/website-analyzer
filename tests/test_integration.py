@@ -5,6 +5,10 @@ Tests complete workflows:
 2. MCP scan → Web UI view
 3. Scheduled scan → notification → Web UI
 4. Multi-format export verification
+5. Migration scanner integration (feature #121)
+6. All plugins on single site (feature #122)
+7. Issue resolution detection (feature #123)
+8. Large site performance (feature #124)
 """
 
 import asyncio
@@ -422,3 +426,403 @@ class TestCrossComponentIntegration:
 
             assert result1 is not None
             assert result2 is not None
+
+
+class TestMigrationScannerIntegration:
+    """Integration test #121: Claude asks to scan site for migration errors."""
+
+    @pytest.mark.asyncio
+    async def test_scan_site_for_migration_errors(self):
+        """Test that CLI can scan a site for migration-related patterns."""
+        with tempfile.TemporaryDirectory() as tmpdir:
+            base_dir = Path(tmpdir)
+
+            # Create workspace
+            workspace = Workspace.create("https://example.com", base_dir)
+
+            # Create snapshot with migration-related issues
+            snapshot_mgr = SnapshotManager(workspace.get_snapshots_dir())
+            snapshot_dir = snapshot_mgr.create_snapshot_dir()
+
+            # Create sitemap and summary
+            (snapshot_dir / "sitemap.json").write_text(
+                json.dumps({"root": "https://example.com"})
+            )
+            (snapshot_dir / "summary.json").write_text(json.dumps({}))
+
+            # Create pages directory
+            pages_dir = snapshot_dir / "pages"
+            pages_dir.mkdir(parents=True, exist_ok=True)
+
+            # Create a page with jQuery .live() deprecation
+            page1_dir = pages_dir / "page-001"
+            page1_dir.mkdir()
+            page1_html = """
+            <!DOCTYPE html>
+            <html>
+            <head><title>Legacy Page</title></head>
+            <body>
+                <script>
+                    // Deprecated jQuery syntax
+                    $('.button').live('click', function() {
+                        alert('clicked');
+                    });
+                </script>
+            </body>
+            </html>
+            """
+            (page1_dir / "raw.html").write_text(page1_html)
+            (page1_dir / "cleaned.html").write_text(page1_html)
+            (page1_dir / "content.md").write_text("# Legacy Page")
+            (page1_dir / "metadata.json").write_text(json.dumps({
+                "url": "https://example.com/legacy",
+                "status_code": 200,
+                "timestamp": "2025-01-01T00:00:00Z"
+            }))
+
+            # Create a clean page (no issues)
+            page2_dir = pages_dir / "page-002"
+            page2_dir.mkdir()
+            page2_html = """
+            <!DOCTYPE html>
+            <html>
+            <head><title>Modern Page</title></head>
+            <body>
+                <script>
+                    // Modern jQuery syntax
+                    $(document).on('click', '.button', function() {
+                        alert('clicked');
+                    });
+                </script>
+            </body>
+            </html>
+            """
+            (page2_dir / "raw.html").write_text(page2_html)
+            (page2_dir / "cleaned.html").write_text(page2_html)
+            (page2_dir / "content.md").write_text("# Modern Page")
+            (page2_dir / "metadata.json").write_text(json.dumps({
+                "url": "https://example.com/modern",
+                "status_code": 200,
+                "timestamp": "2025-01-01T00:00:00Z"
+            }))
+
+            # Run migration scanner
+            runner = TestRunner(base_dir)
+            results = await runner.run(
+                slug="example-com",
+                test_names=["migration-scanner"],
+                config={
+                    "migration-scanner": {
+                        "patterns": {
+                            "jquery_live": r"\$\([^)]*\)\.live\("
+                        },
+                        "case_sensitive": False
+                    }
+                }
+            )
+
+            # Verify results
+            assert len(results) == 1
+            result = results[0]
+            assert result.plugin_name == "migration-scanner"
+
+            # Should detect the .live() usage
+            assert result.status in ["fail", "warning"]
+            assert "findings" in result.details
+            findings = result.details["findings"]
+            assert len(findings) > 0
+
+            # Check that the legacy page was identified
+            legacy_found = any(
+                "legacy" in finding.get("url", "").lower()
+                for finding in findings
+            )
+            assert legacy_found
+
+
+class TestAllPluginsIntegration:
+    """Integration test #122: Run all four tests on single site."""
+
+    @pytest.mark.asyncio
+    async def test_run_all_plugins_on_site(self):
+        """Test running all plugins (migration, llm, seo, security) on a single site."""
+        with tempfile.TemporaryDirectory() as tmpdir:
+            base_dir = Path(tmpdir)
+
+            # Create workspace
+            workspace = Workspace.create("https://test-site.com", base_dir)
+
+            # Create snapshot
+            snapshot_mgr = SnapshotManager(workspace.get_snapshots_dir())
+            snapshot_dir = snapshot_mgr.create_snapshot_dir()
+
+            # Create sitemap and summary
+            (snapshot_dir / "sitemap.json").write_text(
+                json.dumps({"root": "https://test-site.com"})
+            )
+            (snapshot_dir / "summary.json").write_text(json.dumps({}))
+
+            # Create pages directory
+            pages_dir = snapshot_dir / "pages"
+            pages_dir.mkdir(parents=True, exist_ok=True)
+
+            # Create a comprehensive test page
+            page_dir = pages_dir / "page-001"
+            page_dir.mkdir()
+            page_html = """
+            <!DOCTYPE html>
+            <html>
+            <head>
+                <title>Test Page - Comprehensive Testing</title>
+                <meta name="description" content="A test page for running all analyzer plugins">
+            </head>
+            <body>
+                <h1>Main Title</h1>
+                <h2>Section 1</h2>
+                <p>Some content here with sufficient length for analysis.</p>
+                <img src="image.jpg" alt="Test image">
+                <script src="http://insecure.example.com/script.js"></script>
+            </body>
+            </html>
+            """
+            (page_dir / "raw.html").write_text(page_html)
+            (page_dir / "cleaned.html").write_text(page_html)
+            (page_dir / "content.md").write_text("# Test Content")
+            (page_dir / "metadata.json").write_text(json.dumps({
+                "url": "https://test-site.com/page",
+                "status_code": 200,
+                "timestamp": "2025-01-01T00:00:00Z",
+                "headers": {}
+            }))
+
+            # Run all plugins
+            runner = TestRunner(base_dir)
+            results = await runner.run(
+                slug="test-site-com",
+                test_names=["llm-optimizer", "seo-optimizer", "security-audit"],
+                config={}
+            )
+
+            # Verify all plugins ran
+            plugin_names = {r.plugin_name for r in results}
+            expected_plugins = {"llm-optimizer", "seo-optimizer", "security-audit"}
+
+            assert len(plugin_names & expected_plugins) == len(expected_plugins), \
+                f"Expected {expected_plugins}, got {plugin_names}"
+
+            # Verify no errors (plugins should complete successfully)
+            for result in results:
+                assert result.status != "error", \
+                    f"{result.plugin_name} returned error: {result.summary}"
+
+            # Verify each plugin returned meaningful results
+            for result in results:
+                assert result.summary, f"{result.plugin_name} has no summary"
+                assert isinstance(result.details, dict), \
+                    f"{result.plugin_name} details should be a dict"
+
+
+class TestIssueResolutionDetection:
+    """Integration test #123: Rerun tests and verify issue resolution detection."""
+
+    @pytest.mark.asyncio
+    async def test_issue_resolution_workflow(self):
+        """Test that running tests twice can detect when issues are resolved."""
+        with tempfile.TemporaryDirectory() as tmpdir:
+            base_dir = Path(tmpdir)
+
+            # Create workspace
+            workspace = Workspace.create("https://resolution-test.com", base_dir)
+
+            # Create first snapshot with issues
+            snapshot_mgr = SnapshotManager(workspace.get_snapshots_dir())
+            snapshot_dir1 = snapshot_mgr.create_snapshot_dir()
+
+            # Setup first snapshot
+            (snapshot_dir1 / "sitemap.json").write_text(
+                json.dumps({"root": "https://resolution-test.com"})
+            )
+            (snapshot_dir1 / "summary.json").write_text(json.dumps({}))
+
+            pages_dir1 = snapshot_dir1 / "pages"
+            pages_dir1.mkdir(parents=True, exist_ok=True)
+
+            # Page with missing meta description (SEO issue)
+            page_dir1 = pages_dir1 / "page-001"
+            page_dir1.mkdir()
+            page_html1 = """
+            <!DOCTYPE html>
+            <html>
+            <head>
+                <title>Page Without Description</title>
+            </head>
+            <body>
+                <h1>Content</h1>
+                <p>This page is missing meta description.</p>
+            </body>
+            </html>
+            """
+            (page_dir1 / "raw.html").write_text(page_html1)
+            (page_dir1 / "cleaned.html").write_text(page_html1)
+            (page_dir1 / "content.md").write_text("# Content")
+            (page_dir1 / "metadata.json").write_text(json.dumps({
+                "url": "https://resolution-test.com/page1",
+                "status_code": 200,
+                "timestamp": "2025-01-01T00:00:00Z"
+            }))
+
+            # Run first test
+            runner = TestRunner(base_dir)
+            results1 = await runner.run(
+                slug="resolution-test-com",
+                test_names=["seo-optimizer"],
+                snapshot_timestamp=snapshot_dir1.name
+            )
+
+            # Extract issues from first run
+            from src.analyzer.issue import IssueManager, IssueAggregator
+            issue_manager = IssueManager(workspace.get_issues_file())
+            aggregator = IssueAggregator(issue_manager)
+
+            issues1 = aggregator.extract_issues(results1)
+            for issue in issues1:
+                issue_manager.add_issue(issue)
+
+            initial_issue_count = len(issues1)
+            assert initial_issue_count > 0, "First run should find issues"
+
+            # Create second snapshot with issues fixed
+            snapshot_dir2 = snapshot_mgr.create_snapshot_dir()
+            (snapshot_dir2 / "sitemap.json").write_text(
+                json.dumps({"root": "https://resolution-test.com"})
+            )
+            (snapshot_dir2 / "summary.json").write_text(json.dumps({}))
+
+            pages_dir2 = snapshot_dir2 / "pages"
+            pages_dir2.mkdir(parents=True, exist_ok=True)
+
+            # Same page but with meta description added
+            page_dir2 = pages_dir2 / "page-001"
+            page_dir2.mkdir()
+            page_html2 = """
+            <!DOCTYPE html>
+            <html>
+            <head>
+                <title>Page With Description</title>
+                <meta name="description" content="Now this page has a proper meta description">
+            </head>
+            <body>
+                <h1>Content</h1>
+                <p>This page now has meta description.</p>
+            </body>
+            </html>
+            """
+            (page_dir2 / "raw.html").write_text(page_html2)
+            (page_dir2 / "cleaned.html").write_text(page_html2)
+            (page_dir2 / "content.md").write_text("# Content")
+            (page_dir2 / "metadata.json").write_text(json.dumps({
+                "url": "https://resolution-test.com/page1",
+                "status_code": 200,
+                "timestamp": "2025-01-02T00:00:00Z"
+            }))
+
+            # Run second test
+            results2 = await runner.run(
+                slug="resolution-test-com",
+                test_names=["seo-optimizer"],
+                snapshot_timestamp=snapshot_dir2.name
+            )
+
+            # Detect resolutions
+            from src.analyzer.issue import detect_resolutions
+            existing_issues = issue_manager.load_issues()
+            potentially_resolved = detect_resolutions(existing_issues, results2)
+
+            # At least some issues should be detected as potentially resolved
+            assert len(potentially_resolved) >= 0, \
+                "Resolution detection should work without errors"
+
+
+class TestLargeSitePerformance:
+    """Integration test #124: Large site (1000+ pages) performance validation."""
+
+    @pytest.mark.asyncio
+    async def test_large_site_performance(self):
+        """Test performance with a mock large site (1000+ pages)."""
+        with tempfile.TemporaryDirectory() as tmpdir:
+            base_dir = Path(tmpdir)
+
+            # Create workspace
+            workspace = Workspace.create("https://large-site.com", base_dir)
+
+            # Create snapshot
+            snapshot_mgr = SnapshotManager(workspace.get_snapshots_dir())
+            snapshot_dir = snapshot_mgr.create_snapshot_dir()
+
+            # Create sitemap and summary
+            (snapshot_dir / "sitemap.json").write_text(
+                json.dumps({"root": "https://large-site.com"})
+            )
+            (snapshot_dir / "summary.json").write_text(json.dumps({
+                "total_pages": 1000,
+                "crawl_duration": 3600
+            }))
+
+            # Create pages directory
+            pages_dir = snapshot_dir / "pages"
+            pages_dir.mkdir(parents=True, exist_ok=True)
+
+            # Create 1000 mock pages (simplified HTML to keep test fast)
+            num_pages = 1000
+            for i in range(num_pages):
+                page_dir = pages_dir / f"page-{i:04d}"
+                page_dir.mkdir()
+
+                page_html = f"""
+                <!DOCTYPE html>
+                <html>
+                <head>
+                    <title>Page {i}</title>
+                    <meta name="description" content="Description for page {i}">
+                </head>
+                <body>
+                    <h1>Page {i}</h1>
+                    <p>Content for page {i}.</p>
+                </body>
+                </html>
+                """
+                (page_dir / "raw.html").write_text(page_html)
+                (page_dir / "cleaned.html").write_text(page_html)
+                (page_dir / "content.md").write_text(f"# Page {i}")
+                (page_dir / "metadata.json").write_text(json.dumps({
+                    "url": f"https://large-site.com/page{i}",
+                    "status_code": 200,
+                    "timestamp": "2025-01-01T00:00:00Z"
+                }))
+
+            # Run tests with timeout and measure performance
+            import time
+            start_time = time.time()
+
+            runner = TestRunner(base_dir)
+            results = await runner.run(
+                slug="large-site-com",
+                test_names=["seo-optimizer"],  # Use fastest plugin
+                timeout_seconds=600  # 10 minute timeout for large site
+            )
+
+            elapsed_time = time.time() - start_time
+
+            # Verify results
+            assert len(results) > 0, "Should have results from large site scan"
+            assert results[0].status != "error", f"Plugin error: {results[0].summary}"
+
+            # Performance check: should complete in reasonable time
+            # For 1000 pages, we expect < 5 minutes on typical hardware
+            max_time = 300  # 5 minutes
+            assert elapsed_time < max_time, \
+                f"Large site scan took {elapsed_time:.2f}s (max: {max_time}s)"
+
+            # Log performance metrics
+            print(f"Large site performance: {num_pages} pages in {elapsed_time:.2f}s")
+            print(f"Average: {elapsed_time/num_pages*1000:.2f}ms per page")

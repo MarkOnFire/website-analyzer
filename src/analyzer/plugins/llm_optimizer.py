@@ -4,9 +4,11 @@ This plugin analyzes website structure, metadata, and content organization to pr
 recommendations for making the site more discoverable and useful in LLM contexts.
 """
 
+import os
 import re
 from typing import Any, Dict, List, Optional, Set, Tuple
 from html.parser import HTMLParser
+from urllib.parse import urljoin, urlparse
 
 from pydantic import BaseModel
 
@@ -46,7 +48,7 @@ class ContentStructureIssue(BaseModel):
 class SimpleHTMLParser(HTMLParser):
     """Simple HTML parser to extract meta tags and structural information."""
 
-    def __init__(self):
+    def __init__(self, base_url: Optional[str] = None):
         super().__init__()
         self.meta_tags: Dict[str, str] = {}
         self.title: Optional[str] = None
@@ -54,6 +56,9 @@ class SimpleHTMLParser(HTMLParser):
         self.has_schema_markup = False
         self.in_title = False
         self.title_content = []
+        self.semantic_tags: Set[str] = set()
+        self.internal_links: List[str] = []
+        self.base_url = base_url
 
     def handle_starttag(self, tag: str, attrs: List[Tuple[str, Optional[str]]]) -> None:
         attrs_dict = dict(attrs) if attrs else {}
@@ -77,6 +82,18 @@ class SimpleHTMLParser(HTMLParser):
             script_type = attrs_dict.get("type", "")
             if "schema" in script_type or "json-ld" in script_type.lower():
                 self.has_schema_markup = True
+        elif tag in ["article", "section", "nav", "header", "footer", "aside", "main"]:
+            self.semantic_tags.add(tag)
+        elif tag == "a" and self.base_url:
+            href = attrs_dict.get("href", "")
+            if href:
+                # Resolve relative URLs
+                absolute_url = urljoin(self.base_url, href)
+                # Check if it's internal (same domain)
+                base_domain = urlparse(self.base_url).netloc
+                link_domain = urlparse(absolute_url).netloc
+                if base_domain == link_domain:
+                    self.internal_links.append(absolute_url)
 
     def handle_endtag(self, tag: str) -> None:
         if tag == "title":
@@ -162,6 +179,79 @@ class LLMOptimizer(TestPlugin):
         html = re.sub(r'\s+', ' ', html).strip()
         return html
 
+    @staticmethod
+    def _get_semantic_tags(html: str) -> Set[str]:
+        """Extract semantic HTML5 tags from HTML."""
+        parser = SimpleHTMLParser()
+        try:
+            parser.feed(html)
+        except Exception:
+            pass
+        return parser.semantic_tags
+
+    @staticmethod
+    def _get_internal_links(html: str, base_url: str) -> List[str]:
+        """Extract internal links from HTML."""
+        parser = SimpleHTMLParser(base_url=base_url)
+        try:
+            parser.feed(html)
+        except Exception:
+            pass
+        return parser.internal_links
+
+    @staticmethod
+    async def _check_meta_description_quality(description: str) -> Optional[Dict[str, Any]]:
+        """
+        Use LLM (Haiku 3.5) to evaluate meta description quality.
+
+        Returns None if API key not available or on error.
+        """
+        if not description:
+            return None
+
+        api_key = os.environ.get("ANTHROPIC_API_KEY")
+        if not api_key:
+            return None
+
+        try:
+            from anthropic import Anthropic
+
+            client = Anthropic(api_key=api_key)
+
+            prompt = f"""Evaluate this meta description for SEO and LLM optimization:
+
+"{description}"
+
+Rate it on a scale of 1-10 and provide brief feedback (max 50 words).
+Respond in this exact format:
+Score: [number]
+Feedback: [your feedback]"""
+
+            message = client.messages.create(
+                model="claude-3-5-haiku-20241022",
+                max_tokens=200,
+                messages=[
+                    {"role": "user", "content": prompt}
+                ]
+            )
+
+            response_text = message.content[0].text
+
+            # Parse the response
+            score_match = re.search(r'Score:\s*(\d+)', response_text)
+            feedback_match = re.search(r'Feedback:\s*(.+)', response_text, re.DOTALL)
+
+            if score_match and feedback_match:
+                return {
+                    "score": int(score_match.group(1)),
+                    "feedback": feedback_match.group(1).strip()
+                }
+        except Exception:
+            # Silently fail if LLM check unavailable
+            pass
+
+        return None
+
     async def analyze(self, snapshot: SiteSnapshot, **kwargs: Any) -> TestResult:
         """
         Analyze the site for LLM optimization opportunities.
@@ -183,9 +273,21 @@ class LLMOptimizer(TestPlugin):
         pages_without_schema = []
         pages_with_poor_headings = []
         pages_with_short_content = []
+        pages_without_semantic_html = []
+        pages_with_poor_linking = []
 
         # Schema markup tracking
         schema_types: Dict[str, int] = {}
+
+        # Semantic HTML tracking
+        all_semantic_tags: Set[str] = set()
+
+        # Link structure tracking
+        all_internal_links: Dict[str, List[str]] = {}  # page_url -> [linked_urls]
+        pages_linked_to: Dict[str, int] = {}  # count how many times each page is linked to
+
+        # LLM quality checks
+        llm_description_checks: List[Dict[str, Any]] = []
 
         # Aggregate metrics
         total_pages = len(snapshot.pages)
@@ -218,6 +320,16 @@ class LLMOptimizer(TestPlugin):
             else:
                 description_lengths.append(len(description))
 
+                # LLM-based quality check for meta descriptions (sample first 5 pages)
+                if len(llm_description_checks) < 5:
+                    llm_check = await self._check_meta_description_quality(description)
+                    if llm_check:
+                        llm_description_checks.append({
+                            "url": page.url,
+                            "description": description,
+                            **llm_check
+                        })
+
             # Track schema markup
             if not has_schema:
                 pages_without_schema.append(page.url)
@@ -240,6 +352,24 @@ class LLMOptimizer(TestPlugin):
             # Check content length (min 200 words for substantial content)
             if word_count < 200 and not re.search(r"privacy|terms|contact|404", page.url.lower()):
                 pages_with_short_content.append(page.url)
+
+            # Feature #80: Semantic HTML usage detection
+            semantic_tags = self._get_semantic_tags(html)
+            all_semantic_tags.update(semantic_tags)
+            if len(semantic_tags) < 2:  # Expect at least 2 semantic tags
+                pages_without_semantic_html.append(page.url)
+
+            # Feature #81: Internal link structure analysis
+            internal_links = self._get_internal_links(html, page.url)
+            all_internal_links[page.url] = internal_links
+
+            # Track how many times each page is linked to
+            for link in internal_links:
+                pages_linked_to[link] = pages_linked_to.get(link, 0) + 1
+
+            # Poor linking: pages with very few outbound internal links
+            if len(internal_links) < 2 and not re.search(r"privacy|terms|contact|404", page.url.lower()):
+                pages_with_poor_linking.append(page.url)
 
         # Calculate averages
         if title_lengths:
@@ -304,6 +434,53 @@ class LLMOptimizer(TestPlugin):
                 affected_pages=len(pages_with_short_content)
             ))
 
+        # Feature #80: Semantic HTML recommendations
+        if pages_without_semantic_html and len(pages_without_semantic_html) > total_pages * 0.4:
+            strategic_recommendations.append(ContentStructureIssue(
+                category="semantic-html",
+                finding=f"{len(pages_without_semantic_html)} pages lack semantic HTML5 tags (article, section, nav, etc.)",
+                recommendation="Use semantic HTML5 elements to help LLMs understand content structure and relationships",
+                effort="low",
+                impact="medium",
+                affected_pages=len(pages_without_semantic_html)
+            ))
+
+        # Feature #81: Internal linking recommendations
+        if pages_with_poor_linking and len(pages_with_poor_linking) > total_pages * 0.3:
+            strategic_recommendations.append(ContentStructureIssue(
+                category="internal-linking",
+                finding=f"{len(pages_with_poor_linking)} pages have weak internal link structure (fewer than 2 links)",
+                recommendation="Add more contextual internal links to help LLMs understand content relationships and site structure",
+                effort="low",
+                impact="high",
+                affected_pages=len(pages_with_poor_linking)
+            ))
+
+        # Find orphaned pages (not linked to by any other page)
+        orphaned_pages = [url for url in all_internal_links.keys() if pages_linked_to.get(url, 0) == 0]
+        if orphaned_pages and len(orphaned_pages) > 1:
+            quick_wins.append(MetaTagIssue(
+                priority="medium",
+                category="internal-linking",
+                issue=f"{len(orphaned_pages)} pages are orphaned (not linked to by other pages)",
+                impact="Isolated content is harder for LLMs to discover and contextualize",
+                fix="Add navigation links or contextual references from related pages",
+                affected_urls=orphaned_pages[:10]
+            ))
+
+        # Feature #83: LLM-based meta description quality issues
+        if llm_description_checks:
+            low_quality_descriptions = [check for check in llm_description_checks if check["score"] < 7]
+            if low_quality_descriptions:
+                quick_wins.append(MetaTagIssue(
+                    priority="medium",
+                    category="meta-quality",
+                    issue=f"{len(low_quality_descriptions)} meta descriptions rated low quality by LLM analysis",
+                    impact="Poor meta descriptions reduce LLM understanding and search relevance",
+                    fix=f"Example feedback: {low_quality_descriptions[0]['feedback'][:100]}...",
+                    affected_urls=[check["url"] for check in low_quality_descriptions]
+                ))
+
         # Build overall score (0-10)
         score = 10.0
 
@@ -325,6 +502,14 @@ class LLMOptimizer(TestPlugin):
         # Deduct for short content
         short_content_ratio = len(pages_with_short_content) / max(total_pages, 1)
         score -= short_content_ratio * 1
+
+        # Feature #80: Deduct for lack of semantic HTML
+        semantic_html_ratio = len(pages_without_semantic_html) / max(total_pages, 1)
+        score -= semantic_html_ratio * 0.5
+
+        # Feature #81: Deduct for poor internal linking
+        poor_linking_ratio = len(pages_with_poor_linking) / max(total_pages, 1)
+        score -= poor_linking_ratio * 0.75
 
         # Clamp score to 0-10
         score = max(0, min(10, score))
@@ -349,6 +534,12 @@ class LLMOptimizer(TestPlugin):
                     "pages_without_schema": len(pages_without_schema),
                     "pages_with_poor_headings": len(pages_with_poor_headings),
                     "pages_with_short_content": len(pages_with_short_content),
+                    "pages_without_semantic_html": len(pages_without_semantic_html),
+                    "pages_with_poor_linking": len(pages_with_poor_linking),
+                    "orphaned_pages": len(orphaned_pages) if orphaned_pages else 0,
+                    "semantic_tags_found": list(all_semantic_tags),
+                    "avg_internal_links_per_page": round(sum(len(links) for links in all_internal_links.values()) / max(total_pages, 1), 1),
+                    "llm_description_checks": llm_description_checks,
                 }
             }
         )
