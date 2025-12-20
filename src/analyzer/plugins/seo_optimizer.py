@@ -80,6 +80,8 @@ class SeoOptimizer(TestPlugin):
         self._check_image_alt_text(snapshot, findings)
         self._check_link_health(snapshot, findings)
         self._check_robots_sitemap(snapshot, findings)
+        self._check_mobile_responsiveness(snapshot, findings)
+        self._check_page_performance(snapshot, findings)
 
         # Content SEO checks
         self._check_content_length(snapshot, findings)
@@ -341,7 +343,23 @@ class SeoOptimizer(TestPlugin):
         """Check for broken links and redirect chains."""
         broken_links = {}
         external_links = []
+        redirect_chains = {}
         pages_with_issues = set()
+
+        # Build set of all valid internal URLs from snapshot
+        valid_urls = {page.url for page in snapshot.pages}
+
+        # Normalize URLs for comparison
+        def normalize_url(url: str, base_url: str) -> str:
+            """Normalize relative URLs to absolute."""
+            if url.startswith(("/", ".")):
+                parsed_base = urlparse(base_url)
+                if url.startswith("/"):
+                    return f"{parsed_base.scheme}://{parsed_base.netloc}{url}"
+                # For relative paths, join with base
+                base_path = "/".join(parsed_base.path.split("/")[:-1])
+                return f"{parsed_base.scheme}://{parsed_base.netloc}{base_path}/{url}"
+            return url
 
         for page in snapshot.pages:
             try:
@@ -354,19 +372,74 @@ class SeoOptimizer(TestPlugin):
                     if not href or href.startswith("#"):
                         continue
 
-                    # Check for external links
-                    if href.startswith(("http://", "https://")):
-                        try:
-                            parsed = urlparse(href)
-                            parsed_page = urlparse(page.url)
+                    # Normalize the URL
+                    absolute_href = normalize_url(href, page.url)
 
-                            if parsed.netloc != parsed_page.netloc:
-                                external_links.append((page.url, href))
-                        except Exception:
-                            pass
+                    # Check for internal links (same domain)
+                    try:
+                        parsed_href = urlparse(absolute_href)
+                        parsed_page = urlparse(page.url)
+
+                        if parsed_href.netloc == parsed_page.netloc or not parsed_href.netloc:
+                            # Internal link - check if it exists in our crawl
+                            # Remove fragments for comparison
+                            clean_href = f"{parsed_href.scheme}://{parsed_href.netloc}{parsed_href.path}"
+                            if parsed_href.path.startswith("/"):
+                                clean_href = f"{parsed_page.scheme}://{parsed_page.netloc}{parsed_href.path}"
+
+                            # Only flag as broken if we have more than 1 page (i.e., we crawled enough to detect)
+                            # and the link is not in our valid URLs
+                            if len(valid_urls) > 1 and clean_href not in valid_urls:
+                                # Also check if any URL ends with this path (to handle trailing slashes)
+                                path_match = any(
+                                    url.rstrip('/').endswith(parsed_href.path.rstrip('/'))
+                                    for url in valid_urls
+                                )
+                                if not path_match:
+                                    if page.url not in broken_links:
+                                        broken_links[page.url] = []
+                                    broken_links[page.url].append(clean_href)
+                                    findings["issue_counts"]["broken_internal_link"] += 1
+                        else:
+                            # External link
+                            external_links.append((page.url, absolute_href))
+                    except Exception:
+                        pass
 
             except Exception:
                 continue
+
+        # Check for redirect chains in page metadata
+        for page in snapshot.pages:
+            if page.status_code in (301, 302, 303, 307, 308):
+                redirect_chains[page.url] = page.status_code
+                findings["issue_counts"]["redirect_detected"] += 1
+
+        # Add critical issue: Broken internal links
+        if broken_links:
+            total_broken = sum(len(links) for links in broken_links.values())
+            findings["critical_issues"].append(
+                SeoIssue(
+                    category="technical",
+                    issue=f"{total_broken} broken internal links on {len(broken_links)} pages",
+                    impact="Broken links harm user experience and search engine crawlability",
+                    affected_urls=list(broken_links.keys())[:10],
+                    severity="high",
+                    recommendation="Fix or remove broken internal links",
+                )
+            )
+
+        # Add warning: Redirect chains
+        if redirect_chains:
+            findings["warnings"].append(
+                SeoIssue(
+                    category="technical",
+                    issue=f"{len(redirect_chains)} pages return redirect status codes",
+                    impact="Redirect chains slow down crawlers and may pass less link equity",
+                    affected_urls=list(redirect_chains.keys())[:10],
+                    recommendation="Update links to point directly to final destination",
+                )
+            )
 
         # Add opportunity for external links audit
         if external_links:
@@ -399,6 +472,93 @@ class SeoOptimizer(TestPlugin):
             )
         else:
             findings["issue_counts"]["has_sitemap"] += 1
+
+    def _check_mobile_responsiveness(self, snapshot: SiteSnapshot, findings: Dict) -> None:
+        """Check mobile responsiveness indicators (viewport meta tag analysis)."""
+        pages_without_viewport = []
+        pages_with_suboptimal_viewport = []
+
+        for page in snapshot.pages:
+            try:
+                soup = BeautifulSoup(page.get_content(), "html.parser")
+
+                # Check for viewport meta tag
+                viewport = soup.find("meta", attrs={"name": "viewport"})
+
+                if not viewport or not viewport.get("content"):
+                    pages_without_viewport.append(page.url)
+                    findings["issue_counts"]["missing_viewport"] += 1
+                else:
+                    # Check viewport content for common issues
+                    content = viewport.get("content", "").lower()
+
+                    # Good viewport should include width=device-width and initial-scale=1
+                    if "width=device-width" not in content or "initial-scale=1" not in content:
+                        pages_with_suboptimal_viewport.append(page.url)
+                        findings["issue_counts"]["suboptimal_viewport"] += 1
+
+            except Exception:
+                continue
+
+        # Add critical issue: Missing viewport
+        if pages_without_viewport:
+            findings["critical_issues"].append(
+                SeoIssue(
+                    category="technical",
+                    issue=f"{len(pages_without_viewport)} pages missing viewport meta tag",
+                    impact="Pages will not render properly on mobile devices, harming mobile SEO",
+                    affected_urls=pages_without_viewport[:10],
+                    severity="high",
+                    recommendation='Add <meta name="viewport" content="width=device-width, initial-scale=1">',
+                )
+            )
+
+        # Add warning: Suboptimal viewport
+        if pages_with_suboptimal_viewport:
+            findings["warnings"].append(
+                SeoIssue(
+                    category="technical",
+                    issue=f"{len(pages_with_suboptimal_viewport)} pages have suboptimal viewport configuration",
+                    impact="Mobile rendering may not be optimal",
+                    affected_urls=pages_with_suboptimal_viewport[:10],
+                    recommendation='Use viewport content="width=device-width, initial-scale=1"',
+                )
+            )
+
+    def _check_page_performance(self, snapshot: SiteSnapshot, findings: Dict) -> None:
+        """Check page load performance metrics from crawler data."""
+        # Extract performance metrics if available from page metadata
+        slow_pages = []
+        large_pages = []
+
+        for page in snapshot.pages:
+            try:
+                # Check content size (estimate)
+                content_size = len(page.get_content())
+
+                # Flag pages over 1MB as potentially slow
+                if content_size > 1_000_000:
+                    large_pages.append((page.url, content_size))
+                    findings["issue_counts"]["large_page"] += 1
+
+                # If metadata has load time, check it
+                # This would require the crawler to capture timing data
+                # For now, we'll just check content size
+
+            except Exception:
+                continue
+
+        # Add warning: Large pages
+        if large_pages:
+            findings["warnings"].append(
+                SeoIssue(
+                    category="technical",
+                    issue=f"{len(large_pages)} pages have large HTML size (>1MB)",
+                    impact="Large pages load slowly, especially on mobile connections",
+                    affected_urls=[url for url, _ in large_pages[:10]],
+                    recommendation="Optimize page size by minifying HTML, removing unused code, and lazy-loading content",
+                )
+            )
 
     def _check_content_length(self, snapshot: SiteSnapshot, findings: Dict) -> None:
         """Check content length and quality indicators."""

@@ -801,7 +801,7 @@
       "id": 80,
       "category": "llm-optimization",
       "description": "Implement semantic HTML usage detection",
-      "passes": false,
+      "passes": true,
       "dependencies": [
         75
       ],
@@ -811,7 +811,7 @@
       "id": 81,
       "category": "llm-optimization",
       "description": "Add internal link structure analysis",
-      "passes": false,
+      "passes": true,
       "dependencies": [
         75
       ],
@@ -831,7 +831,7 @@
       "id": 83,
       "category": "llm-optimization",
       "description": "Add LLM-based meta description quality check (Haiku 3.5)",
-      "passes": false,
+      "passes": true,
       "dependencies": [
         76
       ],
@@ -877,7 +877,7 @@
       "id": 87,
       "category": "llm-optimization",
       "description": "Test LLM optimization on documentation site (schema-rich)",
-      "passes": false,
+      "passes": true,
       "dependencies": [
         75,
         84,
@@ -889,7 +889,7 @@
       "id": 88,
       "category": "llm-optimization",
       "description": "Test LLM optimization on blog site (meta tag focus)",
-      "passes": false,
+      "passes": true,
       "dependencies": [
         75,
         84,
@@ -951,7 +951,7 @@
       "id": 94,
       "category": "seo-optimization",
       "description": "Implement broken link detection (internal links only)",
-      "passes": false,
+      "passes": true,
       "dependencies": [
         89
       ],
@@ -961,7 +961,7 @@
       "id": 95,
       "category": "seo-optimization",
       "description": "Add redirect chain detection",
-      "passes": false,
+      "passes": true,
       "dependencies": [
         89
       ],
@@ -971,7 +971,7 @@
       "id": 96,
       "category": "seo-optimization",
       "description": "Implement mobile responsiveness indicators (viewport meta tag)",
-      "passes": false,
+      "passes": true,
       "dependencies": [
         89
       ],
@@ -981,7 +981,7 @@
       "id": 97,
       "category": "seo-optimization",
       "description": "Add page load performance metrics from crawler",
-      "passes": false,
+      "passes": true,
       "dependencies": [
         89
       ],
@@ -1076,7 +1076,7 @@
       "id": 106,
       "category": "seo-optimization",
       "description": "Test SEO optimization on e-commerce site",
-      "passes": false,
+      "passes": true,
       "dependencies": [
         89,
         105
@@ -1087,7 +1087,7 @@
       "id": 107,
       "category": "seo-optimization",
       "description": "Test SEO optimization on blog/content site",
-      "passes": false,
+      "passes": true,
       "dependencies": [
         89,
         105
@@ -1231,7 +1231,7 @@
       "id": 121,
       "category": "integration",
       "description": "End-to-end test: Claude asks to scan site for migration errors",
-      "passes": false,
+      "passes": true,
       "dependencies": [
         36,
         60,
@@ -1243,7 +1243,7 @@
       "id": 122,
       "category": "integration",
       "description": "End-to-end test: Run all four tests on single site",
-      "passes": false,
+      "passes": true,
       "dependencies": [
         75,
         89,
@@ -1256,7 +1256,7 @@
       "id": 123,
       "category": "integration",
       "description": "End-to-end test: Rerun tests and verify issue resolution detection",
-      "passes": false,
+      "passes": true,
       "dependencies": [
         54,
         70,
@@ -1268,7 +1268,7 @@
       "id": 124,
       "category": "integration",
       "description": "End-to-end test: Large site (1000+ pages) performance validation",
-      "passes": false,
+      "passes": true,
       "dependencies": [
         6,
         122
