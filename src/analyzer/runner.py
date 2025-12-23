@@ -138,7 +138,7 @@ class TestRunner:
                          "To see available test plugins, run: "
                          "python -m src.analyzer.cli test list-plugins. "
                          "Common plugin names: migration-scanner, seo-optimizer, "
-                         "llm-optimizer, security-audit"
+                         "security-audit"
                      )
         else:
             plugins_to_run = all_plugins

@@ -16,7 +16,7 @@ from urllib.robotparser import RobotFileParser
 from typing import Iterable, Pattern, Sequence
 
 from crawl4ai import AsyncWebCrawler
-from crawl4ai.async_configs import CacheMode, CrawlerRunConfig
+from crawl4ai.async_configs import BrowserConfig, CacheMode, CrawlerRunConfig
 from .workspace import slugify_url
 
 
@@ -52,6 +52,8 @@ class BasicCrawler:
         include_patterns: Optional[Sequence[str]] = None,
         exclude_patterns: Optional[Sequence[str]] = None,
         priority_urls: Optional[list[str]] = None,
+        stealth: bool = False,
+        headers: Optional[dict[str, str]] = None,
     ) -> None:
         """Initialize crawler with optional custom configuration.
 
@@ -67,6 +69,8 @@ class BasicCrawler:
             include_subdomains: Whether to allow subdomains of the root host.
             allowed_subdomains: Explicit subdomains allowed (overrides include_subdomains).
             blocked_subdomains: Explicit subdomains to block.
+            stealth: Enable stealth mode to bypass bot detection (e.g., Cloudflare).
+            headers: Custom HTTP headers to send with each request (e.g., for bypass tokens).
         """
         self.config = config or self._default_config(page_timeout_ms=page_timeout_ms)
         self.max_pages = max_pages
@@ -82,6 +86,17 @@ class BasicCrawler:
         self.include_patterns = [re.compile(p) for p in (include_patterns or [])]
         self.exclude_patterns = [re.compile(p) for p in (exclude_patterns or [])]
         self.priority_urls = priority_urls or []
+        self.stealth = stealth
+        self.headers = headers or {}
+
+        # Build browser config with stealth and/or headers if needed
+        if stealth or self.headers:
+            self.browser_config = BrowserConfig(
+                enable_stealth=stealth,
+                headers=self.headers if self.headers else None,
+            )
+        else:
+            self.browser_config = None
 
     @staticmethod
     def normalize_url(url: str) -> str:
@@ -207,7 +222,7 @@ class BasicCrawler:
         Raises:
             Exception: If crawl fails (network error, timeout, etc.)
         """
-        async with AsyncWebCrawler() as crawler:
+        async with AsyncWebCrawler(config=self.browser_config) as crawler:
             result = await self._crawl_with_retry(crawler, url)
             return result
 
@@ -288,7 +303,7 @@ class BasicCrawler:
                 result = await self._crawl_with_retry(crawler, url)
                 return result
 
-        async with AsyncWebCrawler() as crawler:
+        async with AsyncWebCrawler(config=self.browser_config) as crawler:
             async def fetch_with_index(idx: int, url: str):
                 res = await fetch(url)
                 return idx, res

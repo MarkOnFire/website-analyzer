@@ -26,6 +26,65 @@ class MigrationScanner(TestPlugin):
     name: str = "migration-scanner"
     description: str = "Scans for deprecated patterns or migration artifacts."
 
+    @staticmethod
+    def _detect_bot_blocking(snapshot: SiteSnapshot) -> Optional[Dict[str, Any]]:
+        """
+        Detect signs that the crawl was blocked by bot protection (e.g., Cloudflare).
+
+        Returns a dict with blocking info if detected, None otherwise.
+        """
+        blocking_indicators = []
+
+        # Check 1: Very few pages crawled (suspicious for non-trivial sites)
+        if len(snapshot.pages) <= 3:
+            blocking_indicators.append("very_few_pages")
+
+        # Check 2: Suspicious URL patterns that indicate redirect to challenge pages
+        suspicious_paths = ["/internal", "/external", "/challenge", "/cdn-cgi/", "/__cf_chl"]
+        for page in snapshot.pages:
+            url_lower = page.url.lower()
+            for pattern in suspicious_paths:
+                if pattern in url_lower:
+                    blocking_indicators.append(f"suspicious_url:{pattern}")
+                    break
+
+        # Check 3: Check page titles for 404 or challenge indicators
+        for page in snapshot.pages:
+            html = page.get_content()
+            if html:
+                title_match = re.search(r'<title[^>]*>([^<]+)</title>', html, re.IGNORECASE)
+                if title_match:
+                    title = title_match.group(1).lower()
+                    if "page not found" in title or "404" in title:
+                        blocking_indicators.append("404_in_title")
+                    if "challenge" in title or "cloudflare" in title or "blocked" in title:
+                        blocking_indicators.append("challenge_page_detected")
+
+        # Check 4: Pages with redirect URLs different from requested
+        for page in snapshot.pages:
+            if hasattr(page, 'redirected_url') and page.redirected_url:
+                if page.url != page.redirected_url:
+                    # Check if redirect goes to suspicious path
+                    for pattern in suspicious_paths:
+                        if pattern in page.redirected_url.lower():
+                            blocking_indicators.append(f"redirect_to_challenge:{pattern}")
+                            break
+
+        if blocking_indicators:
+            return {
+                "detected": True,
+                "indicators": list(set(blocking_indicators)),
+                "message": (
+                    "Bot protection (likely Cloudflare) may be blocking the crawler. "
+                    "Migration scan results may be incomplete. "
+                    "Try re-crawling with --stealth flag or custom headers: "
+                    "python -m src.analyzer.cli crawl start <slug> --stealth -H 'X-Crawler-Token:secret'"
+                ),
+                "pages_crawled": len(snapshot.pages)
+            }
+
+        return None
+
     _SUGGESTIONS: Dict[str, str] = {
         "jquery_live_event": "jQuery .live() is deprecated. Consider using .on() instead. For example, replace `$(selector).live('event', handler)` with `$(document).on('event', selector, handler)`.",
         "deprecated_api_call": "This API call is deprecated. Refer to the project's migration guide or official documentation for alternatives.",
@@ -70,7 +129,7 @@ class MigrationScanner(TestPlugin):
     async def analyze(self, snapshot: SiteSnapshot, **kwargs: Any) -> TestResult:
         """
         Analyzes the site snapshot for migration-related issues based on a regex pattern.
-        
+
         Args:
             snapshot: The SiteSnapshot object containing the website data.
             **kwargs: Configuration parameters, expects 'patterns' (Dict[str, str]) and 'case_sensitive' (bool).
@@ -78,6 +137,9 @@ class MigrationScanner(TestPlugin):
         Returns:
             A TestResult indicating the outcome of the analysis.
         """
+        # Check for bot blocking first
+        bot_blocking = self._detect_bot_blocking(snapshot)
+
         pattern_config = kwargs.get("patterns") # Expect a dict of named patterns
         if not pattern_config:
             return TestResult(
@@ -131,15 +193,33 @@ class MigrationScanner(TestPlugin):
         
         if findings:
             summary = (f"Found {len(findings)} migration-related patterns "
-                       f"across {len(set(f.url for f in findings))} unique pages.") 
+                       f"across {len(set(f.url for f in findings))} unique pages.")
             status = "fail"
         else:
             summary = "No migration-related patterns found."
             status = "pass"
 
+        # Add bot blocking warning to summary if detected
+        if bot_blocking:
+            summary = f"[BOT BLOCKING DETECTED - RESULTS MAY BE INCOMPLETE] {summary}"
+            # Override status to warning if results are unreliable
+            if status == "pass":
+                status = "warning"
+
+        # Build details dict
+        details = {
+            "findings": [f.model_dump() for f in findings],
+            "patterns": pattern_config,
+            "case_sensitive": case_sensitive
+        }
+
+        # Add bot blocking info if detected
+        if bot_blocking:
+            details["bot_blocking_detected"] = bot_blocking
+
         return TestResult(
             plugin_name=self.name,
             status=status,
             summary=summary,
-            details={"findings": [f.model_dump() for f in findings], "patterns": pattern_config, "case_sensitive": case_sensitive}
+            details=details
         )

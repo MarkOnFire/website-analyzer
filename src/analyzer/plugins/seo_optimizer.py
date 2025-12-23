@@ -50,6 +50,65 @@ class SeoOptimizer(TestPlugin):
     OPTIMAL_H1_COUNT = 1
     REASONABLE_PAGE_WORD_COUNT = 300
 
+    @staticmethod
+    def _detect_bot_blocking(snapshot: SiteSnapshot) -> Optional[Dict[str, Any]]:
+        """
+        Detect signs that the crawl was blocked by bot protection (e.g., Cloudflare).
+
+        Returns a dict with blocking info if detected, None otherwise.
+        """
+        blocking_indicators = []
+
+        # Check 1: Very few pages crawled (suspicious for non-trivial sites)
+        if len(snapshot.pages) <= 3:
+            blocking_indicators.append("very_few_pages")
+
+        # Check 2: Suspicious URL patterns that indicate redirect to challenge pages
+        suspicious_paths = ["/internal", "/external", "/challenge", "/cdn-cgi/", "/__cf_chl"]
+        for page in snapshot.pages:
+            url_lower = page.url.lower()
+            for pattern in suspicious_paths:
+                if pattern in url_lower:
+                    blocking_indicators.append(f"suspicious_url:{pattern}")
+                    break
+
+        # Check 3: Check page titles for 404 or challenge indicators
+        for page in snapshot.pages:
+            html = page.get_content()
+            if html:
+                title_match = re.search(r'<title[^>]*>([^<]+)</title>', html, re.IGNORECASE)
+                if title_match:
+                    title = title_match.group(1).lower()
+                    if "page not found" in title or "404" in title:
+                        blocking_indicators.append("404_in_title")
+                    if "challenge" in title or "cloudflare" in title or "blocked" in title:
+                        blocking_indicators.append("challenge_page_detected")
+
+        # Check 4: Pages with redirect URLs different from requested
+        for page in snapshot.pages:
+            if hasattr(page, 'redirected_url') and page.redirected_url:
+                if page.url != page.redirected_url:
+                    # Check if redirect goes to suspicious path
+                    for pattern in suspicious_paths:
+                        if pattern in page.redirected_url.lower():
+                            blocking_indicators.append(f"redirect_to_challenge:{pattern}")
+                            break
+
+        if blocking_indicators:
+            return {
+                "detected": True,
+                "indicators": list(set(blocking_indicators)),
+                "message": (
+                    "Bot protection (likely Cloudflare) may be blocking the crawler. "
+                    "SEO analysis results may be unreliable. "
+                    "Try re-crawling with --stealth flag or custom headers: "
+                    "python -m src.analyzer.cli crawl start <slug> --stealth -H 'X-Crawler-Token:secret'"
+                ),
+                "pages_crawled": len(snapshot.pages)
+            }
+
+        return None
+
     async def analyze(self, snapshot: SiteSnapshot, **kwargs: Any) -> TestResult:
         """Analyze site for SEO opportunities.
 
@@ -60,6 +119,9 @@ class SeoOptimizer(TestPlugin):
         Returns:
             TestResult with SEO analysis findings.
         """
+        # Check for bot blocking first
+        bot_blocking = self._detect_bot_blocking(snapshot)
+
         target_keywords = kwargs.get("target_keywords", [])
         if isinstance(target_keywords, str):
             target_keywords = [kw.strip() for kw in target_keywords.split(",")]
@@ -99,23 +161,41 @@ class SeoOptimizer(TestPlugin):
             len(findings["opportunities"]),
         )
 
+        # Add bot blocking warning to summary if detected
+        if bot_blocking:
+            summary = f"[BOT BLOCKING DETECTED - RESULTS MAY BE UNRELIABLE] {summary}"
+
+        # Determine status
+        status = "pass" if overall_score >= 7.0 else "warning" if overall_score >= 5.0 else "fail"
+
+        # Override status to warning if bot blocking detected (results unreliable)
+        if bot_blocking and status == "pass":
+            status = "warning"
+
+        # Build details dict
+        details = {
+            "overall_score": overall_score,
+            "critical_issues": [
+                issue.model_dump() for issue in findings["critical_issues"]
+            ],
+            "warnings": [issue.model_dump() for issue in findings["warnings"]],
+            "opportunities": [
+                issue.model_dump() for issue in findings["opportunities"]
+            ],
+            "pages_analyzed": findings["pages_analyzed"],
+            "issue_counts": dict(findings["issue_counts"]),
+            "target_keywords": target_keywords,
+        }
+
+        # Add bot blocking info if detected
+        if bot_blocking:
+            details["bot_blocking_detected"] = bot_blocking
+
         return TestResult(
             plugin_name=self.name,
-            status="pass" if overall_score >= 7.0 else "warning" if overall_score >= 5.0 else "fail",
+            status=status,
             summary=summary,
-            details={
-                "overall_score": overall_score,
-                "critical_issues": [
-                    issue.model_dump() for issue in findings["critical_issues"]
-                ],
-                "warnings": [issue.model_dump() for issue in findings["warnings"]],
-                "opportunities": [
-                    issue.model_dump() for issue in findings["opportunities"]
-                ],
-                "pages_analyzed": findings["pages_analyzed"],
-                "issue_counts": dict(findings["issue_counts"]),
-                "target_keywords": target_keywords,
-            },
+            details=details,
         )
 
     def _check_meta_tags(self, snapshot: SiteSnapshot, findings: Dict) -> None:

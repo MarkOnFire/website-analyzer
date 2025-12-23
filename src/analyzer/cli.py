@@ -22,6 +22,16 @@ from src.analyzer.crawler import BasicCrawler
 from src.analyzer.runner import TestRunner
 from src.analyzer.test_plugin import TestResult # For type hinting, not directly used here
 from src.analyzer.config import ConfigLoader, ConfigMerger, create_example_config
+from src.analyzer.llm_crawler_sim import (
+    LLMCrawlerSimulator,
+    KNOWN_LLM_CRAWLERS,
+    CRAWLER_CATEGORIES,
+    simulate_llm_crawlers,
+    generate_robots_txt_rules,
+    generate_robots_txt_block_all,
+    generate_robots_txt_block_training,
+    analyze_robots_txt_for_llm,
+)
 from bug_finder_export import export_results, export_to_html, export_to_json, export_to_csv
 from bug_finder_export_markdown import export_to_markdown, export_to_slack_snippet
 
@@ -387,6 +397,16 @@ def crawl_start(
     max_depth: Optional[int] = typer.Option(
         BasicCrawler.DEFAULT_MAX_DEPTH, help="Maximum crawl depth (0 for current page only, None for unlimited)."
     ),
+    stealth: bool = typer.Option(
+        False,
+        "--stealth",
+        help="Enable stealth mode to bypass bot detection (e.g., Cloudflare). Use when sites block headless browsers."
+    ),
+    header: Optional[List[str]] = typer.Option(
+        None,
+        "--header", "-H",
+        help="Custom HTTP header in 'Name:Value' format. Can be repeated. Example: -H 'X-Crawler-Token:secret'"
+    ),
     base_dir: Path = typer.Option(
         Path("."),
         help="Base directory containing the 'projects' folder.",
@@ -399,6 +419,16 @@ def crawl_start(
     """
     Start crawling a website for a given project.
     """
+    # Parse headers from "Name:Value" format to dict
+    headers_dict: dict[str, str] = {}
+    if header:
+        for h in header:
+            if ":" in h:
+                key, value = h.split(":", 1)
+                headers_dict[key.strip()] = value.strip()
+            else:
+                console.print(f"[yellow]Warning: Invalid header format '{h}' - expected 'Name:Value'. Skipping.[/yellow]")
+
     # Define the async function separately
     async def _run_crawl_async():
         workspace = Workspace.load(slug, base_dir)
@@ -408,9 +438,13 @@ def crawl_start(
             raise typer.Exit(code=1)
 
         console.print(f"[bold green]Starting crawl for project '[cyan]{slug}[/cyan]' ([link]{target_url}[/link])...")
+        if stealth:
+            console.print("[yellow]Stealth mode enabled - bypassing bot detection[/yellow]")
+        if headers_dict:
+            console.print(f"[yellow]Custom headers: {', '.join(headers_dict.keys())}[/yellow]")
 
         # Initialize crawler with CLI-provided max_pages and max_depth
-        crawler = BasicCrawler(max_pages=max_pages, max_depth=max_depth)
+        crawler = BasicCrawler(max_pages=max_pages, max_depth=max_depth, stealth=stealth, headers=headers_dict)
         snap_manager = SnapshotManager(workspace.get_snapshots_dir())
         snapshot_dir = snap_manager.create_snapshot_dir()
 
@@ -596,6 +630,545 @@ def test_run(
         console.print(f"[red]An unexpected error occurred during test run: {e}[/red]")
         # TODO: Log full traceback (Feature 125)
         raise typer.Exit(code=1)
+
+
+@test_app.command("llm-access")
+def test_llm_access(
+    url: str = typer.Argument(..., help="URL to test LLM crawler access for."),
+    crawlers: Optional[List[str]] = typer.Option(
+        None, "--crawler", "-c",
+        help="Specific crawler(s) to test. Can be repeated. Default: all known crawlers."
+    ),
+    crawl: bool = typer.Option(
+        False, "--crawl",
+        help="Crawl the site first to discover and test multiple pages."
+    ),
+    max_pages: int = typer.Option(
+        10, "--max-pages", "-n",
+        help="Maximum number of pages to test when using --crawl."
+    ),
+    show_content: bool = typer.Option(
+        False, "--show-content",
+        help="Show content preview for each crawler response."
+    ),
+    json_output: bool = typer.Option(
+        False, "--json",
+        help="Output results as JSON."
+    ),
+):
+    """
+    Test how LLM training crawlers see your website.
+
+    Simulates access from major LLM crawlers (GPTBot, ClaudeBot, CCBot, etc.)
+    using their real User-Agent strings to show what content they would see
+    during training data collection.
+
+    Unlike headless browsers, this uses simple HTTP requests - exactly how
+    real LLM crawlers operate.
+
+    Examples:
+        python -m src.analyzer.cli test llm-access https://example.com
+        python -m src.analyzer.cli test llm-access https://example.com --crawl -n 20
+        python -m src.analyzer.cli test llm-access https://example.com -c GPTBot -c ClaudeBot
+        python -m src.analyzer.cli test llm-access https://example.com --json
+    """
+    async def _run_simulation():
+        console.print(f"\n[bold]Testing LLM Crawler Access for:[/bold] [link]{url}[/link]\n")
+
+        # Show which crawlers we're testing
+        simulator = LLMCrawlerSimulator()
+        if crawlers:
+            crawler_set = set(c.lower() for c in crawlers)
+            simulator.crawlers = [
+                c for c in KNOWN_LLM_CRAWLERS
+                if c.name.lower() in crawler_set
+            ]
+            if not simulator.crawlers:
+                console.print(f"[red]No matching crawlers found. Available: {', '.join(c.name for c in KNOWN_LLM_CRAWLERS)}[/red]")
+                raise typer.Exit(code=1)
+
+        # Multi-page crawl mode
+        if crawl:
+            await _run_multi_page_simulation(simulator, url, max_pages, json_output)
+            return
+
+        console.print(f"[dim]Testing {len(simulator.crawlers)} crawler(s): {', '.join(c.name for c in simulator.crawlers)}[/dim]\n")
+
+        with console.status("[bold green]Simulating LLM crawler access..."):
+            result = await simulator.simulate(url)
+
+        if json_output:
+            # JSON output mode
+            output = {
+                "url": result.url,
+                "timestamp": result.timestamp,
+                "summary": result.summary,
+                "robots_txt_blocks": result.robots_txt_blocks,
+                "responses": [
+                    {
+                        "crawler": r.crawler.name,
+                        "organization": r.crawler.organization,
+                        "status_code": r.status_code,
+                        "is_blocked": r.is_blocked,
+                        "block_reason": r.block_reason,
+                        "has_meaningful_content": r.has_meaningful_content,
+                        "content_length": r.content_length,
+                        "title": r.title,
+                        "response_time_ms": round(r.response_time_ms, 1),
+                        "redirect_url": r.redirect_url,
+                        "error": r.error,
+                    }
+                    for r in result.responses
+                ],
+            }
+            # Add content analysis if available
+            if result.content_analysis:
+                ca = result.content_analysis
+                output["content_analysis"] = {
+                    "llm_readiness_score": ca.llm_readiness_score,
+                    "title": ca.title,
+                    "title_length": ca.title_length,
+                    "meta_description": ca.meta_description,
+                    "meta_description_length": ca.meta_description_length,
+                    "has_og_tags": ca.has_og_tags,
+                    "has_twitter_cards": ca.has_twitter_cards,
+                    "has_schema_markup": ca.has_schema_markup,
+                    "h1_count": ca.h1_count,
+                    "h2_count": ca.h2_count,
+                    "h3_count": ca.h3_count,
+                    "has_good_heading_hierarchy": ca.has_good_heading_hierarchy,
+                    "semantic_tags_used": list(ca.semantic_tags_used),
+                    "uses_semantic_html": ca.uses_semantic_html,
+                    "word_count": ca.word_count,
+                    "has_substantial_content": ca.has_substantial_content,
+                    "internal_link_count": ca.internal_link_count,
+                    "external_link_count": ca.external_link_count,
+                    "issues": ca.issues,
+                    "recommendations": ca.recommendations,
+                }
+            console.print(json.dumps(output, indent=2))
+            return
+
+        # Pretty output mode
+        # Summary panel
+        summary = result.summary
+        exposure_color = "green" if summary["training_exposure"] == "high" else "yellow" if summary["training_exposure"] == "medium" else "red"
+
+        summary_text = f"""[bold]Accessibility Score:[/bold] {summary['accessibility_score']}%
+[bold]Training Data Exposure:[/bold] [{exposure_color}]{summary['training_exposure'].upper()}[/{exposure_color}]
+[bold]Crawlers Blocked:[/bold] {summary['crawlers_blocked']}/{summary['total_crawlers_tested']}
+[bold]Crawlers with Content:[/bold] {summary['crawlers_with_meaningful_content']}/{summary['total_crawlers_tested']}
+[bold]robots.txt Blocks:[/bold] {summary['robots_txt_blocks']}"""
+
+        console.print(Panel(summary_text, title="Summary", border_style="blue"))
+
+        # Results table
+        table = Table(title="Crawler Access Results", show_header=True, header_style="bold magenta")
+        table.add_column("Crawler", style="cyan")
+        table.add_column("Org", style="dim")
+        table.add_column("Status", justify="center")
+        table.add_column("Blocked?", justify="center")
+        table.add_column("Content", justify="center")
+        table.add_column("robots.txt", justify="center")
+        table.add_column("Time (ms)", justify="right")
+
+        for r in result.responses:
+            status_style = "green" if r.status_code == 200 else "red" if r.status_code >= 400 else "yellow"
+            blocked_style = "red" if r.is_blocked else "green"
+            content_style = "green" if r.has_meaningful_content else "red"
+            robots_blocked = result.robots_txt_blocks.get(r.crawler.name, False)
+            robots_style = "red" if robots_blocked else "green"
+
+            table.add_row(
+                r.crawler.name,
+                r.crawler.organization,
+                f"[{status_style}]{r.status_code}[/{status_style}]",
+                f"[{blocked_style}]{'Yes: ' + (r.block_reason or 'unknown') if r.is_blocked else 'No'}[/{blocked_style}]",
+                f"[{content_style}]{'Yes' if r.has_meaningful_content else 'No'}[/{content_style}]",
+                f"[{robots_style}]{'Blocked' if robots_blocked else 'Allowed'}[/{robots_style}]",
+                f"{r.response_time_ms:.0f}",
+            )
+
+        console.print(table)
+
+        # Show block reasons if any
+        if summary["block_reasons"]:
+            console.print("\n[bold yellow]Block Reasons:[/bold yellow]")
+            for reason, affected_crawlers in summary["block_reasons"].items():
+                console.print(f"  • {reason}: {', '.join(affected_crawlers)}")
+
+        # Show content preview if requested
+        if show_content:
+            console.print("\n[bold]Content Previews:[/bold]")
+            for r in result.responses:
+                if r.content_preview and not r.is_blocked:
+                    console.print(f"\n[cyan]{r.crawler.name}[/cyan] - Title: {r.title or 'None'}")
+                    console.print(Panel(r.content_preview[:300] + "...", border_style="dim"))
+
+        # Content Quality Analysis
+        if result.content_analysis:
+            ca = result.content_analysis
+            score_color = "green" if ca.llm_readiness_score >= 7 else "yellow" if ca.llm_readiness_score >= 5 else "red"
+
+            quality_text = f"""[bold]LLM Readiness Score:[/bold] [{score_color}]{ca.llm_readiness_score:.1f}/10[/{score_color}]
+
+[bold]Content Metrics:[/bold]
+  • Title: {ca.title[:50] + '...' if ca.title and len(ca.title) > 50 else ca.title or '[missing]'} ({ca.title_length} chars)
+  • Meta Description: {'Yes' if ca.meta_description else '[red]Missing[/red]'} ({ca.meta_description_length} chars)
+  • Schema Markup: {'[green]Yes[/green]' if ca.has_schema_markup else '[yellow]No[/yellow]'}
+  • Open Graph: {'[green]Yes[/green]' if ca.has_og_tags else '[dim]No[/dim]'}
+
+[bold]Content Structure:[/bold]
+  • Word Count: {ca.word_count} {'[green](substantial)[/green]' if ca.has_substantial_content else '[yellow](light)[/yellow]'}
+  • Headings: H1={ca.h1_count}, H2={ca.h2_count}, H3={ca.h3_count} {'[green](good hierarchy)[/green]' if ca.has_good_heading_hierarchy else '[yellow](needs work)[/yellow]'}
+  • Semantic HTML: {', '.join(ca.semantic_tags_used) if ca.semantic_tags_used else '[yellow]None[/yellow]'}
+  • Internal Links: {ca.internal_link_count}"""
+
+            console.print(Panel(quality_text, title="Content Quality for LLM Training", border_style="cyan"))
+
+            # Content issues
+            if ca.issues:
+                console.print("\n[bold yellow]Content Issues Found:[/bold yellow]")
+                for issue in ca.issues[:8]:  # Show first 8
+                    console.print(f"  • {issue}")
+                if len(ca.issues) > 8:
+                    console.print(f"  [dim]... and {len(ca.issues) - 8} more[/dim]")
+
+            # Content recommendations
+            if ca.recommendations:
+                console.print("\n[bold green]Content Recommendations:[/bold green]")
+                for rec in ca.recommendations[:5]:  # Show first 5
+                    console.print(f"  • {rec}")
+                if len(ca.recommendations) > 5:
+                    console.print(f"  [dim]... and {len(ca.recommendations) - 5} more[/dim]")
+
+        # Access Recommendations
+        console.print("\n[bold]Access Recommendations:[/bold]")
+        if summary["crawlers_blocked"] > 0:
+            console.print("  • [yellow]Some crawlers are being blocked. Review your bot protection settings.[/yellow]")
+        if summary["robots_txt_blocks"] > 0:
+            console.print("  • [yellow]robots.txt is blocking some LLM crawlers. This is intentional if you want to opt out of training.[/yellow]")
+        if summary["training_exposure"] == "high":
+            console.print("  • [green]Your content is accessible to most LLM training crawlers.[/green]")
+        elif summary["training_exposure"] == "low":
+            console.print("  • [red]Most LLM crawlers cannot access your content. Check if this is intentional.[/red]")
+
+    async def _run_multi_page_simulation(simulator, start_url: str, max_pages: int, json_out: bool):
+        """Crawl site and test multiple pages for LLM accessibility."""
+        import aiohttp
+        from urllib.parse import urljoin, urlparse
+
+        console.print(f"[bold]Multi-page LLM Access Test[/bold]")
+        console.print(f"[dim]Discovering up to {max_pages} pages from {start_url}...[/dim]\n")
+
+        # Discover pages by following links
+        discovered_urls: Set[str] = set()
+        to_visit = [start_url]
+        base_domain = urlparse(start_url).netloc
+
+        async with aiohttp.ClientSession() as session:
+            with console.status("[bold green]Discovering pages...") as status:
+                while to_visit and len(discovered_urls) < max_pages:
+                    current_url = to_visit.pop(0)
+                    if current_url in discovered_urls:
+                        continue
+
+                    try:
+                        async with session.get(current_url, timeout=aiohttp.ClientTimeout(total=10)) as response:
+                            if response.status == 200 and 'text/html' in response.headers.get('Content-Type', ''):
+                                discovered_urls.add(current_url)
+                                status.update(f"[bold green]Discovered {len(discovered_urls)} pages...")
+
+                                # Extract links if we need more pages
+                                if len(discovered_urls) < max_pages:
+                                    html = await response.text()
+                                    # Simple link extraction
+                                    import re
+                                    links = re.findall(r'href=["\']([^"\']+)["\']', html)
+                                    for link in links:
+                                        if link.startswith('#') or link.startswith('javascript:'):
+                                            continue
+                                        absolute = urljoin(current_url, link)
+                                        if urlparse(absolute).netloc == base_domain and absolute not in discovered_urls:
+                                            to_visit.append(absolute)
+                    except Exception:
+                        continue
+
+        if not discovered_urls:
+            console.print("[red]No pages discovered. Check the URL and try again.[/red]")
+            return
+
+        console.print(f"[green]Discovered {len(discovered_urls)} pages to test[/green]\n")
+
+        # Test each page
+        all_results = []
+        with Progress(
+            SpinnerColumn(),
+            TextColumn("[progress.description]{task.description}"),
+            BarColumn(),
+            TaskProgressColumn(),
+            console=console,
+        ) as progress:
+            task = progress.add_task("Testing pages...", total=len(discovered_urls))
+
+            for page_url in discovered_urls:
+                progress.update(task, description=f"Testing {page_url[:50]}...")
+                result = await simulator.simulate(page_url)
+                all_results.append(result)
+                progress.advance(task)
+
+        if json_out:
+            # JSON output for all pages
+            output = {
+                "base_url": start_url,
+                "pages_tested": len(all_results),
+                "pages": [
+                    {
+                        "url": r.url,
+                        "accessibility_score": r.summary.get("accessibility_score", 0),
+                        "llm_readiness_score": r.content_analysis.llm_readiness_score if r.content_analysis else None,
+                        "training_exposure": r.summary.get("training_exposure", "unknown"),
+                        "crawlers_blocked": r.summary.get("crawlers_blocked", 0),
+                        "content_analysis": {
+                            "title": r.content_analysis.title if r.content_analysis else None,
+                            "word_count": r.content_analysis.word_count if r.content_analysis else 0,
+                            "issues": r.content_analysis.issues if r.content_analysis else [],
+                        } if r.content_analysis else None,
+                    }
+                    for r in all_results
+                ]
+            }
+            console.print(json.dumps(output, indent=2))
+            return
+
+        # Summary table
+        table = Table(title=f"LLM Access Results - {len(all_results)} Pages", show_header=True, header_style="bold magenta")
+        table.add_column("URL", style="cyan", max_width=50)
+        table.add_column("Access", justify="center")
+        table.add_column("LLM Score", justify="center")
+        table.add_column("Words", justify="right")
+        table.add_column("Issues", justify="right")
+
+        total_accessibility = 0
+        total_readiness = 0
+        pages_with_analysis = 0
+
+        for r in all_results:
+            access_score = r.summary.get("accessibility_score", 0)
+            total_accessibility += access_score
+            access_color = "green" if access_score >= 80 else "yellow" if access_score >= 50 else "red"
+
+            if r.content_analysis:
+                pages_with_analysis += 1
+                llm_score = r.content_analysis.llm_readiness_score
+                total_readiness += llm_score
+                score_color = "green" if llm_score >= 7 else "yellow" if llm_score >= 5 else "red"
+                word_count = r.content_analysis.word_count
+                issues_count = len(r.content_analysis.issues)
+            else:
+                llm_score = None
+                score_color = "dim"
+                word_count = 0
+                issues_count = 0
+
+            # Truncate URL for display
+            display_url = r.url
+            if len(display_url) > 50:
+                display_url = display_url[:47] + "..."
+
+            table.add_row(
+                display_url,
+                f"[{access_color}]{access_score:.0f}%[/{access_color}]",
+                f"[{score_color}]{llm_score:.1f}[/{score_color}]" if llm_score else "[dim]N/A[/dim]",
+                str(word_count),
+                str(issues_count),
+            )
+
+        console.print(table)
+
+        # Overall summary
+        avg_accessibility = total_accessibility / len(all_results) if all_results else 0
+        avg_readiness = total_readiness / pages_with_analysis if pages_with_analysis else 0
+
+        console.print(f"\n[bold]Site-wide Averages:[/bold]")
+        console.print(f"  • Average Accessibility: {avg_accessibility:.1f}%")
+        console.print(f"  • Average LLM Readiness: {avg_readiness:.1f}/10")
+        console.print(f"  • Pages Tested: {len(all_results)}")
+
+        # Find worst pages
+        if all_results:
+            worst_by_readiness = sorted(
+                [r for r in all_results if r.content_analysis],
+                key=lambda r: r.content_analysis.llm_readiness_score
+            )[:3]
+            if worst_by_readiness:
+                console.print(f"\n[bold yellow]Pages Needing Improvement:[/bold yellow]")
+                for r in worst_by_readiness:
+                    console.print(f"  • {r.url[:60]} - Score: {r.content_analysis.llm_readiness_score:.1f}/10")
+                    if r.content_analysis.issues:
+                        console.print(f"    Issues: {', '.join(r.content_analysis.issues[:3])}")
+
+    try:
+        asyncio.run(_run_simulation())
+    except Exception as e:
+        console.print(f"[red]Error during LLM crawler simulation: {e}[/red]")
+        raise typer.Exit(code=1)
+
+
+@test_app.command("llm-crawlers")
+def test_llm_crawlers_list():
+    """
+    List all known LLM crawlers that can be simulated.
+    """
+    table = Table(title="Known LLM Crawlers", show_header=True, header_style="bold magenta")
+    table.add_column("Name", style="cyan")
+    table.add_column("Organization", style="green")
+    table.add_column("robots.txt Token")
+    table.add_column("Description")
+
+    for crawler in KNOWN_LLM_CRAWLERS:
+        table.add_row(
+            crawler.name,
+            crawler.organization,
+            crawler.robots_txt_token,
+            crawler.description,
+        )
+
+    console.print(table)
+    console.print(f"\n[dim]Total: {len(KNOWN_LLM_CRAWLERS)} crawlers[/dim]")
+
+
+@test_app.command("llm-robots")
+def test_llm_robots(
+    url: Optional[str] = typer.Argument(
+        None,
+        help="URL to analyze current robots.txt (optional). If not provided, generates rules only."
+    ),
+    block: str = typer.Option(
+        "training",
+        "--block", "-b",
+        help="What to block: 'training' (default), 'all', 'inference', or comma-separated crawler names."
+    ),
+    allow_paths: Optional[str] = typer.Option(
+        None,
+        "--allow-paths",
+        help="Comma-separated paths to allow even for blocked crawlers (e.g., '/public,/api/docs')."
+    ),
+    output_file: Optional[Path] = typer.Option(
+        None,
+        "--output", "-o",
+        help="Write output to file instead of stdout."
+    ),
+    analyze_only: bool = typer.Option(
+        False,
+        "--analyze-only",
+        help="Only analyze current robots.txt without generating new rules."
+    ),
+):
+    """
+    Generate or analyze robots.txt rules for LLM crawler management.
+
+    This command helps you control which LLM crawlers can access your content
+    for training purposes.
+
+    Categories:
+      - training: Crawlers used for LLM training (GPTBot, ClaudeBot, CCBot, etc.)
+      - inference: Crawlers used for search/browsing (ChatGPT-User, PerplexityBot)
+      - all: All known LLM crawlers
+
+    Examples:
+        # Generate rules to block training crawlers (recommended default)
+        python -m src.analyzer.cli test llm-robots
+
+        # Block all LLM crawlers
+        python -m src.analyzer.cli test llm-robots --block all
+
+        # Block specific crawlers only
+        python -m src.analyzer.cli test llm-robots --block "GPTBot,ClaudeBot"
+
+        # Analyze current robots.txt for a site
+        python -m src.analyzer.cli test llm-robots https://example.com --analyze-only
+
+        # Generate and save to file
+        python -m src.analyzer.cli test llm-robots -o robots-llm.txt
+    """
+    async def _analyze_url(site_url: str):
+        """Fetch and analyze robots.txt from a URL."""
+        simulator = LLMCrawlerSimulator()
+        robots_content = await simulator.fetch_robots_txt(site_url)
+        return analyze_robots_txt_for_llm(robots_content)
+
+    # Analyze existing robots.txt if URL provided
+    if url:
+        console.print(f"\n[bold]Analyzing robots.txt for:[/bold] [link]{url}[/link]\n")
+
+        analysis = asyncio.run(_analyze_url(url))
+
+        # Show analysis results
+        status_color = "green" if analysis.total_blocked > 0 else "yellow"
+        console.print(Panel(
+            f"""[bold]robots.txt found:[/bold] {'Yes' if analysis.has_robots_txt else 'No'}
+[bold]Training crawlers blocked:[/bold] [{status_color}]{analysis.training_crawlers_blocked}/{len(CRAWLER_CATEGORIES['training'])}[/{status_color}]
+[bold]Inference crawlers blocked:[/bold] {analysis.inference_crawlers_blocked}/{len(CRAWLER_CATEGORIES['inference'])}
+[bold]Total LLM crawlers blocked:[/bold] {analysis.total_blocked}/{len(KNOWN_LLM_CRAWLERS)}""",
+            title="Current Status",
+            border_style="blue"
+        ))
+
+        # Show per-crawler status
+        table = Table(title="Crawler Block Status", show_header=True, header_style="bold magenta")
+        table.add_column("Crawler", style="cyan")
+        table.add_column("Category")
+        table.add_column("Status", justify="center")
+
+        for crawler in KNOWN_LLM_CRAWLERS:
+            is_blocked = analysis.blocks_by_crawler.get(crawler.robots_txt_token, False)
+            category = "training" if crawler.robots_txt_token in CRAWLER_CATEGORIES["training"] else "inference"
+            status = "[red]Blocked[/red]" if is_blocked else "[green]Allowed[/green]"
+            table.add_row(crawler.robots_txt_token, category, status)
+
+        console.print(table)
+
+        # Show recommendations
+        console.print("\n[bold]Recommendations:[/bold]")
+        for rec in analysis.recommendations:
+            console.print(f"  • {rec}")
+
+        if analyze_only:
+            if analysis.suggested_additions:
+                console.print("\n[bold yellow]Suggested additions to robots.txt:[/bold yellow]")
+                console.print(Panel(analysis.suggested_additions, border_style="yellow"))
+            return
+
+        console.print("\n" + "─" * 60 + "\n")
+
+    # Generate new rules
+    console.print("[bold]Generated robots.txt Rules:[/bold]\n")
+
+    # Parse block parameter
+    allow_path_list = [p.strip() for p in allow_paths.split(",")] if allow_paths else None
+
+    if block.lower() in ["training", "all", "inference"]:
+        rules = generate_robots_txt_rules(
+            block_category=block.lower(),
+            allow_paths=allow_path_list,
+        )
+    else:
+        # Assume comma-separated crawler names
+        crawler_list = [c.strip() for c in block.split(",")]
+        rules = generate_robots_txt_rules(
+            block_crawlers=crawler_list,
+            allow_paths=allow_path_list,
+        )
+
+    if output_file:
+        output_file.write_text(rules)
+        console.print(f"[green]Rules written to: {output_file}[/green]")
+    else:
+        console.print(Panel(rules, title="robots.txt", border_style="green"))
+
+    console.print("\n[dim]Add these rules to your robots.txt file to control LLM crawler access.[/dim]")
+    console.print("[dim]Note: These rules are advisory - well-behaved crawlers respect them, but enforcement requires server-side blocking.[/dim]")
 
 
 @bug_finder_app.command("scan")

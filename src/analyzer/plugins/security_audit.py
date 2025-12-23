@@ -78,6 +78,65 @@ class SecurityAudit(TestPlugin):
         "weak_csp": "A03:2021 – Injection",
     }
 
+    @staticmethod
+    def _detect_bot_blocking(snapshot: SiteSnapshot) -> Optional[Dict[str, Any]]:
+        """
+        Detect signs that the crawl was blocked by bot protection (e.g., Cloudflare).
+
+        Returns a dict with blocking info if detected, None otherwise.
+        """
+        blocking_indicators = []
+
+        # Check 1: Very few pages crawled (suspicious for non-trivial sites)
+        if len(snapshot.pages) <= 3:
+            blocking_indicators.append("very_few_pages")
+
+        # Check 2: Suspicious URL patterns that indicate redirect to challenge pages
+        suspicious_paths = ["/internal", "/external", "/challenge", "/cdn-cgi/", "/__cf_chl"]
+        for page in snapshot.pages:
+            url_lower = page.url.lower()
+            for pattern in suspicious_paths:
+                if pattern in url_lower:
+                    blocking_indicators.append(f"suspicious_url:{pattern}")
+                    break
+
+        # Check 3: Check page titles for 404 or challenge indicators
+        for page in snapshot.pages:
+            html = page.get_content()
+            if html:
+                title_match = re.search(r'<title[^>]*>([^<]+)</title>', html, re.IGNORECASE)
+                if title_match:
+                    title = title_match.group(1).lower()
+                    if "page not found" in title or "404" in title:
+                        blocking_indicators.append("404_in_title")
+                    if "challenge" in title or "cloudflare" in title or "blocked" in title:
+                        blocking_indicators.append("challenge_page_detected")
+
+        # Check 4: Pages with redirect URLs different from requested
+        for page in snapshot.pages:
+            if hasattr(page, 'redirected_url') and page.redirected_url:
+                if page.url != page.redirected_url:
+                    # Check if redirect goes to suspicious path
+                    for pattern in suspicious_paths:
+                        if pattern in page.redirected_url.lower():
+                            blocking_indicators.append(f"redirect_to_challenge:{pattern}")
+                            break
+
+        if blocking_indicators:
+            return {
+                "detected": True,
+                "indicators": list(set(blocking_indicators)),
+                "message": (
+                    "Bot protection (likely Cloudflare) may be blocking the crawler. "
+                    "Security audit results may be unreliable. "
+                    "Try re-crawling with --stealth flag or custom headers: "
+                    "python -m src.analyzer.cli crawl start <slug> --stealth -H 'X-Crawler-Token:secret'"
+                ),
+                "pages_crawled": len(snapshot.pages)
+            }
+
+        return None
+
     async def analyze(self, snapshot: SiteSnapshot, **kwargs: Any) -> TestResult:
         """Analyze site for security issues.
 
@@ -88,6 +147,9 @@ class SecurityAudit(TestPlugin):
         Returns:
             TestResult with security audit findings.
         """
+        # Check for bot blocking first
+        bot_blocking = self._detect_bot_blocking(snapshot)
+
         findings: List[SecurityFinding] = []
 
         # Run all security checks
@@ -109,6 +171,10 @@ class SecurityAudit(TestPlugin):
             len(snapshot.pages), len(high_severity), len(medium_severity), len(low_severity)
         )
 
+        # Add bot blocking warning to summary if detected
+        if bot_blocking:
+            summary = f"[BOT BLOCKING DETECTED - RESULTS MAY BE UNRELIABLE] {summary}"
+
         # Determine overall status
         if high_severity:
             status = "fail"
@@ -117,18 +183,29 @@ class SecurityAudit(TestPlugin):
         else:
             status = "pass"
 
+        # Override status to warning if bot blocking detected (results unreliable)
+        if bot_blocking and status == "pass":
+            status = "warning"
+
+        # Build details dict
+        details = {
+            "pages_analyzed": len(snapshot.pages),
+            "high_severity": [f.model_dump() for f in high_severity],
+            "medium_severity": [f.model_dump() for f in medium_severity],
+            "low_severity": [f.model_dump() for f in low_severity],
+            "total_findings": len(findings),
+            "findings_by_category": self._categorize_findings(findings),
+        }
+
+        # Add bot blocking info if detected
+        if bot_blocking:
+            details["bot_blocking_detected"] = bot_blocking
+
         return TestResult(
             plugin_name=self.name,
             status=status,
             summary=summary,
-            details={
-                "pages_analyzed": len(snapshot.pages),
-                "high_severity": [f.model_dump() for f in high_severity],
-                "medium_severity": [f.model_dump() for f in medium_severity],
-                "low_severity": [f.model_dump() for f in low_severity],
-                "total_findings": len(findings),
-                "findings_by_category": self._categorize_findings(findings),
-            },
+            details=details,
         )
 
     def _check_https_mixed_content(self, snapshot: SiteSnapshot, findings: List[SecurityFinding]) -> None:
